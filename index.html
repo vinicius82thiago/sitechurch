@@ -1,604 +1,671 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>1 I.B.R.G.</title>
-
-    <link rel="stylesheet" href="assets/css/style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="1 I.B.R.G. — Uma comunidade cristã baseada no amor de Cristo.">
+<meta name="theme-color" content="#17110c">
+<title>1 I.B.R.G. | Igreja</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-
-
 <body>
 
+<div class="welcome-bar" id="welcomeBar">JESUS CRISTO É O SENHOR!</div>
 
 <header class="header">
-    <div class="container nav-container">
-        <!-- Logo -->
-        <a href="index.html">
-            <img src="assets/images/logo.png" class="logo" alt="Logo 1 I.B.R.G.">
-        </a>
+<div class="container nav-container">
+<a href="#inicio" class="logo-link" aria-label="Página inicial">
+<img src="assets/images/logo.png" class="logo" alt="1 I.B.R.G.">
+</a>
 
-        <!-- Menu de Navegação (Agora dentro do container) -->
-        <nav class="navigation">
-            <ul>
-                <li><a href="#inicio">Início</a></li>
-                <li><a href="#Cultos">Sobre</a></li>
-                <li><a href="#ministerios">Ministérios</a></li>
-                <li><a href="#Cultos">Cultos</a></li>
-                <li><a href="#mensagens">Mensagens</a></li>
-                <li><a href="#contato">Contato</a></li>
-            </ul>
-        </nav>
+<nav class="navigation" id="navigation" aria-label="Navegação principal">
+<ul>
+<li><a href="#inicio">Início</a></li>
+<li><a href="#sobre">Sobre</a></li>
+<li><a href="#biblia">Palavra</a></li>
+<li><a href="#ministerios">Ministérios</a></li>
+<li><a href="#eventos">Agenda</a></li>
+<li><a href="#cultos">Cultos</a></li>
+<li><a href="#mensagens">Mensagens</a></li>
+<li><a href="#contato">Contato</a></li>
+</ul>
+</nav>
 
-        <!-- Botão Mobile (Agora dentro do container) -->
-        <button class="menu-toggle" aria-label="Abrir menu">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-    </div>
+<button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="navigation">
+<i class="fa-solid fa-bars"></i>
+</button>
+</div>
 </header>
 
+<main>
 
-<section class="hero">
+<section class="hero" id="inicio">
+<div class="slides">
+<article class="slide active" style="background-image:url('assets/images/slide1.jpg')">
+<div class="overlay"></div>
+<div class="hero-content">
+<span class="hero-label">1 I.B.R.G.</span>
+<h1>Uma comunidade baseada no amor de Cristo.</h1>
+<p>Um lugar para adorar, servir, crescer e caminhar juntos.</p>
+<a href="#sobre" class="button">Conheça nossa igreja</a>
+</div>
+</article>
 
-    <div class="overlay"></div>
+<article class="slide" style="background-image:url('assets/images/slide2.jpg')">
+<div class="overlay"></div>
+<div class="hero-content">
+<span class="hero-label">Nossa família</span>
+<h1>Venha fazer parte da nossa família.</h1>
+<p>Aqui existe um lugar para você.</p>
+<a href="#contato" class="button">Quero conhecer</a>
+</div>
+</article>
 
-    <div class="slides">
+<article class="slide" style="background-image:url('assets/images/slide3.jpg')">
+<div class="overlay"></div>
+<div class="hero-content">
+<span class="hero-label">Servir e crescer</span>
+<h1>Conheça nossos ministérios.</h1>
+<p>Descubra onde você pode servir e fazer a diferença.</p>
+<a href="#ministerios" class="button">Ver ministérios</a>
+</div>
+</article>
+</div>
 
-        <div class="slide active" style="background-image: url('assets/images/slide1.jpg');">
+<button class="slider-button prev" id="prevSlide" type="button" aria-label="Slide anterior">
+<i class="fa-solid fa-chevron-left"></i>
+</button>
 
-            <div class="hero-content">
+<button class="slider-button next" id="nextSlide" type="button" aria-label="Próximo slide">
+<i class="fa-solid fa-chevron-right"></i>
+</button>
 
-                <img src="assets/images/biblia1.jpg" class="hero-image" alt="Bíblia">
-
-                <p>
-                    Uma comunidade baseada no amor de Cristo.
-                </p>
-
-                <a href="#" class="btn">
-                    Conheça nossa igreja
-                </a>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="slide" style="background-image: url('assets/images/slide2.jpg');">
-
-            <div class="hero-content">
-
-                <img src="assets/images/biblia 2.jpeg" class="hero-image" alt="Bíblia">
-
-                <p>
-                    Venha fazer parte da nossa família.
-                </p>
-
-                <a href="#" class="btn">
-                    Saiba mais
-                </a>
-
-            </div>
-
-        </div>
-
-
-
-
-        <div class="slide" style="background-image: url('assets/images/slide3.jpg');">
-
-            <div class="hero-content">
-
-                <img src="assets/images/biblia 3.jpeg" class="hero-image" alt="Bíblia">
-
-                <p>
-                    Conheça nossos ministérios.
-                </p>
-
-                <a href="#" class="btn">
-                    Ver Ministérios
-                </a>
-
-            </div>
-
-        </div>
-
-
-    </div>
-
+<div class="slider-dots">
+<button class="dot active" type="button" aria-label="Slide 1"></button>
+<button class="dot" type="button" aria-label="Slide 2"></button>
+<button class="dot" type="button" aria-label="Slide 3"></button>
+</div>
 </section>
+
+<section class="fg-news" aria-labelledby="fg-news-title">
+<div class="fg-header">
+<strong id="fg-news-title">Fique por dentro do mundo gospel!</strong>
+<a href="https://folhagospel.com/c/fg-news/" target="_blank" rel="noopener noreferrer">Ver todas</a>
+</div>
+
+<div class="fg-slider">
+<button class="fg-prev" id="fgPrev" type="button" aria-label="Notícia anterior">‹</button>
+<div id="noticia" aria-live="polite">
+<div class="fg-loading">Carregando notícias...</div>
+</div>
+<button class="fg-next" id="fgNext" type="button" aria-label="Próxima notícia">›</button>
+</div>
+
+<div id="pontos" class="fg-pontos"></div>
+</section>
+
 <section class="about section" id="sobre">
+<div class="container two-columns">
+<div class="section-image">
+<img src="assets/images/about.jpg" alt="Pessoas reunidas na igreja" loading="lazy">
+</div>
 
+<div class="content">
+<span class="section-label">Quem somos</span>
+<h2>Sobre nós</h2>
 
-    <div class="container two-columns">
+<p>Somos uma comunidade cristã dedicada a amar a Deus sobre todas as coisas e ao próximo como a nós mesmos.</p>
 
+<p><strong>O Deus verdadeiro:</strong> Cremos que há um, e somente um, Deus vivo e verdadeiro, um Espírito infinito e inteligente, cujo nome é YAHWEH, o Criador e Supremo Governador do céu e da terra, inexprimivelmente glorioso em santidade e digno de toda honra, confiança e amor possíveis.</p>
 
-        <div class="image">
+<p>Cremos que na unidade da divindade há três Pessoas: o Pai, o Filho e o Espírito Santo, iguais em toda perfeição divina, executando distintos e harmoniosos ofícios na grande obra da redenção.</p>
 
-            <img src="assets/images/about.jpg"
-                 alt="Pessoas reunidas na igreja">
+<div class="about-features">
+<div><i class="fa-solid fa-heart"></i><span>Amor</span></div>
+<div><i class="fa-solid fa-people-group"></i><span>Comunidade</span></div>
+<div><i class="fa-solid fa-hands-holding-child"></i><span>Serviço</span></div>
+</div>
+</div>
+</div>
+</section>
 
-        </div>
+<section class="bible section" id="biblia">
 
+<section class="devotional-block" id="devocional">
+<div class="section-heading">
+<span class="section-label">Devocional</span>
+<h2 class="title">Versículo do Dia</h2>
+<p>Separe alguns minutos do seu dia para ler, meditar e crescer na fé.</p>
+</div>
 
+<article class="verse-card">
+<div class="verse-icon"><i class="fa-solid fa-quote-left"></i></div>
+<span class="verse-label">Versículo do dia</span>
+<blockquote id="dailyVerse">Carregando versículo...</blockquote>
+<strong id="verseReference">João 3:16</strong>
 
-        <div class="content">
+<div class="verse-actions">
+<a id="verseLink" href="https://www.bible.com/pt/bible" target="_blank" rel="noopener noreferrer" class="button">
+Ler passagem
+<i class="fa-solid fa-arrow-up-right-from-square"></i>
+</a>
 
+<button class="verse-refresh" id="newVerse" type="button">
+<i class="fa-solid fa-rotate"></i>
+Novo versículo
+</button>
+</div>
+</article>
+</section>
 
-            <h2>
-                Sobre nós
-            </h2>
+<section class="reading-block" id="leitura-biblica">
+<div class="section-heading">
+<span class="section-label">Leitura Bíblica</span>
+<h2 class="title">Leia a Bíblia</h2>
+<p>Escolha um livro e capítulo para fazer sua leitura.</p>
+</div>
 
+<article class="reader-card">
+<div class="reader-header">
+<div>
+<span class="verse-label">Estudo pessoal</span>
+<h3>Escolha sua leitura</h3>
+</div>
+<div class="reader-icon"><i class="fa-solid fa-book-bible"></i></div>
+</div>
 
-            <p>
-                Somos uma comunidade cristã dedicada a amar pessoas,
-                fortalecer famílias e compartilhar a mensagem de Jesus.
-            </p>
+<div class="reader-controls">
+<div class="reader-field">
+<label for="bookSelect">Livro</label>
+<select id="bookSelect">
+<option value="GEN">Gênesis</option>
+<option value="EXO">Êxodo</option>
+<option value="LEV">Levítico</option>
+<option value="NUM">Números</option>
+<option value="DEU">Deuteronômio</option>
+<option value="JOS">Josué</option>
+<option value="JDG">Juízes</option>
+<option value="RUT">Rute</option>
+<option value="1SA">1 Samuel</option>
+<option value="2SA">2 Samuel</option>
+<option value="1KI">1 Reis</option>
+<option value="2KI">2 Reis</option>
+<option value="1CH">1 Crônicas</option>
+<option value="2CH">2 Crônicas</option>
+<option value="EZR">Esdras</option>
+<option value="NEH">Neemias</option>
+<option value="EST">Ester</option>
+<option value="JOB">Jó</option>
+<option value="PSA">Salmos</option>
+<option value="PRO">Provérbios</option>
+<option value="ECC">Eclesiastes</option>
+<option value="SNG">Cânticos</option>
+<option value="ISA">Isaías</option>
+<option value="JER">Jeremias</option>
+<option value="LAM">Lamentações</option>
+<option value="EZK">Ezequiel</option>
+<option value="DAN">Daniel</option>
+<option value="HOS">Oseias</option>
+<option value="JOL">Joel</option>
+<option value="AMO">Amós</option>
+<option value="OBA">Obadias</option>
+<option value="JON">Jonas</option>
+<option value="MIC">Miqueias</option>
+<option value="NAH">Naum</option>
+<option value="HAB">Habacuque</option>
+<option value="ZEP">Sofonias</option>
+<option value="HAG">Ageu</option>
+<option value="ZEC">Zacarias</option>
+<option value="MAL">Malaquias</option>
+<option value="MAT">Mateus</option>
+<option value="MAR">Marcos</option>
+<option value="LUK">Lucas</option>
+<option value="JHN">João</option>
+<option value="ACT">Atos</option>
+<option value="ROM">Romanos</option>
+<option value="1CO">1 Coríntios</option>
+<option value="2CO">2 Coríntios</option>
+<option value="GAL">Gálatas</option>
+<option value="EPH">Efésios</option>
+<option value="PHP">Filipenses</option>
+<option value="COL">Colossenses</option>
+<option value="1TH">1 Tessalonicenses</option>
+<option value="2TH">2 Tessalonicenses</option>
+<option value="1TI">1 Timóteo</option>
+<option value="2TI">2 Timóteo</option>
+<option value="TIT">Tito</option>
+<option value="PHM">Filemom</option>
+<option value="HEB">Hebreus</option>
+<option value="JAS">Tiago</option>
+<option value="1PE">1 Pedro</option>
+<option value="2PE">2 Pedro</option>
+<option value="1JN">1 João</option>
+<option value="2JN">2 João</option>
+<option value="3JN">3 João</option>
+<option value="JUD">Judas</option>
+<option value="REV">Apocalipse</option>
+</select>
+</div>
 
+<div class="reader-field chapter-field">
+<label for="chapterInput">Capítulo</label>
+<input id="chapterInput" type="number" min="1" value="1">
+</div>
 
-            <p>
-                Nosso propósito é criar um ambiente onde todos possam
-                crescer espiritualmente e encontrar um lugar para servir.
-            </p>
+<button id="readChapter" class="button" type="button">
+<i class="fa-solid fa-book-open"></i>
+Ler capítulo
+</button>
+</div>
+</article>
 
+<div class="bible-reader" id="bibleReader" hidden>
+<div class="bible-reader-header">
+<div>
+<span class="verse-label">Sua leitura</span>
+<h3 id="readerTitle">Gênesis 1</h3>
+</div>
 
-        </div>
+<button id="closeReader" type="button" aria-label="Fechar leitura">
+<i class="fa-solid fa-xmark"></i>
+</button>
+</div>
 
+<div class="bible-reader-content" id="readerResult">
+<p>Escolha um livro e um capítulo.</p>
+</div>
 
-    </div>
+<div class="bible-reader-footer">
+<a id="externalChapterLink" href="https://www.bible.com/pt/bible" target="_blank" rel="noopener noreferrer" class="external-reading">
+Abrir no Bible.com
+<i class="fa-solid fa-arrow-up-right-from-square"></i>
+</a>
+</div>
+</div>
+</section>
 
+<section class="annual-reading-block" id="leitura-anual">
+<div class="sequential-header">
+<h2>Sequential</h2>
+<span>On schedule</span>
+</div>
+
+<div class="reading-list-wrapper">
+<div class="reading-list" id="readingList"></div>
+</div>
+</section>
 
 </section>
 
 <section class="hospitality section">
-
-    <div class="container hospitality-container">
-
-
-        <div class="hospitality-text">
-
-            <h2>
-                Hospitalidade
-            </h2>
-
-
-            <p>
-                Nossa equipe de hospitalidade é dedicada a criar
-                um ambiente onde cada pessoa que entra em nossa igreja
-                sinta o amor, cuidado e acolhimento de Cristo.
-            </p>
-
-
-            <a href="#contato" class="button">
-                Faça parte da equipe
-            </a>
-
-
-        </div>
-
-
-
-
-
-       <div class="hospitality-image flip-card">
-
-
-    <div class="flip-inner">
-
-
-        <div class="flip-front">
-
-            <img src="assets/images/hospitality.jpg"
-            alt="Equipe de hospitalidade da igreja">
-
-        </div>
-
-
-
-        <div class="flip-back">
-
-
-            <h3>
-                Ministério de Hospitalidade
-            </h3>
-
-
-            <p>
-                Servimos pessoas com amor,
-                alegria e dedicação.
-            </p>
-
-
-            <a href="#contato">
-                Saiba mais
-            </a>
-
-
-        </div>
-
-
-    </div>
-
-
+<div class="container hospitality-container">
+<div class="hospitality-text">
+<span class="section-label">Sirva conosco</span>
+<h2>Faça parte</h2>
+<p>Nossa equipe é dedicada a criar um ambiente onde cada pessoa que entra em nossa igreja sinta o amor, cuidado e acolhimento de Cristo.</p>
+<a href="#contato" class="button">Faça parte da equipe</a>
 </div>
 
+<div class="hospitality-image flip-card">
+<div class="flip-inner">
+<div class="flip-front">
+<img src="assets/images/hospitality.jpg" alt="Equipe de hospitalidade" loading="lazy">
+</div>
 
-    </div>
-
-
+<div class="flip-back">
+<i class="fa-solid fa-handshake"></i>
+<h3>Hospitalidade</h3>
+<p>Servimos pessoas com amor, alegria e dedicação.</p>
+<a href="#contato">Saiba mais</a>
+</div>
+</div>
+</div>
+</div>
 </section>
 
-
 <section class="ministries section" id="ministerios">
-
-
 <div class="container">
-
-
-<h2 class="title">
-    Nossos Ministérios
-</h2>
-
-
+<div class="section-heading">
+<span class="section-label">Nossa comunidade</span>
+<h2 class="title">Nossos Ministérios</h2>
+<p>Existem diferentes formas de crescer, servir e fazer parte da nossa comunidade.</p>
+</div>
 
 <div class="flip-grid">
 
-
-
-<div class="flip-card">
-
-
+<article class="flip-card">
 <div class="flip-inner">
-
-
 <div class="flip-front">
-
 <i class="fa-solid fa-child"></i>
-
-<h3>
-Crianças
-</h3>
-
+<h3>Crianças</h3>
+<span>Ministério Kids</span>
 </div>
-
-
 
 <div class="flip-back">
-
-
-<h3>
-Kids Ministry
-</h3>
-
-
-<p>
-Um ambiente seguro para crianças aprenderem
-sobre Deus de forma divertida.
-</p>
-
-
-<a href="assets/images/1.jpeg">
-Saiba mais
-</a>
-
-
+<i class="fa-solid fa-child"></i>
+<h3>Kids Ministry</h3>
+<p>Um ambiente seguro para crianças aprenderem sobre Deus de forma divertida e acolhedora.</p>
+<a href="assets/images/1.jpeg" target="_blank" rel="noopener noreferrer">Saiba mais</a>
 </div>
-
-
 </div>
+</article>
 
-
-</div>
-
-
-
-
-
-
-<div class="flip-card">
-
-
+<article class="flip-card">
 <div class="flip-inner">
-
-
 <div class="flip-front">
-
 <i class="fa-solid fa-users"></i>
-
-<h3>
-Jovens
-</h3>
-
+<h3>Adolescentes</h3>
+<span>Ministério de Adolescentes</span>
 </div>
-
-
 
 <div class="flip-back">
-
-
-<h3>
-Student Ministry
-</h3>
-
-
-<p>
-Adolescentes crescendo em fé,
-amizade e propósito.
-</p>
-
-
-<a href="assets/images/2.jpeg">
-Saiba mais
-</a>
-
-
+<i class="fa-solid fa-users"></i>
+<h3>Ministério de Adolescentes</h3>
+<p>Adolescentes crescendo na fé, na comunhão e no conhecimento da Palavra.</p>
+<a href="assets/images/2.jpeg" target="_blank" rel="noopener noreferrer">Saiba mais</a>
 </div>
-
-
 </div>
+</article>
 
-
-</div>
-
-
-
-
-
-
-
-<div class="flip-card">
-
-
+<article class="flip-card">
 <div class="flip-inner">
-
-
 <div class="flip-front">
-
 <i class="fa-solid fa-heart"></i>
-
-<h3>
-Famílias
-</h3>
-
+<h3>Família</h3>
+<span>Casados para Sempre</span>
 </div>
-
-
 
 <div class="flip-back">
+<i class="fa-solid fa-heart"></i>
+<h3>Ministério da Família</h3>
+<p>Fortalecendo a vida conjugal e familiar por meio dos princípios de Cristo.</p>
+<a href="assets/images/3.jpeg" target="_blank" rel="noopener noreferrer">Saiba mais</a>
+</div>
+</div>
+</article>
 
-
-<h3>
-Family Ministry
-</h3>
-
-
-<p>
-Fortalecendo relacionamentos
-através da comunidade.
-</p>
-
-
-<a href="assets/images/3.jpeg">
-Saiba mais
-</a>
-
-
+<article class="flip-card">
+<div class="flip-inner">
+<div class="flip-front">
+<i class="fa-solid fa-heart"></i>
+<h3>Mulheres</h3>
+<span>Ministério da Mulher</span>
 </div>
 
+<div class="flip-back">
+<i class="fa-solid fa-heart"></i>
+<h3>Ministério da Mulher</h3>
+<p>Mulheres crescendo juntas em Cristo, comunhão, oração e serviço.</p>
+<a href="assets/images/3.jpeg" target="_blank" rel="noopener noreferrer">Saiba mais</a>
+</div>
+</div>
+</article>
 
 </div>
-
-
 </div>
-
-
-
-</div>
-
-
-</div>
-
-
 </section>
-
-
-
-
 
 <section class="events section" id="eventos">
-
-
 <div class="container">
-
-
-<h2 class="title">
-Eventos
-</h2>
-
-
-
-<div class="events-grid">
-
-
-<article class="event">
-
-<h3>
-Culto Especial
-</h3>
-
-<p>
-Domingo às 19h
-</p>
-
-
-</article>
-
-
-
-<article class="event">
-
-<h3>
-Encontro de Jovens
-</h3>
-
-<p>
-Sexta-feira às 20h
-</p>
-
-
-</article>
-
-
-
+<div class="section-heading">
+<span class="section-label">Programação</span>
+<h2 class="title">Agenda</h2>
+<p>Acompanhe nossos cultos, encontros e atividades.</p>
 </div>
 
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section class="messages section" id="mensagens">
-
-
-<div class="container">
-
-
-<h2 class="title">
-Mensagens
-</h2>
-
-
-
-<div class="video-grid">
-
-
-<iframe 
-src="https://www.youtube.com/embed/"
-title="Mensagem da igreja"
-allowfullscreen>
-</iframe>
-
-
-<iframe 
-src="https://www.youtube.com/embed/"
-title="Mensagem da igreja"
-allowfullscreen>
-</iframe>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-<section class="contact section" id="contato">
-
-
-<div class="container two-columns">
-
-
+<div class="church-calendar">
+<div class="calendar-top">
 <div>
-
-
-<h2>
-Entre em contato
-</h2>
-
-
-<p>
-Queremos conhecer você.
-</p>
-
-
-<p>
-contato@hopechurch.com
-</p>
-
-
+<span class="calendar-label">Agenda semanal</span>
+<h3 id="calendarMonth">Agosto de 2026</h3>
 </div>
 
+<div class="calendar-actions">
+<button id="prevWeek" type="button" aria-label="Semana anterior">
+<i class="fa-solid fa-chevron-left"></i>
+</button>
+<button id="todayWeek" type="button">Hoje</button>
+<button id="nextWeek" type="button" aria-label="Próxima semana">
+<i class="fa-solid fa-chevron-right"></i>
+</button>
+</div>
+</div>
 
+<div class="calendar-week">
+<div class="calendar-day">
+<span class="day-name">Dom</span>
+<strong class="day-number"></strong>
+<div class="day-events"></div>
+</div>
+<div class="calendar-day">
+<span class="day-name">Seg</span>
+<strong class="day-number"></strong>
+<div class="day-events"></div>
+</div>
+<div class="calendar-day">
+<span class="day-name">Ter</span>
+<strong class="day-number"></strong>
+<div class="day-events"></div>
+</div>
+<div class="calendar-day">
+<span class="day-name">Qua</span>
+<strong class="day-number"></strong>
+<div class="day-events"></div>
+</div>
+<div class="calendar-day">
+<span class="day-name">Qui</span>
+<strong class="day-number"></strong>
+<div class="day-events"></div>
+</div>
+<div class="calendar-day">
+<span class="day-name">Sex</span>
+<strong class="day-number"></strong>
+<div class="day-events"></div>
+</div>
+<div class="calendar-day">
+<span class="day-name">Sáb</span>
+<strong class="day-number"></strong>
+<div class="day-events"></div>
+</div>
+</div>
 
-<form class="contact-form">
-
-
-<input type="text"
-placeholder="Nome"
-required>
-
-
-<input type="email"
-placeholder="E-mail"
-required>
-
-
-<textarea
-placeholder="Mensagem"
-required>
-</textarea>
-
-
-<button class="button" type="submit">
-Enviar
+<div class="calendar-footer">
+<button id="prevYear" type="button">
+<i class="fa-solid fa-arrow-left"></i>
+Ano anterior
 </button>
 
+<span id="calendarYear">2026</span>
 
-</form>
-
-
-
+<button id="nextYear" type="button">
+Próximo ano
+<i class="fa-solid fa-arrow-right"></i>
+</button>
 </div>
-
-
+</div>
+</div>
 </section>
 
+<section class="messages section" id="mensagens">
+<div class="container">
+<div class="section-heading">
+<span class="section-label">Palavra e fé</span>
+<h2 class="title">Últimos Cultos</h2>
+<p>Assista aos nossos cultos e mensagens.</p>
+</div>
 
+<div class="video-grid">
+<div class="video-wrapper">
+<iframe src="https://www.youtube.com/embed/9Gxo_H6vDcs" title="Culto de louvor e adoração" loading="lazy" allowfullscreen></iframe>
+</div>
 
+<div class="video-wrapper">
+<iframe src="https://www.youtube.com/embed/GiiiAd2iKQE" title="Culto de louvor e adoração" loading="lazy" allowfullscreen></iframe>
+</div>
+</div>
+</div>
+</section>
 
+<section class="services section" id="cultos">
+<div class="container">
+<div class="section-heading">
+<span class="section-label">Participe conosco</span>
+<h2 class="title">Cultos</h2>
+<p>Confira nossa programação semanal.</p>
+</div>
+
+<div class="services-grid">
+
+<article class="service-card">
+<div class="service-icon"><i class="fa-solid fa-church"></i></div>
+<h3>Consagração</h3>
+<p>Domingo</p>
+<strong>08h30</strong>
+</article>
+
+<article class="service-card">
+<div class="service-icon"><i class="fa-solid fa-church"></i></div>
+<h3>Escola Dominical</h3>
+<p>Domingo</p>
+<strong>09h30 - 11h00</strong>
+</article>
+
+<article class="service-card">
+<div class="service-icon"><i class="fa-solid fa-church"></i></div>
+<h3>Culto de Ação de Graças</h3>
+<p>Domingo</p>
+<strong>18h00 - 19h00</strong>
+</article>
+
+<article class="service-card">
+<div class="service-icon"><i class="fa-solid fa-church"></i></div>
+<h3>Culto de Conquistas</h3>
+<p>Terça-feira</p>
+<strong>20h00 - 21h00</strong>
+</article>
+
+<article class="service-card">
+<div class="service-icon"><i class="fa-solid fa-church"></i></div>
+<h3>Tarde de Bênção</h3>
+<p>Quarta-feira</p>
+<strong>15h00 - 16h30</strong>
+</article>
+
+<article class="service-card">
+<div class="service-icon"><i class="fa-solid fa-church"></i></div>
+<h3>Intercessão</h3>
+<p>Quarta-feira</p>
+<strong>20h00 - 21h00</strong>
+</article>
+
+<article class="service-card">
+<div class="service-icon"><i class="fa-solid fa-users"></i></div>
+<h3>Culto ao Espírito Santo</h3>
+<p>Sexta-feira</p>
+<strong>20h00 - 21h00</strong>
+</article>
+
+<article class="service-card">
+<div class="service-icon"><i class="fa-solid fa-church"></i></div>
+<h3>Culto dos Jovens</h3>
+<p>Sábado</p>
+<strong>19h00 - 20h00</strong>
+</article>
+
+<article class="service-card">
+<div class="service-icon"><i class="fa-solid fa-book-bible"></i></div>
+<h3>Curso de Teologia</h3>
+<p>Consulte</p>
+<a href="#contato">Saber mais</a>
+</article>
+
+</div>
+</div>
+</section>
+
+<section class="contact section" id="contato">
+<div class="container contact-container">
+
+<div class="contact-info">
+<span class="section-label">Fale conosco</span>
+<h2>Entre em contato</h2>
+<p>Queremos conhecer você. Conte-nos seu testemunho ou envie seu pedido de oração.</p>
+
+<div class="contact-item">
+<i class="fa-solid fa-envelope"></i>
+<div>
+<span>E-mail</span>
+<a href="mailto:contato@ibrg.com.br">contato@ibrg.com.br</a>
+</div>
+</div>
+
+<div class="contact-item">
+<i class="fa-solid fa-church"></i>
+<div>
+<span>Igreja</span>
+<p>1º Igreja Batista Renovada de Guarulhos</p>
+</div>
+</div>
+</div>
+
+<form class="contact-form" id="contactForm">
+<div class="form-group">
+<label for="name">Nome</label>
+<input id="name" name="name" type="text" placeholder="Seu nome" autocomplete="name" required>
+</div>
+
+<div class="form-group">
+<label for="email">E-mail</label>
+<input id="email" name="email" type="email" placeholder="seu@email.com" autocomplete="email" required>
+</div>
+
+<div class="form-group">
+<label for="message">Mensagem</label>
+<textarea id="message" name="message" rows="6" placeholder="Escreva sua mensagem..." required></textarea>
+</div>
+
+<button class="button" type="submit">
+<i class="fa-solid fa-paper-plane"></i>
+Enviar mensagem
+</button>
+
+<p class="form-message" id="formMessage" role="status"></p>
+</form>
+
+</div>
+</section>
+
+</main>
 
 <footer class="footer">
+<div class="container footer-container">
+<div>
+<img src="assets/images/logo.png" alt="1 I.B.R.G." class="footer-logo">
+<p>Uma comunidade baseada no amor de Cristo.</p>
+</div>
 
+<div class="footer-social">
+<a href="#" aria-label="Instagram">
+<i class="fa-brands fa-instagram"></i>
+</a>
+<a href="#" aria-label="Facebook">
+<i class="fa-brands fa-facebook-f"></i>
+</a>
+<a href="#" aria-label="YouTube">
+<i class="fa-brands fa-youtube"></i>
+</a>
+</div>
+</div>
 
-<p>
-© 2026 Hope Church - Todos os direitos reservados.
-</p>
-
-
+<div class="footer-bottom">
+<p>© <span id="year"></span> 1 I.B.R.G. — Todos os direitos reservados.</p>
+</div>
 </footer>
 
-
-
-<script src="assets/js/script.js"></script>
-
-
+<script src="assets/js/script.js" defer></script>
 </body>
-
 </html>
-```
