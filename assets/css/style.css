@@ -1,12 +1,8 @@
-/* =========================================================
-   1 I.B.R.G. — ESTILO PRINCIPAL
-   ========================================================= */
+
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* =========================================================
-   RESET
-   ========================================================= */
+
 
 * {
     margin: 0;
@@ -114,7 +110,7 @@ section {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: rgba(255, 253, 248, 0.96);
+    background: #171513;
     border-bottom: 1px solid rgba(182, 139, 76, 0.2);
     backdrop-filter: blur(12px);
 }
@@ -128,7 +124,7 @@ section {
 }
 
 .logo {
-    width: 170px;
+    width: 50px;
     height: auto;
 }
 
@@ -140,7 +136,7 @@ section {
 
 .navigation a {
     position: relative;
-    color: var(--brown-dark);
+    color: white;
     font-size: 13px;
     font-weight: 500;
     transition: color var(--transition);
@@ -158,7 +154,7 @@ section {
 }
 
 .navigation a:hover {
-    color: var(--brown);
+    color:  #d5b277;
 }
 
 .navigation a:hover::after {
@@ -262,8 +258,8 @@ section {
 .section-label {
     display: block;
     margin-bottom: 10px;
-    color: var(--gold);
-    font-size: 12px;
+    color: white;
+    font-size: 16px;
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -333,6 +329,46 @@ section {
 .dot.active {
     background: #fff;
 }
+
+
+.hero-video {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.hero-background-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.hero-video-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.72) 0%,
+            rgba(0, 0, 0, 0.45) 45%,
+            rgba(0, 0, 0, 0.25) 100%
+        );
+}
+
+.hero-video .hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+
+
 
 /* =========================================================
    NOTÍCIAS
@@ -440,7 +476,7 @@ section {
    ========================================================= */
 
 .about {
-    background: #fffdf8;
+    background:  #171513;
 }
 
 .two-columns {
@@ -455,13 +491,13 @@ section {
     height: 560px;
     object-fit: cover;
     border-radius: 12px;
-    box-shadow: var(--shadow);
+    box-shadow: white;
 }
 
 .content p {
     margin-top: 17px;
-    color: var(--text-light);
-    font-size: 14px;
+    color: white;
+    font-size: 18px;
 }
 
 .about-features {
@@ -474,13 +510,13 @@ section {
     display: flex;
     align-items: center;
     gap: 9px;
-    color: var(--brown);
+    color: white;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 15px;
 }
 
 .about-features i {
-    color: var(--gold);
+    color:white;
 }
 
 /* =========================================================
@@ -1539,7 +1575,7 @@ section {
    ========================================================= */
 
 .ministries {
-    background: #f8f3e8;
+    background: #171513;
 }
 
 .flip-grid {

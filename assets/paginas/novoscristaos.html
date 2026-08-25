@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Novos Cristãos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --black: #111111;
+      --dark: #181818;
+      --cream: #f4f0e8;
+      --white: #ffffff;
+      --orange: #ef5b35;
+      --orange-dark: #d94826;
+      --gray: #6f6f6f;
+      --light-gray: #e8e4dc;
+      --max: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.65;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(100% - 48px, var(--max));
+      margin: auto;
+    }
+
+    /* =========================
+       CABEÇALHO
+    ========================= */
+
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 20;
+      color: white;
+    }
+
+    .nav {
+      height: 95px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.25);
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: var(--orange);
+    }
+
+    .menu {
+      display: flex;
+      gap: 34px;
+      align-items: center;
+      list-style: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .menu a {
+      transition: .25s;
+    }
+
+    .menu a:hover {
+      color: var(--orange);
+    }
+
+    .menu-button {
+      display: none;
+      border: 0;
+      background: transparent;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    /* =========================
+       DESTAQUE
+    ========================= */
+
+    .hero {
+      min-height: 760px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.75), rgba(0,0,0,.25)),
+        url("https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=2000&q=85")
+        center / cover;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,.15),
+        transparent 55%,
+        rgba(0,0,0,.35)
+      );
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      padding-top: 90px;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--orange);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(58px, 9vw, 120px);
+      line-height: .95;
+      letter-spacing: -5px;
+      margin-bottom: 30px;
+    }
+
+    .hero p {
+      max-width: 680px;
+      font-size: 19px;
+      line-height: 1.7;
+      color: rgba(255,255,255,.88);
+    }
+
+    .scroll {
+      position: absolute;
+      bottom: 35px;
+      left: 0;
+      z-index: 3;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       INTRODUÇÃO
+    ========================= */
+
+    .intro {
+      padding: 125px 0 110px;
+      background: var(--cream);
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 90px;
+      align-items: center;
+    }
+
+    .section-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+      color: var(--orange);
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(42px, 5vw, 70px);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 25px;
+    }
+
+    .intro p {
+      font-size: 18px;
+      color: #454545;
+    }
+
+    .intro-image {
+      height: 530px;
+      object-fit: cover;
+    }
+
+    /* =========================
+       EVANGELHO
+    ========================= */
+
+    .gospel {
+      padding: 120px 0;
+      background: white;
+    }
+
+    .gospel-header {
+      max-width: 760px;
+      margin-bottom: 70px;
+    }
+
+    .gospel-header p {
+      font-size: 18px;
+      color: var(--gray);
+      margin-top: 20px;
+    }
+
+    .verse {
+      margin-top: 35px;
+      padding: 30px;
+      border-left: 4px solid var(--orange);
+      background: #f8f7f4;
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+      line-height: 1.45;
+    }
+
+    .verse small {
+      display: block;
+      font-family: "DM Sans", sans-serif;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--orange);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       TRÊS PASSOS
+    ========================= */
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 75px;
+    }
+
+    .step {
+      padding: 50px 45px;
+      min-height: 330px;
+      background: var(--black);
+      color: white;
+    }
+
+    .step:nth-child(2) {
+      background: #252525;
+    }
+
+    .step:nth-child(3) {
+      background: var(--orange);
+    }
+
+    .number {
+      font-size: 12px;
+      letter-spacing: 2px;
+      opacity: .6;
+      margin-bottom: 45px;
+    }
+
+    .step h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 42px;
+      margin-bottom: 18px;
+    }
+
+    .step p {
+      color: rgba(255,255,255,.78);
+      font-size: 15px;
+    }
+
+    /* =========================
+       ORAÇÃO
+    ========================= */
+
+    .prayer {
+      padding: 130px 0;
+      background: var(--cream);
+    }
+
+    .prayer-content {
+      max-width: 850px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .prayer h2 {
+      margin-bottom: 35px;
+    }
+
+    .prayer-text {
+      background: white;
+      padding: 55px;
+      text-align: left;
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      line-height: 1.9;
+      box-shadow: 0 20px 60px rgba(0,0,0,.06);
+    }
+
+    .amen {
+      margin-top: 30px;
+      text-align: center;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 700;
+      color: var(--orange);
+    }
+
+    /* =========================
+       PRÓXIMOS PASSOS
+    ========================= */
+
+    .next {
+      padding: 120px 0;
+    }
+
+    .next-header {
+      max-width: 700px;
+      margin-bottom: 70px;
+    }
+
+    .next-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .next-card {
+      border: 1px solid var(--light-gray);
+      padding: 40px;
+      min-height: 300px;
+      transition: .3s;
+    }
+
+    .next-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.08);
+    }
+
+    .next-card .icon {
+      width: 55px;
+      height: 55px;
+      display: grid;
+      place-items: center;
+      background: var(--orange);
+      color: white;
+      border-radius: 50%;
+      font-size: 22px;
+      margin-bottom: 30px;
+    }
+
+    .next-card h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 29px;
+      margin-bottom: 15px;
+    }
+
+    .next-card p {
+      color: var(--gray);
+      font-size: 15px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 25px;
+      padding: 14px 24px;
+      background: var(--black);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: .25s;
+    }
+
+    .button:hover {
+      background: var(--orange);
+    }
+
+    /* =========================
+       BATISMO
+    ========================= */
+
+    .baptism {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--black);
+      color: white;
+    }
+
+    .baptism-image {
+      min-height: 650px;
+      background:
+        linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.25)),
+        url("https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=1400&q=85")
+        center / cover;
+    }
+
+    .baptism-content {
+      padding: 100px 9%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .baptism-content h2 {
+      color: white;
+    }
+
+    .baptism-content p {
+      color: rgba(255,255,255,.72);
+      margin-bottom: 18px;
+    }
+
+    .baptism-content .button {
+      width: fit-content;
+      background: var(--orange);
+    }
+
+    /* =========================
+       CONTATO
+    ========================= */
+
+    .contact {
+      padding: 120px 0;
+      background: var(--cream);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 100px;
+      align-items: start;
+    }
+
+    .contact-info p {
+      color: var(--gray);
+      font-size: 17px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid #d6d1c8;
+      background: white;
+      padding: 16px;
+      font-family: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: .2s;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--orange);
+    }
+
+    textarea {
+      min-height: 160px;
+      resize: vertical;
+    }
+
+    form button {
+      grid-column: 1 / -1;
+      border: 0;
+      cursor: pointer;
+      justify-content: center;
+    }
+
+    /* =========================
+       RODAPÉ
+    ========================= */
+
+    footer {
+      background: #0d0d0d;
+      color: white;
+      padding: 70px 0 35px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      padding-bottom: 60px;
+    }
+
+    .footer-logo {
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    .footer-logo span {
+      color: var(--orange);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .copyright {
+      border-top: 1px solid #292929;
+      padding-top: 25px;
+      color: #666;
+      font-size: 12px;
+    }
+
+    /* =========================
+       RESPONSIVO
+    ========================= */
+
+    @media (max-width: 900px) {
+
+      .menu {
+        display: none;
+        position: absolute;
+        top: 95px;
+        left: 0;
+        width: 100%;
+        padding: 30px;
+        background: var(--black);
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .menu.active {
+        display: flex;
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .hero {
+        min-height: 650px;
+      }
+
+      .two-column,
+      .baptism,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .two-column {
+        gap: 50px;
+      }
+
+      .steps,
+      .next-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        min-height: auto;
+      }
+
+      .baptism-image {
+        min-height: 450px;
+      }
+
+      .contact-grid {
+        gap: 50px;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .container {
+        width: min(100% - 32px, var(--max));
+      }
+
+      .nav {
+        height: 78px;
+      }
+
+      .menu {
+        top: 78px;
+      }
+
+      h1 {
+        font-size: 58px;
+        letter-spacing: -3px;
+      }
+
+      h2 {
+        font-size: 43px;
+      }
+
+      .hero {
+        min-height: 620px;
+      }
+
+      .hero-content {
+        padding-top: 60px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .intro,
+      .gospel,
+      .prayer,
+      .next,
+      .contact {
+        padding: 80px 0;
+      }
+
+      .intro-image {
+        height: 400px;
+      }
+
+      .steps {
+        margin-top: 50px;
+      }
+
+      .step {
+        padding: 40px 30px;
+      }
+
+      .prayer-text {
+        padding: 30px;
+        font-size: 18px;
+      }
+
+      .baptism-image {
+        min-height: 350px;
+      }
+
+      .baptism-content {
+        padding: 75px 25px;
+      }
+
+      form {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      form button {
+        grid-column: auto;
+      }
+
+      .footer-top {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- CABEÇALHO -->
+  <header>
+    <div class="container nav">
+
+      <a href="#" class="logo">
+        C3 <span>HOPE</span>
+      </a>
+
+      <nav>
+        <ul class="menu" id="menu">
+          <li><a href="#about">Sobre</a></li>
+          <li><a href="#jesus">Sou novo</a></li>
+          <li><a href="#next">Conecte-se</a></li>
+          <li><a href="#baptism">Batismo</a></li>
+          <li><a href="#contact">Contato</a></li>
+        </ul>
+      </nav>
+
+      <button class="menu-button" id="menuButton">
+        ☰
+      </button>
+
+    </div>
+  </header>
+
+
+  <!-- DESTAQUE -->
+  <section class="hero" id="about">
+
+    <div class="container">
+      <div class="hero-content">
+
+        <div class="eyebrow">
+          Novos Cristãos
+        </div>
+
+        <h1>
+          E<br>
+          agora?
+        </h1>
+
+        <p>
+          Você decidiu recentemente se tornar um seguidor de Jesus
+          e está se perguntando o que vem agora? Ou talvez queira
+          conhecer um pouco mais sobre a fé. Será um prazer caminhar
+          com você nessa jornada.
+        </p>
+
+      </div>
+    </div>
+
+    <div class="container scroll">
+      Role para explorar ↓
+    </div>
+
+  </section>
+
+
+  <!-- INTRODUÇÃO -->
+  <section class="intro" id="jesus">
+
+    <div class="container two-column">
+
+      <div>
+        <div class="section-label">
+          Começando
+        </div>
+
+        <h2>
+          Conhecendo Jesus
+        </h2>
+
+        <p>
+          Um relacionamento com Jesus e o presente da vida eterna
+          são coisas que Deus oferece gratuitamente a todos.
+          Receber esse presente é um ato de fé.
+        </p>
+
+        <div class="verse">
+          “Porque Deus amou o mundo de tal maneira que deu o seu
+          Filho unigênito, para que todo aquele que nele crê não
+          pereça, mas tenha a vida eterna.”
+
+          <small>João 3:16</small>
+        </div>
+      </div>
+
+      <div>
+        <img
+          class="intro-image"
+          src="https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=1000&q=85"
+          alt="Igreja"
+        >
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- EVANGELHO -->
+  <section class="gospel">
+
+    <div class="container">
+
+      <div class="gospel-header">
+
+        <div class="section-label">
+          Uma oração simples
+        </div>
+
+        <h2>
+          Três coisas para dizer a Deus
+        </h2>
+
+        <p>
+          Receber esse presente da vida eterna começa com uma
+          simples oração que diz três coisas a Deus.
+        </p>
+
+      </div>
+
+
+      <div class="steps">
+
+        <article class="step">
+
+          <div class="number">01</div>
+
+          <h3>Obrigado</h3>
+
+          <p>
+            Cremos que Jesus morreu por nós na cruz.
+            Sua morte oferece gratuitamente o perdão,
+            a liberdade e o Seu Espírito. Reserve um momento
+            para agradecê-Lo.
+          </p>
+
+        </article>
+
+
+        <article class="step">
+
+          <div class="number">02</div>
+
+          <h3>Perdão</h3>
+
+          <p>
+            Peça a Deus que perdoe você por todas as coisas
+            que fez de errado e abandone tudo aquilo que você
+            sabe que está errado em sua vida.
+          </p>
+
+        </article>
+
+
+        <article class="step">
+
+          <div class="number">03</div>
+
+          <h3>Por favor</h3>
+
+          <p>
+            Deus nunca força Sua presença em nossas vidas.
+            Aceite o Seu presente e convide-O para entrar
+            e viver em você por meio do Seu Espírito.
+          </p>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ORAÇÃO -->
+  <section class="prayer">
+
+    <div class="container">
+
+      <div class="prayer-content">
+
+        <div class="section-label">
+          Uma oração para fazer
+        </div>
+
+        <h2>
+          Diga sim a Jesus
+        </h2>
+
+        <div class="prayer-text">
+
+          Senhor,
+
+          Eu sei que fiz coisas erradas e que meu pecado
+          me separou de Ti, mas quero viver minha vida
+          do Teu jeito a partir de agora.
+
+          Peço e recebo o Teu perdão.
+
+          Obrigado, Senhor. Eu creio em Jesus — que Ele morreu
+          pelos meus pecados e ressuscitou para nos dar vida
+          eterna e um relacionamento contigo.
+
+          Pela fé, recebo o Teu presente de liberdade.
+
+          Eu digo sim a Ti. Estou pronto para confiar em Ti
+          como meu Senhor e Salvador e entregar a Ti meu coração,
+          meus pensamentos, minhas palavras e minha vida
+          a partir deste dia.
+
+          <div class="amen">
+            Amém.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PRÓXIMOS PASSOS -->
+  <section class="next" id="next">
+
+    <div class="container">
+
+      <div class="next-header">
+
+        <div class="section-label">
+          E agora?
+        </div>
+
+        <h2>
+          Seus próximos passos
+        </h2>
+
+        <p>
+          Você não precisa descobrir tudo sozinho.
+          Aqui estão algumas maneiras simples de continuar
+          crescendo em sua fé.
+        </p>
+
+      </div>
+
+
+      <div class="next-grid">
+
+        <article class="next-card">
+
+          <div class="icon">♡</div>
+
+          <h3>
+            Converse com alguém
+          </h3>
+
+          <p>
+            Será um prazer ouvir você e ajudá-lo enquanto pensa
+            sobre a fé ou sobre sua decisão de começar um
+            relacionamento com Jesus.
+          </p>
+
+          <a href="#contact" class="button">
+            Fale conosco →
+          </a>
+
+        </article>
+
+
+        <article class="next-card">
+
+          <div class="icon">+</div>
+
+          <h3>
+            Entenda sua fé
+          </h3>
+
+          <p>
+            Participe do Alpha, ore regularmente e comece a ler
+            sua Bíblia. O Evangelho de João é um ótimo lugar
+            para começar.
+          </p>
+
+          <a href="#" class="button">
+            Saiba mais →
+          </a>
+
+        </article>
+
+
+        <article class="next-card">
+
+          <div class="icon">◎</div>
+
+          <h3>
+            Conecte-se
+          </h3>
+
+          <p>
+            Participe de uma reunião semanal aos domingos,
+            conheça pessoas e descubra maneiras de fazer parte
+            da família da igreja.
+          </p>
+
+          <a href="#" class="button">
+            Encontre uma reunião →
+          </a>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- BATISMO -->
+  <section class="baptism" id="baptism">
+
+    <div class="baptism-image"></div>
+
+    <div class="baptism-content">
+
+      <div class="section-label">
+        Sua jornada de fé
+      </div>
+
+      <h2>
+        Interessado em Batismo?
+      </h2>
+
+      <p>
+        Se você aceitou Jesus como Salvador, ser batizado nas
+        águas é um ótimo próximo passo em sua jornada de fé.
+      </p>
+
+      <p>
+        O batismo nas águas simboliza a morte e ressurreição
+        de Jesus, o lavar dos nossos pecados e a morte do nosso
+        velho eu e o renascimento para uma nova vida.
+      </p>
+
+      <p>
+        O batismo também nos conecta ao corpo de Cristo —
+        a Igreja e o povo de Deus aqui na terra.
+      </p>
+
+      <p>
+        Se você gostaria de saber mais sobre o batismo nas águas,
+        entre em contato e nossa equipe ajudará você a entender
+        o próximo passo.
+      </p>
+
+      <a href="#contact" class="button">
+        Tenho interesse →
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- CONTATO -->
+  <section class="contact" id="contact">
+
+    <div class="container contact-grid">
+
+      <div class="contact-info">
+
+        <div class="section-label">
+          Fale com alguém
+        </div>
+
+        <h2>
+          Será um prazer ouvir você.
+        </h2>
+
+        <p>
+          Se você tem perguntas sobre Jesus, fé, igreja ou
+          simplesmente quer conversar com alguém, envie uma mensagem.
+        </p>
+
+      </div>
+
+
+      <form id="contactForm">
+
+        <div class="field">
+
+          <label for="firstName">
+            Nome
+          </label>
+
+          <input
+            type="text"
+            id="firstName"
+            placeholder="Nome"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="lastName">
+            Sobrenome
+          </label>
+
+          <input
+            type="text"
+            id="lastName"
+            placeholder="Sobrenome"
+            required
+          >
+
+        </div>
+
+
+        <div class="field full">
+
+          <label for="email">
+            Endereço de e-mail
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            placeholder="email@exemplo.com"
+            required
+          >
+
+        </div>
+
+
+        <div class="field full">
+
+          <label for="phone">
+            Número de telefone
+          </label>
+
+          <input
+            type="tel"
+            id="phone"
+            placeholder="Número de telefone"
+          >
+
+        </div>
+
+
+        <div class="field full">
+
+          <label for="message">
+            Mensagem
+          </label>
+
+          <textarea
+            id="message"
+            placeholder="Como podemos ajudar?"
+          ></textarea>
+
+        </div>
+
+
+        <button type="submit" class="button">
+          Enviar mensagem →
+        </button>
+
+      </form>
+
+    </div>
+
+  </section>
+
+
+  <!-- RODAPÉ -->
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-logo">
+          C3 <span>HOPE</span>
+        </div>
+
+        <div class="footer-links">
+
+          <a href="#">Sobre</a>
+          <a href="#">Sou novo</a>
+          <a href="#">Grupos de conexão</a>
+          <a href="#">Ministérios</a>
+          <a href="#">Eventos</a>
+          <a href="#">Contribuições</a>
+
+        </div>
+
+      </div>
+
+      <div class="copyright">
+        © 2026 C3 Hope. Todos os direitos reservados.
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <script>
+
+    // MENU MOBILE
+    const menuButton = document.getElementById("menuButton");
+    const menu = document.getElementById("menu");
+
+    menuButton.addEventListener("click", () => {
+      menu.classList.toggle("active");
+    });
+
+
+    // FECHA MENU AO CLICAR
+    document.querySelectorAll(".menu a").forEach(link => {
+
+      link.addEventListener("click", () => {
+        menu.classList.remove("active");
+      });
+
+    });
+
+
+    // FORMULÁRIO
+    const form = document.getElementById("contactForm");
+
+    form.addEventListener("submit", function(e) {
+
+      e.preventDefault();
+
+      alert(
+        "Obrigado pela sua mensagem! " +
+        "Em uma versão conectada a um servidor, " +
+        "os dados seriam enviados aqui."
+      );
+
+      form.reset();
+
+    });
+
+  </script>
+
+</body>
+</html>
