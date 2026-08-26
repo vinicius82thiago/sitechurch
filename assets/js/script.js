@@ -3,7 +3,9 @@
 /*
  * ============================================================
  * IBRG — SCRIPT PRINCIPAL
- * Compatível com o HTML existente
+ * Versão revisada e otimizada
+ *
+ * Compatível com o HTML existente.
  * ============================================================
  */
 
@@ -22,11 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const safeText = (value) =>
         String(value ?? "").trim();
 
-    const escapeHTML = (value) => {
-        const div = document.createElement("div");
-        div.textContent = value;
-        return div.innerHTML;
-    };
+    const isElement = (element) =>
+        element instanceof Element;
+
+    const escapeRegExp = (value) =>
+        String(value).replace(
+            /[.*+?^${}()|[\]\\]/g,
+            "\\$&"
+        );
 
 
     /* ========================================================
@@ -36,7 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const yearElement = $("#year");
 
     if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
+        yearElement.textContent =
+            String(new Date().getFullYear());
     }
 
 
@@ -46,12 +52,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const welcomeBar = $("#welcomeBar");
 
-    if (welcomeBar) {
-        document.body.classList.add("welcome-active");
+    let welcomeTimer = null;
 
-        window.setTimeout(() => {
+    if (welcomeBar) {
+
+        document.body.classList.add(
+            "welcome-active"
+        );
+
+        welcomeTimer = window.setTimeout(() => {
+
             welcomeBar.classList.add("hide");
-            document.body.classList.remove("welcome-active");
+
+            document.body.classList.remove(
+                "welcome-active"
+            );
+
         }, 2500);
     }
 
@@ -66,7 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const fecharMenu = () => {
 
-        if (!navigation || !menuToggle) return;
+        if (!navigation || !menuToggle) {
+            return;
+        }
 
         navigation.classList.remove("active");
 
@@ -86,7 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const abrirOuFecharMenu = () => {
 
-        if (!navigation || !menuToggle) return;
+        if (!navigation || !menuToggle) {
+            return;
+        }
 
         const aberto =
             navigation.classList.toggle("active");
@@ -98,7 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         menuToggle.setAttribute(
             "aria-label",
-            aberto ? "Fechar menu" : "Abrir menu"
+            aberto
+                ? "Fechar menu"
+                : "Abrir menu"
         );
 
         menuToggle.innerHTML = aberto
@@ -106,35 +128,64 @@ document.addEventListener("DOMContentLoaded", () => {
             : '<i class="fa-solid fa-bars" aria-hidden="true"></i>';
     };
 
-    menuToggle?.addEventListener(
-        "click",
-        abrirOuFecharMenu
-    );
+    if (menuToggle && navigation) {
+
+        menuToggle.addEventListener(
+            "click",
+            abrirOuFecharMenu
+        );
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+        menuToggle.setAttribute(
+            "aria-label",
+            "Abrir menu"
+        );
+    }
 
     $$("#navigation a").forEach((link) => {
-        link.addEventListener("click", fecharMenu);
+
+        link.addEventListener(
+            "click",
+            fecharMenu
+        );
     });
 
-    document.addEventListener("click", (event) => {
+    document.addEventListener(
+        "click",
+        (event) => {
 
-        if (!navigation?.classList.contains("active")) {
-            return;
+            if (
+                !navigation?.classList.contains(
+                    "active"
+                )
+            ) {
+                return;
+            }
+
+            const target = event.target;
+
+            if (
+                !navigation.contains(target) &&
+                !menuToggle?.contains(target)
+            ) {
+                fecharMenu();
+            }
         }
+    );
 
-        if (
-            !navigation.contains(event.target) &&
-            !menuToggle?.contains(event.target)
-        ) {
-            fecharMenu();
+    document.addEventListener(
+        "keydown",
+        (event) => {
+
+            if (event.key === "Escape") {
+                fecharMenu();
+            }
         }
-    });
-
-    document.addEventListener("keydown", (event) => {
-
-        if (event.key === "Escape") {
-            fecharMenu();
-        }
-    });
+    );
 
 
     /* ========================================================
@@ -143,7 +194,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const atualizarHeader = () => {
 
-        header?.classList.toggle(
+        if (!header) {
+            return;
+        }
+
+        header.classList.toggle(
             "scrolled",
             window.scrollY > 40
         );
@@ -152,7 +207,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener(
         "scroll",
         atualizarHeader,
-        { passive: true }
+        {
+            passive: true
+        }
     );
 
     atualizarHeader();
@@ -171,49 +228,66 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentSlide = 0;
     let sliderTimer = null;
     let touchStartX = 0;
+    let touchStartY = 0;
 
     const mostrarSlide = (index) => {
 
-        if (!slides.length) return;
+        if (!slides.length) {
+            return;
+        }
 
         currentSlide =
-            (index + slides.length) % slides.length;
+            (
+                index + slides.length
+            ) % slides.length;
 
-        slides.forEach((slide, i) => {
+        slides.forEach(
+            (slide, indexAtual) => {
 
-            const ativo = i === currentSlide;
+                const ativo =
+                    indexAtual === currentSlide;
 
-            slide.classList.toggle(
-                "active",
-                ativo
-            );
+                slide.classList.toggle(
+                    "active",
+                    ativo
+                );
 
-            slide.setAttribute(
-                "aria-hidden",
-                String(!ativo)
-            );
-        });
+                slide.setAttribute(
+                    "aria-hidden",
+                    String(!ativo)
+                );
+            }
+        );
 
-        dots.forEach((dot, i) => {
+        dots.forEach(
+            (dot, indexAtual) => {
 
-            const ativo = i === currentSlide;
+                const ativo =
+                    indexAtual === currentSlide;
 
-            dot.classList.toggle(
-                "active",
-                ativo
-            );
+                dot.classList.toggle(
+                    "active",
+                    ativo
+                );
 
-            dot.setAttribute(
-                "aria-current",
-                ativo ? "true" : "false"
-            );
-        });
+                dot.setAttribute(
+                    "aria-current",
+                    ativo
+                        ? "true"
+                        : "false"
+                );
+            }
+        );
     };
 
     const pararSlider = () => {
 
         if (sliderTimer !== null) {
-            clearInterval(sliderTimer);
+
+            window.clearInterval(
+                sliderTimer
+            );
+
             sliderTimer = null;
         }
     };
@@ -226,28 +300,65 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        sliderTimer = setInterval(() => {
-            mostrarSlide(currentSlide + 1);
-        }, 6000);
+        if (
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches
+        ) {
+            return;
+        }
+
+        sliderTimer =
+            window.setInterval(
+                () => {
+
+                    mostrarSlide(
+                        currentSlide + 1
+                    );
+
+                },
+                6000
+            );
     };
 
-    nextSlide?.addEventListener("click", () => {
-        mostrarSlide(currentSlide + 1);
-        iniciarSlider();
-    });
+    nextSlide?.addEventListener(
+        "click",
+        () => {
 
-    prevSlide?.addEventListener("click", () => {
-        mostrarSlide(currentSlide - 1);
-        iniciarSlider();
-    });
+            mostrarSlide(
+                currentSlide + 1
+            );
 
-    dots.forEach((dot, index) => {
-
-        dot.addEventListener("click", () => {
-            mostrarSlide(index);
             iniciarSlider();
-        });
-    });
+        }
+    );
+
+    prevSlide?.addEventListener(
+        "click",
+        () => {
+
+            mostrarSlide(
+                currentSlide - 1
+            );
+
+            iniciarSlider();
+        }
+    );
+
+    dots.forEach(
+        (dot, index) => {
+
+            dot.addEventListener(
+                "click",
+                () => {
+
+                    mostrarSlide(index);
+
+                    iniciarSlider();
+                }
+            );
+        }
+    );
 
     hero?.addEventListener(
         "mouseenter",
@@ -263,31 +374,57 @@ document.addEventListener("DOMContentLoaded", () => {
         "touchstart",
         (event) => {
 
-            const touch = event.changedTouches?.[0];
+            const touch =
+                event.changedTouches?.[0];
 
-            if (!touch) return;
+            if (!touch) {
+                return;
+            }
 
-            touchStartX = touch.clientX;
+            touchStartX =
+                touch.clientX;
+
+            touchStartY =
+                touch.clientY;
+
             pararSlider();
         },
-        { passive: true }
+        {
+            passive: true
+        }
     );
 
     hero?.addEventListener(
         "touchend",
         (event) => {
 
-            const touch = event.changedTouches?.[0];
+            const touch =
+                event.changedTouches?.[0];
 
-            if (!touch) return;
+            if (!touch) {
+                return;
+            }
 
-            const difference =
-                touchStartX - touch.clientX;
+            const differenceX =
+                touchStartX -
+                touch.clientX;
 
-            if (Math.abs(difference) >= 50) {
+            const differenceY =
+                touchStartY -
+                touch.clientY;
+
+            /*
+             * Só considera swipe quando o movimento
+             * horizontal é maior que o vertical.
+             */
+            if (
+                Math.abs(differenceX) >= 50 &&
+                Math.abs(differenceX) >
+                Math.abs(differenceY)
+            ) {
 
                 mostrarSlide(
-                    difference > 0
+                    differenceX > 0
                         ? currentSlide + 1
                         : currentSlide - 1
                 );
@@ -295,7 +432,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             iniciarSlider();
         },
-        { passive: true }
+        {
+            passive: true
+        }
     );
 
     mostrarSlide(0);
@@ -308,53 +447,91 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $$(".flip-card").forEach((card) => {
 
-        card.addEventListener("click", (event) => {
+        /*
+         * Garante que cards interativos sejam acessíveis
+         * também pelo teclado.
+         */
+        if (!card.hasAttribute("tabindex")) {
+            card.setAttribute(
+                "tabindex",
+                "0"
+            );
+        }
 
-            if (
-                event.target.closest("a") ||
-                event.target.closest("button")
-            ) {
-                return;
-            }
+        if (!card.hasAttribute("role")) {
+            card.setAttribute(
+                "role",
+                "button"
+            );
+        }
 
-            card.classList.toggle("active");
-
-            const ativo =
-                card.classList.contains("active");
-
+        if (!card.hasAttribute("aria-expanded")) {
             card.setAttribute(
                 "aria-expanded",
-                String(ativo)
+                "false"
             );
-        });
+        }
 
-        card.addEventListener("keydown", (event) => {
+        const alternarCard = () => {
 
-            if (
-                event.key !== "Enter" &&
-                event.key !== " "
-            ) {
-                return;
-            }
-
-            if (
-                event.target.closest("a") ||
-                event.target.closest("button")
-            ) {
-                return;
-            }
-
-            event.preventDefault();
-
-            card.classList.toggle("active");
+            card.classList.toggle(
+                "active"
+            );
 
             card.setAttribute(
                 "aria-expanded",
                 String(
-                    card.classList.contains("active")
+                    card.classList.contains(
+                        "active"
+                    )
                 )
             );
-        });
+        };
+
+        card.addEventListener(
+            "click",
+            (event) => {
+
+                if (
+                    event.target.closest("a") ||
+                    event.target.closest("button") ||
+                    event.target.closest("input") ||
+                    event.target.closest("select") ||
+                    event.target.closest("textarea")
+                ) {
+                    return;
+                }
+
+                alternarCard();
+            }
+        );
+
+        card.addEventListener(
+            "keydown",
+            (event) => {
+
+                if (
+                    event.key !== "Enter" &&
+                    event.key !== " "
+                ) {
+                    return;
+                }
+
+                if (
+                    event.target.closest("a") ||
+                    event.target.closest("button") ||
+                    event.target.closest("input") ||
+                    event.target.closest("select") ||
+                    event.target.closest("textarea")
+                ) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                alternarCard();
+            }
+        );
     });
 
 
@@ -365,13 +542,41 @@ document.addEventListener("DOMContentLoaded", () => {
     const contactForm = $("#contactForm");
     const formMessage = $("#formMessage");
 
+    const mostrarMensagemFormulario = (
+        message,
+        color = "#16803c"
+    ) => {
+
+        if (!formMessage) {
+            return;
+        }
+
+        formMessage.textContent =
+            message;
+
+        formMessage.style.display =
+            "block";
+
+        formMessage.style.color =
+            color;
+
+        formMessage.setAttribute(
+            "role",
+            "status"
+        );
+    };
+
     contactForm?.addEventListener(
         "submit",
         (event) => {
 
             event.preventDefault();
 
-            if (!contactForm.checkValidity()) {
+            if (
+                typeof contactForm.checkValidity ===
+                "function" &&
+                !contactForm.checkValidity()
+            ) {
 
                 contactForm.reportValidity();
 
@@ -379,23 +584,46 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const name =
-                safeText($("#name")?.value);
+                safeText(
+                    $("#name")?.value
+                );
 
             const email =
-                safeText($("#email")?.value);
+                safeText(
+                    $("#email")?.value
+                );
 
             const message =
-                safeText($("#message")?.value);
+                safeText(
+                    $("#message")?.value
+                );
 
-            if (!name || !email || !message) {
+            if (
+                !name ||
+                !email ||
+                !message
+            ) {
 
-                if (formMessage) {
-                    formMessage.textContent =
-                        "Preencha todos os campos obrigatórios.";
+                mostrarMensagemFormulario(
+                    "Preencha todos os campos obrigatórios.",
+                    "#b42318"
+                );
 
-                    formMessage.style.display = "block";
-                    formMessage.style.color = "#b42318";
-                }
+                return;
+            }
+
+            /*
+             * Validação adicional simples.
+             */
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(email)) {
+
+                mostrarMensagemFormulario(
+                    "Digite um endereço de e-mail válido.",
+                    "#b42318"
+                );
 
                 return;
             }
@@ -416,37 +644,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     ].join("\n")
                 );
 
-            if (formMessage) {
-
-                formMessage.textContent =
-                    "Abrindo seu aplicativo de e-mail...";
-
-                formMessage.style.display =
-                    "block";
-
-                formMessage.style.color =
-                    "#16803c";
-            }
+            mostrarMensagemFormulario(
+                "Abrindo seu aplicativo de e-mail..."
+            );
 
             /*
              * IMPORTANTE:
              *
-             * mailto NÃO envia diretamente pelo servidor.
-             * Ele abre o aplicativo de e-mail do visitante.
-             *
-             * Para envio realmente automático será necessário
-             * um backend ou serviço de formulário.
+             * mailto apenas abre o aplicativo de e-mail.
+             * Não realiza envio automático pelo servidor.
              */
-
             window.location.href =
-                `mailto:contato@ibrg.com.br?subject=${assunto}&body=${corpo}`;
+                `mailto:contato@ibrg.com.br` +
+                `?subject=${assunto}` +
+                `&body=${corpo}`;
         }
     );
 
 
     /* ========================================================
        VERSÍCULO DO DIA
-    ======================================================== */
+       ======================================================== */
 
     const dailyVerse = $("#dailyVerse");
     const verseReference = $("#verseReference");
@@ -456,51 +674,75 @@ document.addEventListener("DOMContentLoaded", () => {
     const verses = [
 
         {
-            text: "Porque Deus tanto amou o mundo que deu o seu Filho Unigênito, para que todo o que nele crer não pereça, mas tenha a vida eterna.",
-            reference: "João 3:16",
-            url: "https://www.bible.com/pt/bible/129/JHN.3.16.NVI"
+            text:
+                "Porque Deus tanto amou o mundo que deu o seu Filho Unigênito, para que todo o que nele crer não pereça, mas tenha a vida eterna.",
+            reference:
+                "João 3:16",
+            url:
+                "https://www.bible.com/pt/bible/129/JHN.3.16.NVI"
         },
 
         {
-            text: "O Senhor é o meu pastor; nada me faltará.",
-            reference: "Salmos 23:1",
-            url: "https://www.bible.com/pt/bible/129/PSA.23.1.NVI"
+            text:
+                "O Senhor é o meu pastor; nada me faltará.",
+            reference:
+                "Salmos 23:1",
+            url:
+                "https://www.bible.com/pt/bible/129/PSA.23.1.NVI"
         },
 
         {
-            text: "Tudo posso naquele que me fortalece.",
-            reference: "Filipenses 4:13",
-            url: "https://www.bible.com/pt/bible/129/PHP.4.13.NVI"
+            text:
+                "Tudo posso naquele que me fortalece.",
+            reference:
+                "Filipenses 4:13",
+            url:
+                "https://www.bible.com/pt/bible/129/PHP.4.13.NVI"
         },
 
         {
-            text: "Entrega o teu caminho ao Senhor; confia nele, e ele tudo fará.",
-            reference: "Salmos 37:5",
-            url: "https://www.bible.com/pt/bible/129/PSA.37.5.NVI"
+            text:
+                "Entrega o teu caminho ao Senhor; confia nele, e ele tudo fará.",
+            reference:
+                "Salmos 37:5",
+            url:
+                "https://www.bible.com/pt/bible/129/PSA.37.5.NVI"
         },
 
         {
-            text: "Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus.",
-            reference: "Isaías 41:10",
-            url: "https://www.bible.com/pt/bible/129/ISA.41.10.NVI"
+            text:
+                "Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus.",
+            reference:
+                "Isaías 41:10",
+            url:
+                "https://www.bible.com/pt/bible/129/ISA.41.10.NVI"
         },
 
         {
-            text: "Eu sou o caminho, a verdade e a vida. Ninguém vem ao Pai senão por mim.",
-            reference: "João 14:6",
-            url: "https://www.bible.com/pt/bible/129/JHN.14.6.NVI"
+            text:
+                "Eu sou o caminho, a verdade e a vida. Ninguém vem ao Pai senão por mim.",
+            reference:
+                "João 14:6",
+            url:
+                "https://www.bible.com/pt/bible/129/JHN.14.6.NVI"
         },
 
         {
-            text: "Buscai primeiro o Reino de Deus e a sua justiça, e todas estas coisas vos serão acrescentadas.",
-            reference: "Mateus 6:33",
-            url: "https://www.bible.com/pt/bible/129/MAT.6.33.NVI"
+            text:
+                "Buscai primeiro o Reino de Deus e a sua justiça, e todas estas coisas vos serão acrescentadas.",
+            reference:
+                "Mateus 6:33",
+            url:
+                "https://www.bible.com/pt/bible/129/MAT.6.33.NVI"
         },
 
         {
-            text: "Sede fortes e corajosos; não temais, nem vos assusteis.",
-            reference: "Deuteronômio 31:6",
-            url: "https://www.bible.com/pt/bible/129/DEU.31.6.NVI"
+            text:
+                "Sede fortes e corajosos; não temais, nem vos assusteis.",
+            reference:
+                "Deuteronômio 31:6",
+            url:
+                "https://www.bible.com/pt/bible/129/DEU.31.6.NVI"
         }
 
     ];
@@ -515,7 +757,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const verse = verses[index];
+        const verse =
+            verses[index];
 
         dailyVerse.textContent =
             `“${verse.text}”`;
@@ -536,33 +779,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    if (verses.length) {
+    const obterDiaDoAno = (date = new Date()) => {
 
-        /*
-         * O dia determina o versículo.
-         * Assim todos os visitantes recebem
-         * o mesmo versículo no mesmo dia.
-         */
-
-        const inicioAno =
+        const inicio =
             new Date(
-                new Date().getFullYear(),
+                date.getFullYear(),
                 0,
                 1
             );
 
-        const hoje =
-            new Date();
-
-        const diferenca =
-            Math.floor(
-                (
-                    hoje - inicioAno
-                ) / 86400000
+        const inicioDia =
+            new Date(
+                date.getFullYear(),
+                date.getMonth(),
+                date.getDate()
             );
 
+        return Math.floor(
+            (
+                inicioDia -
+                inicio
+            ) / 86400000
+        );
+    };
+
+    if (verses.length) {
+
+        const dayOfYear =
+            obterDiaDoAno();
+
         const index =
-            diferenca % verses.length;
+            dayOfYear % verses.length;
 
         mostrarVersiculo(index);
     }
@@ -578,13 +825,18 @@ document.addEventListener("DOMContentLoaded", () => {
             const atual =
                 safeText(
                     dailyVerse?.textContent
-                ).replace(/^“|”$/g, "");
+                )
+                    .replace(/^“|”$/g, "");
 
             const disponiveis =
                 verses.filter(
-                    verse =>
+                    (verse) =>
                         verse.text !== atual
                 );
+
+            if (!disponiveis.length) {
+                return;
+            }
 
             const escolhido =
                 disponiveis[
@@ -595,7 +847,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 ];
 
             mostrarVersiculo(
-                verses.indexOf(escolhido)
+                verses.indexOf(
+                    escolhido
+                )
             );
         }
     );
@@ -603,9 +857,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ========================================================
        BÍBLIA
-    ======================================================== */
+       ======================================================== */
 
     const bookNames = {
+
         GEN: "Gênesis",
         EXO: "Êxodo",
         LEV: "Levítico",
@@ -645,6 +900,7 @@ document.addEventListener("DOMContentLoaded", () => {
         HAG: "Ageu",
         ZEC: "Zacarias",
         MAL: "Malaquias",
+
         MAT: "Mateus",
         MAR: "Marcos",
         LUK: "Lucas",
@@ -675,6 +931,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const chapterCounts = {
+
         "Gênesis": 50,
         "Êxodo": 40,
         "Levítico": 27,
@@ -714,6 +971,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Ageu": 2,
         "Zacarias": 14,
         "Malaquias": 4,
+
         "Mateus": 28,
         "Marcos": 16,
         "Lucas": 24,
@@ -746,25 +1004,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const bookSelect = $("#bookSelect");
     const chapterInput = $("#chapterInput");
     const readChapter = $("#readChapter");
+
     const bibleReader = $("#bibleReader");
     const readerResult = $("#readerResult");
     const readerTitle = $("#readerTitle");
     const closeReader = $("#closeReader");
-    const externalChapterLink = $("#externalChapterLink");
+    const externalChapterLink =
+        $("#externalChapterLink");
 
-    const getBibleURL = (code, chapter) =>
+    let bibleRequestController = null;
+
+    const getBibleURL = (
+        code,
+        chapter
+    ) =>
         `https://www.bible.com/pt/bible/129/${code}.${chapter}.NVI`;
 
     const mostrarErroBiblia = (message) => {
 
-        if (!readerResult) return;
+        if (!readerResult) {
+            return;
+        }
 
-        readerResult.innerHTML = "";
+        readerResult.replaceChildren();
 
         const box =
             document.createElement("div");
 
-        box.className = "reader-error";
+        box.className =
+            "reader-error";
 
         const icon =
             document.createElement("i");
@@ -780,16 +1048,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const text =
             document.createElement("p");
 
-        text.textContent = message;
+        text.textContent =
+            message;
 
-        box.append(icon, text);
+        box.append(
+            icon,
+            text
+        );
 
-        readerResult.appendChild(box);
+        readerResult.appendChild(
+            box
+        );
     };
 
     const atualizarLimiteCapitulo = () => {
 
-        if (!bookSelect || !chapterInput) {
+        if (
+            !bookSelect ||
+            !chapterInput
+        ) {
             return;
         }
 
@@ -802,13 +1079,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const max =
             chapterCounts[book];
 
-        if (!max) return;
+        if (!max) {
+            return;
+        }
 
         chapterInput.min = "1";
-        chapterInput.max = String(max);
+        chapterInput.max =
+            String(max);
 
         const value =
-            Number(chapterInput.value);
+            Number(
+                chapterInput.value
+            );
 
         if (
             !Number.isInteger(value) ||
@@ -821,10 +1103,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const abrirLeitor = () => {
 
-        if (!bibleReader) return;
+        if (!bibleReader) {
+            return;
+        }
 
-        bibleReader.removeAttribute("hidden");
-        bibleReader.classList.add("active");
+        bibleReader.removeAttribute(
+            "hidden"
+        );
+
+        bibleReader.classList.add(
+            "active"
+        );
 
         document.body.classList.add(
             "reader-open"
@@ -833,14 +1122,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const fecharLeitor = () => {
 
-        if (!bibleReader) return;
+        if (!bibleReader) {
+            return;
+        }
 
-        bibleReader.classList.remove("active");
-        bibleReader.setAttribute("hidden", "");
+        if (bibleRequestController) {
+
+            bibleRequestController.abort();
+
+            bibleRequestController = null;
+        }
+
+        bibleReader.classList.remove(
+            "active"
+        );
+
+        bibleReader.setAttribute(
+            "hidden",
+            ""
+        );
 
         document.body.classList.remove(
             "reader-open"
         );
+    };
+
+    const mostrarLoadingBiblia = () => {
+
+        if (!readerResult) {
+            return;
+        }
+
+        readerResult.innerHTML = `
+            <div class="reader-loading">
+                <i class="fa-solid fa-spinner fa-spin"
+                   aria-hidden="true"></i>
+                <p>Carregando a leitura...</p>
+            </div>
+        `;
     };
 
     const carregarCapitulo = async () => {
@@ -854,13 +1173,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const code =
-            bookSelect.value;
+            safeText(
+                bookSelect.value
+            );
 
         const book =
             bookNames[code];
 
         const chapter =
-            Number(chapterInput.value);
+            Number(
+                chapterInput.value
+            );
 
         const max =
             chapterCounts[book];
@@ -887,9 +1210,21 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        /*
+         * Cancela uma requisição anterior.
+         */
+        if (bibleRequestController) {
+
+            bibleRequestController.abort();
+        }
+
+        bibleRequestController =
+            new AbortController();
+
         abrirLeitor();
 
         if (readerTitle) {
+
             readerTitle.textContent =
                 `${book} ${chapter}`;
         }
@@ -901,6 +1236,7 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
         if (externalChapterLink) {
+
             externalChapterLink.href =
                 bibleURL;
 
@@ -911,18 +1247,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 "noopener noreferrer";
         }
 
-        readerResult.innerHTML = `
-            <div class="reader-loading">
-                <i class="fa-solid fa-spinner fa-spin"
-                   aria-hidden="true"></i>
-                <p>Carregando a leitura...</p>
-            </div>
-        `;
+        mostrarLoadingBiblia();
+
+        /*
+         * Timeout de segurança.
+         */
+        const timeoutId =
+            window.setTimeout(
+                () => {
+
+                    bibleRequestController?.abort();
+
+                },
+                15000
+            );
 
         try {
 
             const apiBook =
-                encodeURIComponent(book);
+                encodeURIComponent(
+                    book
+                );
 
             const url =
                 `https://bible-api.com/` +
@@ -937,11 +1282,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         headers: {
                             Accept:
                                 "application/json"
-                        }
+                        },
+                        signal:
+                            bibleRequestController.signal
                     }
                 );
 
             if (!response.ok) {
+
                 throw new Error(
                     `HTTP ${response.status}`
                 );
@@ -951,9 +1299,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 await response.json();
 
             if (
-                !Array.isArray(data.verses) ||
+                !Array.isArray(
+                    data?.verses
+                ) ||
                 !data.verses.length
             ) {
+
                 throw new Error(
                     "Nenhum versículo encontrado."
                 );
@@ -962,37 +1313,54 @@ document.addEventListener("DOMContentLoaded", () => {
             const fragment =
                 document.createDocumentFragment();
 
-            data.verses.forEach((verse) => {
+            data.verses.forEach(
+                (verse) => {
 
-                const paragraph =
-                    document.createElement("p");
+                    const paragraph =
+                        document.createElement(
+                            "p"
+                        );
 
-                paragraph.className =
-                    "bible-verse";
+                    paragraph.className =
+                        "bible-verse";
 
-                const number =
-                    document.createElement("strong");
+                    const number =
+                        document.createElement(
+                            "strong"
+                        );
 
-                number.textContent =
-                    `${verse.verse} `;
+                    number.textContent =
+                        `${safeText(
+                            verse.verse
+                        )} `;
 
-                paragraph.append(
-                    number,
-                    document.createTextNode(
-                        safeText(verse.text)
-                    )
-                );
+                    paragraph.append(
+                        number,
+                        document.createTextNode(
+                            safeText(
+                                verse.text
+                            )
+                        )
+                    );
 
-                fragment.appendChild(
-                    paragraph
-                );
-            });
+                    fragment.appendChild(
+                        paragraph
+                    );
+                }
+            );
 
             readerResult.replaceChildren(
                 fragment
             );
 
         } catch (error) {
+
+            if (
+                error?.name ===
+                "AbortError"
+            ) {
+                return;
+            }
 
             console.warn(
                 "Erro na Bíblia:",
@@ -1002,6 +1370,15 @@ document.addEventListener("DOMContentLoaded", () => {
             mostrarErroBiblia(
                 "Não foi possível carregar este capítulo agora. Use o botão abaixo para continuar a leitura no Bible.com."
             );
+
+        } finally {
+
+            window.clearTimeout(
+                timeoutId
+            );
+
+            bibleRequestController =
+                null;
         }
     };
 
@@ -1051,8 +1428,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (
                 event.key === "Escape" &&
-                bibleReader?.classList.contains("active")
+                bibleReader?.classList.contains(
+                    "active"
+                )
             ) {
+
                 fecharLeitor();
             }
         }
@@ -1063,108 +1443,68 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ========================================================
        PLANO ANUAL DE LEITURA
-    ======================================================== */
+       ======================================================== */
 
-    const bibleBooks = Object.entries({
-        "Gênesis": 50,
-        "Êxodo": 40,
-        "Levítico": 27,
-        "Números": 36,
-        "Deuteronômio": 34,
-        "Josué": 24,
-        "Juízes": 21,
-        "Rute": 4,
-        "1 Samuel": 31,
-        "2 Samuel": 24,
-        "1 Reis": 22,
-        "2 Reis": 25,
-        "1 Crônicas": 29,
-        "2 Crônicas": 36,
-        "Esdras": 10,
-        "Neemias": 13,
-        "Ester": 10,
-        "Jó": 42,
-        "Salmos": 150,
-        "Provérbios": 31,
-        "Eclesiastes": 12,
-        "Cânticos": 8,
-        "Isaías": 66,
-        "Jeremias": 52,
-        "Lamentações": 5,
-        "Ezequiel": 48,
-        "Daniel": 12,
-        "Oseias": 14,
-        "Joel": 3,
-        "Amós": 9,
-        "Obadias": 1,
-        "Jonas": 4,
-        "Miqueias": 7,
-        "Naum": 3,
-        "Habacuque": 3,
-        "Sofonias": 3,
-        "Ageu": 2,
-        "Zacarias": 14,
-        "Malaquias": 4,
-        "Mateus": 28,
-        "Marcos": 16,
-        "Lucas": 24,
-        "João": 21,
-        "Atos": 28,
-        "Romanos": 16,
-        "1 Coríntios": 16,
-        "2 Coríntios": 13,
-        "Gálatas": 6,
-        "Efésios": 6,
-        "Filipenses": 4,
-        "Colossenses": 4,
-        "1 Tessalonicenses": 5,
-        "2 Tessalonicenses": 3,
-        "1 Timóteo": 6,
-        "2 Timóteo": 4,
-        "Tito": 3,
-        "Filemom": 1,
-        "Hebreus": 13,
-        "Tiago": 5,
-        "1 Pedro": 5,
-        "2 Pedro": 3,
-        "1 João": 5,
-        "2 João": 1,
-        "3 João": 1,
-        "Judas": 1,
-        "Apocalipse": 22
-    });
+    const bibleBooks = Object.entries(
+        chapterCounts
+    );
+
+    const TOTAL_DIAS_PLANO = 365;
 
     const criarPlanoAnual = () => {
 
-        const total =
+        const totalCapitulos =
             bibleBooks.reduce(
-                (sum, [, chapters]) =>
-                    sum + chapters,
+                (
+                    total,
+                    [, chapters]
+                ) =>
+                    total + chapters,
                 0
             );
 
+        /*
+         * Distribuição equilibrada dos capítulos:
+         *
+         * total / 365
+         *
+         * Os dias iniciais recebem os capítulos extras.
+         */
         const base =
-            Math.floor(total / 365);
+            Math.floor(
+                totalCapitulos /
+                TOTAL_DIAS_PLANO
+            );
 
         const extras =
-            total % 365;
+            totalCapitulos %
+            TOTAL_DIAS_PLANO;
 
         const plan = [];
 
         let bookIndex = 0;
         let chapter = 1;
 
-        for (let day = 1; day <= 365; day++) {
+        for (
+            let day = 1;
+            day <= TOTAL_DIAS_PLANO;
+            day++
+        ) {
 
             let remaining =
                 base +
-                (day <= extras ? 1 : 0);
+                (
+                    day <= extras
+                        ? 1
+                        : 0
+                );
 
             const ranges = [];
 
             while (
                 remaining > 0 &&
-                bookIndex < bibleBooks.length
+                bookIndex <
+                bibleBooks.length
             ) {
 
                 const [
@@ -1196,7 +1536,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 remaining -= amount;
 
                 if (
-                    chapter + amount - 1 >=
+                    chapter +
+                    amount -
+                    1 >=
                     totalChapters
                 ) {
 
@@ -1224,19 +1566,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ========================================================
        STORAGE SEGURO
-    ======================================================== */
+       ======================================================== */
 
-    const storageGet = (key, fallback) => {
+    const storageGet = (
+        key,
+        fallback
+    ) => {
 
         try {
 
             const value =
-                Number(
-                    localStorage.getItem(key)
+                localStorage.getItem(
+                    key
                 );
 
-            return Number.isFinite(value)
-                ? value
+            if (
+                value === null ||
+                value === ""
+            ) {
+                return fallback;
+            }
+
+            const number =
+                Number(value);
+
+            return Number.isFinite(
+                number
+            )
+                ? number
                 : fallback;
 
         } catch {
@@ -1245,40 +1602,76 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    const storageSet = (key, value) => {
+    const storageSet = (
+        key,
+        value
+    ) => {
 
         try {
+
             localStorage.setItem(
                 key,
                 String(value)
             );
+
         } catch {
-            // Sem acesso ao localStorage.
+            /*
+             * localStorage pode estar
+             * bloqueado pelo navegador.
+             */
         }
     };
+
+
+    /* ========================================================
+       ESTADO DO PLANO
+       ======================================================== */
 
     const currentYear =
         new Date().getFullYear();
 
-    let savedYear =
+    const storedYear =
         storageGet(
             "annualPlanYear",
             currentYear
         );
 
-    let completedDays =
-        storageGet(
-            "annualCompletedDays",
-            0
+    let savedYear =
+        Math.floor(
+            storedYear
         );
 
-    if (savedYear !== currentYear) {
+    let completedDays =
+        Math.floor(
+            storageGet(
+                "annualCompletedDays",
+                0
+            )
+        );
+
+    /*
+     * Compatibilidade com versões anteriores
+     * que utilizavam annualCurrentDay.
+     */
+    let currentDay =
+        Math.floor(
+            storageGet(
+                "annualCurrentDay",
+                completedDays + 1
+            )
+        );
+
+    if (
+        savedYear !== currentYear
+    ) {
 
         savedYear =
             currentYear;
 
         completedDays = 0;
 
+        currentDay = 1;
+
         storageSet(
             "annualPlanYear",
             currentYear
@@ -1287,6 +1680,11 @@ document.addEventListener("DOMContentLoaded", () => {
         storageSet(
             "annualCompletedDays",
             0
+        );
+
+        storageSet(
+            "annualCurrentDay",
+            1
         );
     }
 
@@ -1294,20 +1692,25 @@ document.addEventListener("DOMContentLoaded", () => {
         Math.max(
             0,
             Math.min(
-                365,
-                Math.floor(completedDays)
+                TOTAL_DIAS_PLANO,
+                completedDays
             )
         );
 
-    let currentDay =
-        completedDays >= 365
-            ? 365
+    /*
+     * O dia atual sempre representa
+     * o próximo dia a ser lido.
+     */
+    currentDay =
+        completedDays >=
+        TOTAL_DIAS_PLANO
+            ? TOTAL_DIAS_PLANO
             : completedDays + 1;
 
 
     /* ========================================================
        CARD DE LEITURA DIÁRIA
-    ======================================================== */
+       ======================================================== */
 
     const dailyReadingCard =
         $(".daily-reading-card");
@@ -1363,22 +1766,39 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     };
 
-    const formatarLeitura = (range) => {
+    const formatarLeitura = (
+        range
+    ) => {
 
-        if (range.start === range.end) {
+        if (
+            range.start ===
+            range.end
+        ) {
             return `${range.book} ${range.start}`;
         }
 
-        return `${range.book} ${range.start}–${range.end}`;
+        return (
+            `${range.book} ` +
+            `${range.start}–${range.end}`
+        );
     };
 
-    const obterLeitura = (day) =>
+    const obterLeitura = (
+        day
+    ) =>
         annualPlan.find(
-            item => item.day === day
+            item =>
+                item.day === day
         );
 
-    const formatarDataPlano = (day) => {
+    const formatarDataPlano = (
+        day
+    ) => {
 
+        /*
+         * Usa UTC para evitar problemas
+         * de fuso horário perto da meia-noite.
+         */
         const date =
             new Date(
                 Date.UTC(
@@ -1398,36 +1818,51 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     };
 
-    const mostrarStatusLeitura = (message) => {
+    const mostrarStatusLeitura = (
+        message
+    ) => {
 
-        if (!dailyReadingStatus) return;
+        if (!dailyReadingStatus) {
+            return;
+        }
 
         dailyReadingStatus.textContent =
             message;
 
-        clearTimeout(
+        if (
             dailyReadingStatus._timer
-        );
+        ) {
+
+            window.clearTimeout(
+                dailyReadingStatus._timer
+            );
+        }
 
         dailyReadingStatus._timer =
-            setTimeout(() => {
+            window.setTimeout(
+                () => {
 
-                dailyReadingStatus.textContent =
-                    "";
+                    dailyReadingStatus.textContent =
+                        "";
 
-            }, 3500);
+                },
+                3500
+            );
     };
 
     const atualizarPlano = () => {
 
-        if (!dailyReadingCard) return;
+        if (!dailyReadingCard) {
+            return;
+        }
 
         const concluido =
-            completedDays >= 365;
+            completedDays >=
+            TOTAL_DIAS_PLANO;
 
         const day =
             concluido
-                ? 365
+                ? TOTAL_DIAS_PLANO
                 : currentDay;
 
         const reading =
@@ -1435,12 +1870,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const percent =
             Math.round(
-                (completedDays / 365) * 100
+                (
+                    completedDays /
+                    TOTAL_DIAS_PLANO
+                ) * 100
             );
 
         if (currentReadingDay) {
+
             currentReadingDay.textContent =
-                String(day).padStart(2, "0");
+                String(day).padStart(
+                    2,
+                    "0"
+                );
         }
 
         if (dailyReadingDate) {
@@ -1458,7 +1900,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             dailyReadingTitle.textContent =
                 reading.ranges
-                    .map(formatarLeitura)
+                    .map(
+                        formatarLeitura
+                    )
                     .join(" • ");
         }
 
@@ -1473,7 +1917,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (annualProgressText) {
 
             annualProgressText.textContent =
-                `${completedDays} de 365 dias`;
+                `${completedDays} de ${TOTAL_DIAS_PLANO} dias`;
         }
 
         if (annualProgressBar) {
@@ -1484,6 +1928,16 @@ document.addEventListener("DOMContentLoaded", () => {
             annualProgressBar.setAttribute(
                 "aria-valuenow",
                 String(percent)
+            );
+
+            annualProgressBar.setAttribute(
+                "aria-valuemin",
+                "0"
+            );
+
+            annualProgressBar.setAttribute(
+                "aria-valuemax",
+                "100"
             );
         }
 
@@ -1498,7 +1952,10 @@ document.addEventListener("DOMContentLoaded", () => {
             nextReadingDay.textContent =
                 concluido
                     ? "Plano concluído"
-                    : `Próxima leitura: Dia ${Math.min(day + 1, 365)}`;
+                    : `Próxima leitura: Dia ${Math.min(
+                        day + 1,
+                        TOTAL_DIAS_PLANO
+                    )}`;
         }
 
         dailyReadingCard.classList.toggle(
@@ -1522,26 +1979,35 @@ document.addEventListener("DOMContentLoaded", () => {
         "click",
         () => {
 
-            if (completedDays >= 365) {
+            if (
+                completedDays >=
+                TOTAL_DIAS_PLANO
+            ) {
                 return;
             }
 
+            /*
+             * Só avança um dia por clique.
+             * Isso evita pular leituras.
+             */
             completedDays =
-                Math.max(
-                    completedDays,
-                    currentDay
+                Math.min(
+                    TOTAL_DIAS_PLANO,
+                    completedDays + 1
                 );
 
             currentDay =
-                completedDays >= 365
-                    ? 365
+                completedDays >=
+                TOTAL_DIAS_PLANO
+                    ? TOTAL_DIAS_PLANO
                     : completedDays + 1;
 
             salvarPlano();
             atualizarPlano();
 
             mostrarStatusLeitura(
-                completedDays >= 365
+                completedDays >=
+                TOTAL_DIAS_PLANO
                     ? "Parabéns! Você concluiu o plano anual."
                     : "Leitura marcada como concluída!"
             );
@@ -1552,7 +2018,10 @@ document.addEventListener("DOMContentLoaded", () => {
         "click",
         () => {
 
-            if (completedDays >= 365) {
+            if (
+                completedDays >=
+                TOTAL_DIAS_PLANO
+            ) {
 
                 mostrarStatusLeitura(
                     "Você já concluiu todo o plano."
@@ -1562,8 +2031,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             dailyReadingCard?.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
+                behavior:
+                    window.matchMedia(
+                        "(prefers-reduced-motion: reduce)"
+                    ).matches
+                        ? "auto"
+                        : "smooth",
+                block:
+                    "center"
             });
         }
     );
@@ -1573,77 +2048,118 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ========================================================
        CALENDÁRIO
-    ======================================================== */
+       ======================================================== */
 
-    const calendarMonth = $("#calendarMonth");
-    const calendarYear = $("#calendarYear");
-    const calendarDays = $$(".calendar-day");
+    const calendarMonth =
+        $("#calendarMonth");
 
-    const prevWeek = $("#prevWeek");
-    const nextWeek = $("#nextWeek");
-    const todayWeek = $("#todayWeek");
-    const prevYear = $("#prevYear");
-    const nextYear = $("#nextYear");
+    const calendarYear =
+        $("#calendarYear");
+
+    const calendarDays =
+        $$(".calendar-day");
+
+    const prevWeek =
+        $("#prevWeek");
+
+    const nextWeek =
+        $("#nextWeek");
+
+    const todayWeek =
+        $("#todayWeek");
+
+    const prevYear =
+        $("#prevYear");
+
+    const nextYear =
+        $("#nextYear");
 
     if (
         calendarDays.length &&
         calendarMonth
     ) {
 
+        /*
+         * dia:
+         *
+         * 0 = domingo
+         * 1 = segunda
+         * ...
+         * 6 = sábado
+         */
         const eventos = [
 
             {
                 dia: 0,
-                titulo: "Consagração",
-                horario: "08h30"
+                titulo:
+                    "Consagração",
+                horario:
+                    "08h30"
             },
 
             {
                 dia: 0,
-                titulo: "Escola Dominical",
-                horario: "09h30 – 11h00"
+                titulo:
+                    "Escola Dominical",
+                horario:
+                    "09h30 – 11h00"
             },
 
             {
                 dia: 0,
-                titulo: "Culto de Ação de Graças",
-                horario: "18h00 – 19h00"
+                titulo:
+                    "Culto de Ação de Graças",
+                horario:
+                    "18h00 – 19h00"
             },
 
             {
                 dia: 2,
-                titulo: "Culto de Conquistas",
-                horario: "20h00 – 21h00"
+                titulo:
+                    "Culto de Conquistas",
+                horario:
+                    "20h00 – 21h00"
             },
 
             {
                 dia: 3,
-                titulo: "Tarde de Bênção",
-                horario: "15h00 – 16h30"
+                titulo:
+                    "Tarde de Bênção",
+                horario:
+                    "15h00 – 16h30"
             },
 
             {
                 dia: 3,
-                titulo: "Intercessão",
-                horario: "20h00 – 21h00"
+                titulo:
+                    "Intercessão",
+                horario:
+                    "20h00 – 21h00"
             },
 
             {
                 dia: 5,
-                titulo: "Culto ao Espírito Santo",
-                horario: "20h00 – 21h00"
+                titulo:
+                    "Culto ao Espírito Santo",
+                horario:
+                    "20h00 – 21h00"
             },
 
             {
                 dia: 6,
-                titulo: "Culto dos Jovens",
-                horario: "19h00 – 20h00"
+                titulo:
+                    "Culto dos Jovens",
+                horario:
+                    "19h00 – 20h00"
             }
         ];
 
-        let calendarDate = new Date();
+        let calendarDate =
+            new Date();
 
-        const inicioSemana = (date) => {
+        const inicioSemana = (
+            date
+        ) => {
 
             const result =
                 new Date(date);
@@ -1663,19 +2179,29 @@ document.addEventListener("DOMContentLoaded", () => {
             return result;
         };
 
-        const mesmaData = (a, b) =>
-            a.getFullYear() === b.getFullYear() &&
-            a.getMonth() === b.getMonth() &&
-            a.getDate() === b.getDate();
+        const mesmaData = (
+            a,
+            b
+        ) =>
+            a.getFullYear() ===
+                b.getFullYear() &&
+            a.getMonth() ===
+                b.getMonth() &&
+            a.getDate() ===
+                b.getDate();
 
-        const formatarMes = (date) => {
+        const formatarMes = (
+            date
+        ) => {
 
             const value =
                 date.toLocaleDateString(
                     "pt-BR",
                     {
-                        month: "long",
-                        year: "numeric"
+                        month:
+                            "long",
+                        year:
+                            "numeric"
                     }
                 );
 
@@ -1688,24 +2214,36 @@ document.addEventListener("DOMContentLoaded", () => {
         const renderizarCalendario = () => {
 
             const inicio =
-                inicioSemana(calendarDate);
+                inicioSemana(
+                    calendarDate
+                );
 
             const hoje =
                 new Date();
 
             calendarMonth.textContent =
-                formatarMes(inicio);
+                formatarMes(
+                    inicio
+                );
 
             if (calendarYear) {
+
                 calendarYear.textContent =
-                    inicio.getFullYear();
+                    String(
+                        inicio.getFullYear()
+                    );
             }
 
             calendarDays.forEach(
-                (card, index) => {
+                (
+                    card,
+                    index
+                ) => {
 
                     const date =
-                        new Date(inicio);
+                        new Date(
+                            inicio
+                        );
 
                     date.setDate(
                         inicio.getDate() +
@@ -1713,20 +2251,40 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
                     const number =
-                        $(".day-number", card);
+                        $(
+                            ".day-number",
+                            card
+                        );
 
                     const container =
-                        $(".day-events", card);
+                        $(
+                            ".day-events",
+                            card
+                        );
 
                     if (number) {
+
                         number.textContent =
-                            date.getDate();
+                            String(
+                                date.getDate()
+                            );
                     }
 
                     card.classList.toggle(
                         "today",
-                        mesmaData(date, hoje)
+                        mesmaData(
+                            date,
+                            hoje
+                        )
                     );
+
+                    /*
+                     * Guarda a data no elemento,
+                     * caso o CSS/HTML precise dela.
+                     */
+                    card.dataset.date =
+                        date.toISOString()
+                            .split("T")[0];
 
                     if (!container) {
                         return;
@@ -1741,7 +2299,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                 date.getDay()
                         );
 
-                    if (!eventosDoDia.length) {
+                    if (
+                        !eventosDoDia.length
+                    ) {
 
                         const empty =
                             document.createElement(
@@ -1762,7 +2322,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
 
                     eventosDoDia.forEach(
-                        evento => {
+                        (evento) => {
 
                             const item =
                                 document.createElement(
@@ -1807,7 +2367,8 @@ document.addEventListener("DOMContentLoaded", () => {
             () => {
 
                 calendarDate.setDate(
-                    calendarDate.getDate() - 7
+                    calendarDate.getDate() -
+                    7
                 );
 
                 renderizarCalendario();
@@ -1819,7 +2380,8 @@ document.addEventListener("DOMContentLoaded", () => {
             () => {
 
                 calendarDate.setDate(
-                    calendarDate.getDate() + 7
+                    calendarDate.getDate() +
+                    7
                 );
 
                 renderizarCalendario();
@@ -1830,7 +2392,8 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             () => {
 
-                calendarDate = new Date();
+                calendarDate =
+                    new Date();
 
                 renderizarCalendario();
             }
@@ -1841,7 +2404,8 @@ document.addEventListener("DOMContentLoaded", () => {
             () => {
 
                 calendarDate.setFullYear(
-                    calendarDate.getFullYear() - 1
+                    calendarDate.getFullYear() -
+                    1
                 );
 
                 renderizarCalendario();
@@ -1853,7 +2417,8 @@ document.addEventListener("DOMContentLoaded", () => {
             () => {
 
                 calendarDate.setFullYear(
-                    calendarDate.getFullYear() + 1
+                    calendarDate.getFullYear() +
+                    1
                 );
 
                 renderizarCalendario();
@@ -1866,48 +2431,88 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ========================================================
        FG NEWS
-    ======================================================== */
+       ======================================================== */
 
-    const noticiaContainer = $("#noticia");
-    const pontosContainer = $("#pontos");
-    const fgPrev = $("#fgPrev");
-    const fgNext = $("#fgNext");
-    const fgNews = $(".fg-news");
+    const noticiaContainer =
+        $("#noticia");
+
+    const pontosContainer =
+        $("#pontos");
+
+    const fgPrev =
+        $("#fgPrev");
+
+    const fgNext =
+        $("#fgNext");
+
+    const fgNews =
+        $(".fg-news");
 
     let noticias = [];
     let noticiaAtual = 0;
     let newsTimer = null;
+    let newsRequestController = null;
 
     const noticiasPadrao = [
 
         {
-            titulo: "Notícias do mundo cristão",
+            titulo:
+                "Notícias do mundo cristão",
+
             descricao:
                 "Acompanhe as principais notícias do mundo cristão.",
-            categoria: "FG News",
-            data: "Folha Gospel",
-            imagem: "",
-            link: "https://folhagospel.com/"
+
+            categoria:
+                "FG News",
+
+            data:
+                "Folha Gospel",
+
+            imagem:
+                "",
+
+            link:
+                "https://folhagospel.com/"
         },
 
         {
-            titulo: "Igrejas e cristãos em destaque",
+            titulo:
+                "Igrejas e cristãos em destaque",
+
             descricao:
                 "Confira acontecimentos recentes relacionados à fé cristã.",
-            categoria: "FG News",
-            data: "Folha Gospel",
-            imagem: "",
-            link: "https://folhagospel.com/"
+
+            categoria:
+                "FG News",
+
+            data:
+                "Folha Gospel",
+
+            imagem:
+                "",
+
+            link:
+                "https://folhagospel.com/"
         },
 
         {
-            titulo: "Fé, igreja e atualidades",
+            titulo:
+                "Fé, igreja e atualidades",
+
             descricao:
                 "Informação sobre igreja, sociedade e vida cristã.",
-            categoria: "FG News",
-            data: "Folha Gospel",
-            imagem: "",
-            link: "https://folhagospel.com/"
+
+            categoria:
+                "FG News",
+
+            data:
+                "Folha Gospel",
+
+            imagem:
+                "",
+
+            link:
+                "https://folhagospel.com/"
         }
     ];
 
@@ -1915,7 +2520,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (newsTimer !== null) {
 
-            clearInterval(newsTimer);
+            window.clearInterval(
+                newsTimer
+            );
 
             newsTimer = null;
         }
@@ -1929,12 +2536,22 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        if (
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches
+        ) {
+            return;
+        }
+
         newsTimer =
-            setInterval(
+            window.setInterval(
                 () => {
+
                     mostrarNoticia(
                         noticiaAtual + 1
                     );
+
                 },
                 7000
             );
@@ -1942,64 +2559,157 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const atualizarPontos = () => {
 
-        if (!pontosContainer) return;
+        if (!pontosContainer) {
+            return;
+        }
 
         $$(".fg-ponto", pontosContainer)
-            .forEach((point, index) => {
+            .forEach(
+                (
+                    point,
+                    index
+                ) => {
 
-                const active =
-                    index === noticiaAtual;
+                    const active =
+                        index ===
+                        noticiaAtual;
 
-                point.classList.toggle(
-                    "ativo",
-                    active
-                );
+                    point.classList.toggle(
+                        "ativo",
+                        active
+                    );
 
-                point.setAttribute(
-                    "aria-current",
-                    active ? "true" : "false"
-                );
-            });
+                    point.setAttribute(
+                        "aria-current",
+                        active
+                            ? "true"
+                            : "false"
+                    );
+                }
+            );
     };
 
     const criarPontos = () => {
 
-        if (!pontosContainer) return;
+        if (!pontosContainer) {
+            return;
+        }
 
         pontosContainer.replaceChildren();
 
-        noticias.forEach((_, index) => {
+        noticias.forEach(
+            (
+                _,
+                index
+            ) => {
 
-            const button =
-                document.createElement("button");
+                const button =
+                    document.createElement(
+                        "button"
+                    );
 
-            button.type = "button";
+                button.type =
+                    "button";
 
-            button.className = "fg-ponto";
+                button.className =
+                    "fg-ponto";
 
-            button.setAttribute(
-                "aria-label",
-                `Ir para a notícia ${index + 1}`
-            );
+                button.setAttribute(
+                    "aria-label",
+                    `Ir para a notícia ${index + 1}`
+                );
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    mostrarNoticia(index);
-                    iniciarNoticias();
-                }
-            );
+                        mostrarNoticia(
+                            index
+                        );
 
-            pontosContainer.appendChild(
-                button
-            );
-        });
+                        iniciarNoticias();
+                    }
+                );
+
+                pontosContainer.appendChild(
+                    button
+                );
+            }
+        );
 
         atualizarPontos();
     };
 
-    const mostrarNoticia = (index = noticiaAtual) => {
+    const criarImagemSegura = (
+        noticia
+    ) => {
+
+        const imageBox =
+            document.createElement(
+                "div"
+            );
+
+        imageBox.className =
+            "fg-imagem";
+
+        const imageURL =
+            safeText(
+                noticia.imagem
+            );
+
+        if (!imageURL) {
+
+            imageBox.classList.add(
+                "sem-imagem"
+            );
+
+            return imageBox;
+        }
+
+        const img =
+            document.createElement(
+                "img"
+            );
+
+        img.src =
+            imageURL;
+
+        img.alt =
+            safeText(
+                noticia.titulo
+            );
+
+        img.loading =
+            "lazy";
+
+        img.decoding =
+            "async";
+
+        img.addEventListener(
+            "error",
+            () => {
+
+                imageBox.classList.add(
+                    "sem-imagem"
+                );
+
+                img.remove();
+            },
+            {
+                once: true
+            }
+        );
+
+        imageBox.appendChild(
+            img
+        );
+
+        return imageBox;
+    };
+
+    const mostrarNoticia = (
+        index = noticiaAtual
+    ) => {
 
         if (
             !noticiaContainer ||
@@ -2010,110 +2720,99 @@ document.addEventListener("DOMContentLoaded", () => {
 
         noticiaAtual =
             (
-                index + noticias.length
-            ) % noticias.length;
+                index +
+                noticias.length
+            ) %
+            noticias.length;
 
         const noticia =
-            noticias[noticiaAtual];
+            noticias[
+                noticiaAtual
+            ];
 
         const article =
-            document.createElement("article");
+            document.createElement(
+                "article"
+            );
 
         article.className =
             "fg-card";
 
         const imageBox =
-            document.createElement("div");
-
-        imageBox.className =
-            "fg-imagem";
-
-        if (noticia.imagem) {
-
-            const img =
-                document.createElement("img");
-
-            img.src =
-                noticia.imagem;
-
-            img.alt =
-                safeText(noticia.titulo);
-
-            img.loading =
-                "lazy";
-
-            img.decoding =
-                "async";
-
-            img.addEventListener(
-                "error",
-                () => {
-
-                    imageBox.classList.add(
-                        "sem-imagem"
-                    );
-
-                    img.remove();
-                }
+            criarImagemSegura(
+                noticia
             );
-
-            imageBox.appendChild(img);
-
-        } else {
-
-            imageBox.classList.add(
-                "sem-imagem"
-            );
-        }
 
         const content =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         content.className =
             "fg-conteudo";
 
         const category =
-            document.createElement("span");
+            document.createElement(
+                "span"
+            );
 
         category.className =
             "fg-categoria";
 
         category.textContent =
-            noticia.categoria ||
+            safeText(
+                noticia.categoria
+            ) ||
             "FG News";
 
         const title =
-            document.createElement("h2");
+            document.createElement(
+                "h2"
+            );
 
         title.textContent =
-            noticia.titulo ||
+            safeText(
+                noticia.titulo
+            ) ||
             "Notícia";
 
         const description =
-            document.createElement("p");
+            document.createElement(
+                "p"
+            );
 
         description.textContent =
-            noticia.descricao ||
+            safeText(
+                noticia.descricao
+            ) ||
             "Confira esta notícia.";
 
         const date =
-            document.createElement("span");
+            document.createElement(
+                "span"
+            );
 
         date.className =
             "fg-data";
 
         date.textContent =
-            noticia.data ||
+            safeText(
+                noticia.data
+            ) ||
             "Folha Gospel";
 
         const link =
-            document.createElement("a");
+            document.createElement(
+                "a"
+            );
 
         link.className =
             "fg-ler";
 
         link.href =
-            noticia.link ||
+            safeText(
+                noticia.link
+            ) ||
             "https://folhagospel.com/";
 
         link.target =
@@ -2147,7 +2846,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const proximaNoticia = () => {
 
-        if (!noticias.length) return;
+        if (!noticias.length) {
+            return;
+        }
 
         mostrarNoticia(
             noticiaAtual + 1
@@ -2156,7 +2857,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const noticiaAnterior = () => {
 
-        if (!noticias.length) return;
+        if (!noticias.length) {
+            return;
+        }
 
         mostrarNoticia(
             noticiaAtual - 1
@@ -2168,6 +2871,7 @@ document.addEventListener("DOMContentLoaded", () => {
         () => {
 
             proximaNoticia();
+
             iniciarNoticias();
         }
     );
@@ -2177,6 +2881,7 @@ document.addEventListener("DOMContentLoaded", () => {
         () => {
 
             noticiaAnterior();
+
             iniciarNoticias();
         }
     );
@@ -2210,10 +2915,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
-    const extrairTexto = (html) => {
+    const extrairTexto = (
+        html
+    ) => {
 
         const temp =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         temp.innerHTML =
             html || "";
@@ -2226,8 +2935,46 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     };
 
+    const obterDataPublicacao = (
+        value
+    ) => {
+
+        if (!value) {
+            return "Folha Gospel";
+        }
+
+        const date =
+            new Date(value);
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+            return "Folha Gospel";
+        }
+
+        return date.toLocaleDateString(
+            "pt-BR"
+        );
+    };
+
     const carregarNoticias = async () => {
 
+        /*
+         * Cancela carregamento anterior.
+         */
+        if (newsRequestController) {
+
+            newsRequestController.abort();
+        }
+
+        newsRequestController =
+            new AbortController();
+
+        /*
+         * Sempre existe um fallback visual.
+         */
         noticias =
             [...noticiasPadrao];
 
@@ -2235,6 +2982,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         criarPontos();
         mostrarNoticia();
+
+        const timeoutId =
+            window.setTimeout(
+                () => {
+
+                    newsRequestController?.abort();
+
+                },
+                15000
+            );
 
         try {
 
@@ -2245,18 +3002,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const url =
                 `https://api.rss2json.com/v1/api.json` +
-                `?rss_url=${feed}&count=10`;
+                `?rss_url=${feed}` +
+                `&count=10`;
 
             const response =
                 await fetch(
                     url,
                     {
-                        method: "GET",
-                        cache: "no-store"
+                        method:
+                            "GET",
+
+                        cache:
+                            "no-store",
+
+                        headers: {
+                            Accept:
+                                "application/json"
+                        },
+
+                        signal:
+                            newsRequestController.signal
                     }
                 );
 
             if (!response.ok) {
+
                 throw new Error(
                     `HTTP ${response.status}`
                 );
@@ -2266,9 +3036,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 await response.json();
 
             if (
-                !Array.isArray(data.items) ||
+                !Array.isArray(
+                    data?.items
+                ) ||
                 !data.items.length
             ) {
+
                 throw new Error(
                     "Feed vazio."
                 );
@@ -2276,68 +3049,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const novas =
                 data.items
-                    .map(item => {
+                    .map(
+                        (item) => {
 
-                        const descricao =
-                            extrairTexto(
-                                item.description
-                            );
-
-                        let dataPublicacao =
-                            "Folha Gospel";
-
-                        if (item.pubDate) {
-
-                            const date =
-                                new Date(
-                                    item.pubDate
+                            const descricao =
+                                extrairTexto(
+                                    item.description
                                 );
 
-                            if (
-                                !Number.isNaN(
-                                    date.getTime()
-                                )
-                            ) {
+                            return {
 
-                                dataPublicacao =
-                                    date.toLocaleDateString(
-                                        "pt-BR"
-                                    );
-                            }
+                                titulo:
+                                    safeText(
+                                        item.title
+                                    ) ||
+                                    "Notícia",
+
+                                descricao:
+                                    descricao.slice(
+                                        0,
+                                        180
+                                    ),
+
+                                categoria:
+                                    "Notícias Gospel",
+
+                                data:
+                                    obterDataPublicacao(
+                                        item.pubDate
+                                    ),
+
+                                imagem:
+                                    safeText(
+                                        item.thumbnail
+                                    ) ||
+                                    safeText(
+                                        item.enclosure?.link
+                                    ) ||
+                                    "",
+
+                                link:
+                                    safeText(
+                                        item.link
+                                    ) ||
+                                    "https://folhagospel.com/"
+                            };
                         }
-
-                        return {
-
-                            titulo:
-                                safeText(
-                                    item.title
-                                ) ||
-                                "Notícia",
-
-                            descricao:
-                                descricao.slice(
-                                    0,
-                                    180
-                                ),
-
-                            categoria:
-                                "Notícias Gospel",
-
-                            data:
-                                dataPublicacao,
-
-                            imagem:
-                                item.thumbnail ||
-                                item.enclosure?.link ||
-                                "",
-
-                            link:
-                                item.link ||
-                                "https://folhagospel.com/"
-                        };
-                    })
+                    )
                     .filter(
-                        item =>
+                        (item) =>
                             item.titulo &&
                             item.link
                     );
@@ -2355,16 +3115,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (error) {
 
-            console.warn(
-                "Não foi possível carregar o feed de notícias:",
-                error
-            );
+            if (
+                error?.name !==
+                "AbortError"
+            ) {
+
+                console.warn(
+                    "Não foi possível carregar o feed de notícias:",
+                    error
+                );
+            }
 
         } finally {
+
+            window.clearTimeout(
+                timeoutId
+            );
+
+            newsRequestController =
+                null;
 
             iniciarNoticias();
         }
     };
+
+    let newsRefreshTimer =
+        null;
 
     if (noticiaContainer) {
 
@@ -2373,26 +3149,22 @@ document.addEventListener("DOMContentLoaded", () => {
         /*
          * Atualização a cada 30 minutos.
          */
-        setInterval(
-            carregarNoticias,
-            30 * 60 * 1000
-        );
+        newsRefreshTimer =
+            window.setInterval(
+                carregarNoticias,
+                30 * 60 * 1000
+            );
     }
 
 
     /* ========================================================
        YOUTUBE
-    ======================================================== */
+       ======================================================== */
 
-    /*
-     * Compatibilidade com iframes existentes.
-     *
-     * Não substituímos automaticamente os vídeos porque
-     * o ID do canal/vídeo precisa vir do HTML.
-     */
-
-    $$("iframe[src*='youtube.com'], iframe[src*='youtu.be']")
-        .forEach((iframe) => {
+    $$(
+        "iframe[src*='youtube.com'], iframe[src*='youtu.be']"
+    ).forEach(
+        (iframe) => {
 
             iframe.setAttribute(
                 "loading",
@@ -2401,7 +3173,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             iframe.setAttribute(
                 "title",
-                iframe.getAttribute("title") ||
+                iframe.getAttribute(
+                    "title"
+                ) ||
                 "Vídeo da Igreja"
             );
 
@@ -2414,105 +3188,535 @@ document.addEventListener("DOMContentLoaded", () => {
                 "allowfullscreen",
                 ""
             );
-        });
+        }
+    );
 
 
     /* ========================================================
        LINKS EXTERNOS
-    ======================================================== */
+       ======================================================== */
 
-    $$("a[target='_blank']").forEach((link) => {
+    $$(
+        "a[target='_blank']"
+    ).forEach(
+        (link) => {
 
-        const rel =
-            link.getAttribute("rel") || "";
+            const rel =
+                link.getAttribute(
+                    "rel"
+                ) || "";
 
-        if (!rel.includes("noopener")) {
+            const tokens =
+                rel
+                    .split(/\s+/)
+                    .filter(Boolean);
+
+            if (
+                !tokens.includes(
+                    "noopener"
+                )
+            ) {
+                tokens.push(
+                    "noopener"
+                );
+            }
+
+            if (
+                !tokens.includes(
+                    "noreferrer"
+                )
+            ) {
+                tokens.push(
+                    "noreferrer"
+                );
+            }
+
             link.setAttribute(
                 "rel",
-                `${rel} noopener noreferrer`.trim()
+                tokens.join(" ")
             );
         }
-    });
+    );
+
+
+        /* ========================================================
+   HERO — 3 VÍDEOS EM LOOP INFINITO
+   ======================================================== */
+
+const heroVideos = $$(".hero-video-item");
+const heroVideoSection = $(".hero-video");
+const videoProgress = $(".video-progress");
+
+let videoAtual = 0;
+let videoTrocaTimer = null;
+let videoProgressAnimation = null;
+
+
+/*
+ * Mostra somente o vídeo atual.
+ */
+const mostrarVideo = (index) => {
+
+    if (!heroVideos.length) {
+        return;
+    }
+
+    videoAtual =
+        (index + heroVideos.length) %
+        heroVideos.length;
+
+    heroVideos.forEach(
+        (video, indexAtual) => {
+
+            const ativo =
+                indexAtual === videoAtual;
+
+            video.classList.toggle(
+                "active",
+                ativo
+            );
+
+            video.setAttribute(
+                "aria-hidden",
+                String(!ativo)
+            );
+        }
+    );
+};
+
+
+/*
+ * Reinicia a barra de progresso.
+ */
+const iniciarProgressoVideo = (video) => {
+
+    if (!videoProgress) {
+        return;
+    }
+
+    if (videoProgressAnimation) {
+
+        cancelAnimationFrame(
+            videoProgressAnimation
+        );
+
+        videoProgressAnimation = null;
+    }
+
+    videoProgress.style.width = "0%";
+
+    const atualizar = () => {
+
+        if (
+            !video ||
+            !video.duration ||
+            !Number.isFinite(
+                video.duration
+            )
+        ) {
+            return;
+        }
+
+        const porcentagem =
+            Math.min(
+                100,
+                (
+                    video.currentTime /
+                    video.duration
+                ) * 100
+            );
+
+        videoProgress.style.width =
+            `${porcentagem}%`;
+
+        if (
+            !video.paused &&
+            !video.ended
+        ) {
+
+            videoProgressAnimation =
+                requestAnimationFrame(
+                    atualizar
+                );
+        }
+    };
+
+    atualizar();
+};
+
+
+/*
+ * Vai para o próximo vídeo.
+ */
+const proximoVideo = async () => {
+
+    if (!heroVideos.length) {
+        return;
+    }
+
+    const videoAtualElement =
+        heroVideos[videoAtual];
+
+    if (videoAtualElement) {
+
+        videoAtualElement.pause();
+
+        videoAtualElement.currentTime = 0;
+    }
+
+    const proximoIndex =
+        (
+            videoAtual + 1
+        ) %
+        heroVideos.length;
+
+    mostrarVideo(
+        proximoIndex
+    );
+
+    const proximo =
+        heroVideos[proximoIndex];
+
+    if (!proximo) {
+        return;
+    }
+
+    try {
+
+        proximo.currentTime = 0;
+
+    } catch {
+        // Ignora caso o navegador ainda não permita alterar o tempo.
+    }
+
+    try {
+
+        await proximo.play();
+
+        iniciarProgressoVideo(
+            proximo
+        );
+
+    } catch (error) {
+
+        console.warn(
+            "Não foi possível reproduzir o vídeo:",
+            error
+        );
+    }
+};
+
+
+/*
+ * Quando um vídeo termina,
+ * automaticamente chama o próximo.
+ */
+heroVideos.forEach(
+    (video) => {
+
+        video.addEventListener(
+            "ended",
+            () => {
+
+                proximoVideo();
+
+            }
+        );
+
+        video.addEventListener(
+            "play",
+            () => {
+
+                iniciarProgressoVideo(
+                    video
+                );
+
+            }
+        );
+    }
+);
+
+
+/*
+ * Inicia o primeiro vídeo.
+ */
+const iniciarVideosHero = async () => {
+
+    if (!heroVideos.length) {
+        return;
+    }
+
+    mostrarVideo(0);
+
+    const primeiro =
+        heroVideos[0];
+
+    primeiro.muted = true;
+    primeiro.playsInline = true;
+
+    try {
+
+        primeiro.currentTime = 0;
+
+    } catch {
+        // Ignora.
+    }
+
+    try {
+
+        await primeiro.play();
+
+        iniciarProgressoVideo(
+            primeiro
+        );
+
+    } catch (error) {
+
+        console.warn(
+            "Autoplay do vídeo bloqueado:",
+            error
+        );
+
+        /*
+         * Tenta novamente quando o usuário
+         * interagir com a página.
+         */
+        const iniciarComInteracao = () => {
+
+            primeiro.play()
+                .then(() => {
+
+                    iniciarProgressoVideo(
+                        primeiro
+                    );
+
+                })
+                .catch(() => {
+                    // Navegador continua bloqueando autoplay.
+                });
+
+            document.removeEventListener(
+                "click",
+                iniciarComInteracao
+            );
+
+            document.removeEventListener(
+                "touchstart",
+                iniciarComInteracao
+            );
+        };
+
+        document.addEventListener(
+            "click",
+            iniciarComInteracao,
+            {
+                once: true
+            }
+        );
+
+        document.addEventListener(
+            "touchstart",
+            iniciarComInteracao,
+            {
+                once: true,
+                passive: true
+            }
+        );
+    }
+};
+
+
+/*
+ * Inicia o sistema.
+ */
+iniciarVideosHero();
 
 
     /* ========================================================
        IMAGENS
-    ======================================================== */
+       ======================================================== */
 
-    $$("img").forEach((image, index) => {
+    $$("img").forEach(
+        (image, index) => {
 
-        image.decoding =
-            image.decoding || "async";
+            image.decoding =
+                image.decoding ||
+                "async";
 
-        /*
-         * A primeira imagem pode continuar eager
-         * para evitar piora do carregamento inicial.
-         */
-        if (index > 0) {
-            image.loading =
-                image.loading || "lazy";
+            /*
+             * Não força lazy na primeira imagem.
+             * Isso preserva o carregamento inicial do hero.
+             */
+            if (
+                index > 0 &&
+                !image.hasAttribute(
+                    "loading"
+                )
+            ) {
+
+                image.loading =
+                    "lazy";
+            }
         }
-    });
+    );
 
 
     /* ========================================================
        SMOOTH SCROLL
-    ======================================================== */
+       ======================================================== */
 
-    $$("a[href^='#']").forEach((link) => {
+    $$(
+        "a[href^='#']"
+    ).forEach(
+        (link) => {
 
-        link.addEventListener(
-            "click",
-            (event) => {
+            link.addEventListener(
+                "click",
+                (event) => {
 
-                const href =
-                    link.getAttribute("href");
+                    const href =
+                        link.getAttribute(
+                            "href"
+                        );
 
-                if (
-                    !href ||
-                    href === "#"
-                ) {
-                    return;
+                    if (
+                        !href ||
+                        href === "#"
+                    ) {
+                        return;
+                    }
+
+                    /*
+                     * Evita quebrar o script
+                     * caso o href contenha caracteres
+                     * inválidos para querySelector.
+                     */
+                    let target = null;
+
+                    try {
+
+                        target =
+                            document.querySelector(
+                                href
+                            );
+
+                    } catch {
+                        return;
+                    }
+
+                    if (!target) {
+                        return;
+                    }
+
+                    event.preventDefault();
+
+                    const reduceMotion =
+                        window.matchMedia(
+                            "(prefers-reduced-motion: reduce)"
+                        ).matches;
+
+                    target.scrollIntoView({
+                        behavior:
+                            reduceMotion
+                                ? "auto"
+                                : "smooth",
+                        block:
+                            "start"
+                    });
+
+                    /*
+                     * Atualiza a URL sem recarregar
+                     * a página.
+                     */
+                    try {
+
+                        history.pushState(
+                            null,
+                            "",
+                            href
+                        );
+
+                    } catch {
+                        // Ignora navegadores restritivos.
+                    }
                 }
-
-                const target =
-                    document.querySelector(href);
-
-                if (!target) {
-                    return;
-                }
-
-                event.preventDefault();
-
-                target.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-            }
-        );
-    });
+            );
+        }
+    );
 
 
     /* ========================================================
-       REDUZIR ANIMAÇÕES PARA ACESSIBILIDADE
-    ======================================================== */
+       ACESSIBILIDADE — REDUÇÃO DE MOVIMENTO
+       ======================================================== */
 
     const prefersReducedMotion =
         window.matchMedia(
             "(prefers-reduced-motion: reduce)"
         );
 
-    if (prefersReducedMotion.matches) {
+    const atualizarMovimento = (
+        reduced
+    ) => {
 
-        pararSlider();
-        pararNoticias();
+        if (reduced) {
+
+            pararSlider();
+            pararNoticias();
+
+        } else {
+
+            iniciarSlider();
+            iniciarNoticias();
+        }
+    };
+
+    if (
+        prefersReducedMotion.addEventListener
+    ) {
+
+        prefersReducedMotion.addEventListener(
+            "change",
+            (event) => {
+
+                atualizarMovimento(
+                    event.matches
+                );
+            }
+        );
+
+    } else if (
+        prefersReducedMotion.addListener
+    ) {
+
+        /*
+         * Compatibilidade com navegadores antigos.
+         */
+        prefersReducedMotion.addListener(
+            (event) => {
+
+                atualizarMovimento(
+                    event.matches
+                );
+            }
+        );
     }
 
-    prefersReducedMotion.addEventListener?.(
-        "change",
-        (event) => {
 
-            if (event.matches) {
+    /* ========================================================
+       VISIBILIDADE DA PÁGINA
+       ======================================================== */
+
+    /*
+     * Evita deixar sliders e notícias rodando
+     * enquanto a aba estiver em segundo plano.
+     */
+    document.addEventListener(
+        "visibilitychange",
+        () => {
+
+            if (
+                document.hidden
+            ) {
 
                 pararSlider();
                 pararNoticias();
@@ -2527,15 +3731,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================================
-       FINALIZAÇÃO
-    ======================================================== */
+       LIMPEZA AO SAIR DA PÁGINA
+       ======================================================== */
 
-    document.documentElement.classList.add(
-        "js-ready"
+    window.addEventListener(
+        "pagehide",
+        () => {
+
+            pararSlider();
+            pararNoticias();
+
+            if (
+                newsRefreshTimer !== null
+            ) {
+
+                window.clearInterval(
+                    newsRefreshTimer
+                );
+
+                newsRefreshTimer = null;
+            }
+
+            if (
+                newsRequestController
+            ) {
+
+                newsRequestController.abort();
+
+                newsRequestController =
+                    null;
+            }
+
+            if (
+                bibleRequestController
+            ) {
+
+                bibleRequestController.abort();
+
+                bibleRequestController =
+                    null;
+            }
+
+            if (
+                welcomeTimer !== null
+            ) {
+
+                window.clearTimeout(
+                    welcomeTimer
+                );
+
+                welcomeTimer = null;
+            }
+        }
     );
 
-    console.log(
-        "IBRG: JavaScript carregado com sucesso."
-    );
 
 });

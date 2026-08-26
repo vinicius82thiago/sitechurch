@@ -43,7 +43,7 @@
 
         <a href="#inicio" class="logo-link" aria-label="Página inicial">
             <img
-                src="assets/images/logo.png"
+                src="../church/assets/images/logo.png"
                 class="logo"
                 alt="1 I.B.R.G."
                 width="190"
@@ -115,250 +115,65 @@
 <!-- =========================================================
      HERO / SLIDER COM VÍDEOS
 ========================================================= -->
+<section class="hero-video" id="inicio" aria-label="Apresentação da igreja">
 
-<section
-    class="hero hero-video"
-    id="inicio"
-    aria-label="Apresentação da igreja"
->
+    <div class="video-background">
 
-    <div class="slides">
-
-
-        <!-- =================================================
-             SLIDE 1
-        ================================================== -->
-
-        <article
-            class="slide active"
-            data-slide="0"
-            aria-label="Primeiro slide"
+        <video
+            class="hero-video-item active"
+            id="heroVideo1"
+            muted
+            playsinline
+            preload="auto"
+            autoplay
         >
+            <source src="../church/assets/videos/1.mp4" type="video/mp4">
+        </video>
 
-            <video
-                class="hero-video-background"
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                poster="assets/images/slide1.jpg"
-                aria-hidden="true"
-            >
-                <source
-                    src="assets/videos/slide1.mp4"
-                    type="video/mp4"
-                >
-
-                Seu navegador não suporta vídeos HTML5.
-            </video>
-
-            <div class="overlay"></div>
-
-            <div class="hero-content">
-
-                <span class="hero-label">
-                    1 I.B.R.G.
-                </span>
-
-
-                <h1>
-                    Uma comunidade baseada no amor de Cristo.
-                </h1>
-
-                <p>
-                    Um lugar para adorar, servir, crescer e caminhar juntos.
-                </p>
-
-                <a
-                    href="#sobre"
-                    class="button"
-                >
-                    Conheça nossa igreja
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- =================================================
-             SLIDE 2
-        ================================================== -->
-
-        <article
-            class="slide"
-            data-slide="1"
-            aria-label="Segundo slide"
+        <video
+            class="hero-video-item"
+            id="heroVideo2"
+            muted
+            playsinline
+            preload="auto"
         >
+            <source src="../church/assets/videos/2.mp4" type="video/mp4">
+        </video>
 
-            <video
-                class="hero-video-background"
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                poster="assets/images/slide2.jpg"
-                aria-hidden="true"
-            >
-                <source
-                    src="assets/videos/slide2.mp4"
-                    type="video/mp4"
-                >
-
-                Seu navegador não suporta vídeos HTML5.
-            </video>
-
-            <div class="overlay"></div>
-
-            <div class="hero-content">
-
-                <span class="hero-label">
-                    Nossa família
-                </span>
-
-
-                <h1>
-                    Venha fazer parte da nossa família.
-                </h1>
-
-                <p>
-                    Aqui existe um lugar para você.
-                </p>
-
-                <a
-                    href="#contato"
-                    class="button"
-                >
-                    Quero conhecer
-                </a>
-
-            </div>
-
-        </article>
-
-
-        <!-- =================================================
-             SLIDE 3
-        ================================================== -->
-
-        <article
-            class="slide"
-            data-slide="2"
-            aria-label="Terceiro slide"
+        <video
+            class="hero-video-item"
+            id="heroVideo3"
+            muted
+            playsinline
+            preload="auto"
         >
+            <source src="../church/assets/videos/3.mp4" type="video/mp4">
+        </video>
 
-            <video
-                class="hero-video-background"
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                poster="assets/images/slide3.jpg"
-                aria-hidden="true"
-            >
-                <source
-                    src="assets/videos/slide3.mp4"
-                    type="video/mp4"
-                >
-
-                Seu navegador não suporta vídeos HTML5.
-            </video>
-
-            <div class="overlay"></div>
-
-            <div class="hero-content">
-
-                <span class="hero-label">
-                    Servir e crescer
-                </span>
-
-        
-
-                <h1>
-                    Conheça nossos ministérios.
-                </h1>
-
-                <p>
-                    Descubra onde você pode servir e fazer a diferença.
-                </p>
-
-                <a
-                    href="#ministerios"
-                    class="button"
-                >
-                    Ver ministérios
-                </a>
-
-            </div>
-
-        </article>
+        <div class="video-overlay"></div>
 
     </div>
 
-
-    <!-- =====================================================
-         CONTROLES DO SLIDER
-    ====================================================== -->
-
-    <button
-        class="slider-button prev"
-        id="prevSlide"
-        type="button"
-        aria-label="Slide anterior"
-    >
-        <i
-            class="fa-solid fa-chevron-left"
-            aria-hidden="true"
-        ></i>
-    </button>
+    <div class="hero-video-content">
 
 
-    <button
-        class="slider-button next"
-        id="nextSlide"
-        type="button"
-        aria-label="Próximo slide"
-    >
-        <i
-            class="fa-solid fa-chevron-right"
-            aria-hidden="true"
-        ></i>
-    </button>
 
+        <h1>Jesus Cristo é o Senhor</h1>
 
-    <!-- =====================================================
-         INDICADORES
-    ====================================================== -->
+        <p>
+            “Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito,
+             para que todo aquele que nele crê não pereça, mas tenha a vida eterna.” — João 3:16
+        </p>
 
-    <div
-        class="slider-dots"
-        aria-label="Navegação dos slides"
-    >
+        <a href="#sobre" class="button">
+            Saiba Mais
+        </a>
 
-        <button
-            class="dot active"
-            type="button"
-            aria-label="Ir para o slide 1"
-            aria-current="true"
-            data-slide="0"
-        ></button>
+    </div>
 
-        <button
-            class="dot"
-            type="button"
-            aria-label="Ir para o slide 2"
-            data-slide="1"
-        ></button>
+    <div class="video-indicator">
 
-        <button
-            class="dot"
-            type="button"
-            aria-label="Ir para o slide 3"
-            data-slide="2"
-        ></button>
+        <span class="video-progress"></span>
 
     </div>
 
@@ -1135,7 +950,7 @@
                     ></i>
 
                     <h1>
-                           <a
+                           
                 <a href="assets/paginas/novoscristaos.html" class="button">
              Eu Aceito a JESUS!
             </a>
@@ -1665,7 +1480,7 @@
     id="cultos"
 >
 
-    <<div class="container">
+    <div class="container">
 
     <div class="section-heading cultos-heading">
 
