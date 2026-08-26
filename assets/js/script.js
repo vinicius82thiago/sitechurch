@@ -1,19 +1,6 @@
-"use strict";
-
-/*
- * ============================================================
- * IBRG — SCRIPT PRINCIPAL
- * Versão revisada e otimizada
- *
- * Compatível com o HTML existente.
- * ============================================================
- */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* ========================================================
-       HELPERS
-    ======================================================== */
 
     const $ = (selector, parent = document) =>
         parent.querySelector(selector);
@@ -2707,6 +2694,11 @@ document.addEventListener("DOMContentLoaded", () => {
         return imageBox;
     };
 
+
+
+
+
+    
     const mostrarNoticia = (
         index = noticiaAtual
     ) => {

@@ -774,65 +774,36 @@ textarea {
 }
 
 
-/* =========================================================
+//* =========================================================
    11. NOTÍCIAS
    ========================================================= */
-
-.fg-news {
-    width: min(var(--container), calc(100% - var(--container-padding)));
-
-    margin: 30px auto 0;
-    padding: 17px 22px;
-
-    border: 1px solid var(--border);
-    border-radius: 12px;
-
-    background: var(--cream-light);
-
-    box-shadow: 0 8px 25px rgba(60, 40, 20, 0.06);
-}
 
 .fg-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    gap: 20px;
+    padding: 0 0 10px;
 
-    margin-bottom: 12px;
+    color: #8a5a22;
 }
 
 .fg-header strong {
-    color: var(--brown);
-    font-size: 13px;
+    font-size: 18px;
 }
 
 .fg-header a {
-    color: var(--gold);
-
-    font-size: 12px;
+    color: #a87532;
+    text-decoration: none;
+    font-size: 14px;
     font-weight: 600;
 }
 
 .fg-slider {
+    position: relative;
     display: flex;
     align-items: center;
-
-    gap: 12px;
-}
-
-.fg-prev,
-.fg-next {
-    flex: 0 0 35px;
-
-    width: 35px;
-    height: 35px;
-
-    border: 1px solid var(--border);
-    border-radius: 50%;
-
-    background: var(--cream);
-    color: var(--brown);
+    gap: 10px;
 }
 
 #noticia {
@@ -840,21 +811,312 @@ textarea {
     min-width: 0;
 }
 
-.fg-loading {
-    color: var(--text-light);
+.fg-pontos {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 0 2px;
+}
+
+
+/* ---------------------------------------------------------
+   CABEÇALHO
+   --------------------------------------------------------- */
+
+.fg-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 7px;
+}
+
+.fg-header strong {
+    position: relative;
+
+    padding-left: 8px;
+
+    color: var(--brown);
 
     font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.fg-header strong::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 1px;
+
+    width: 3px;
+    height: 12px;
+
+    border-radius: 3px;
+
+    background: var(--gold);
+}
+
+.fg-header a {
+    flex-shrink: 0;
+
+    color: var(--gold);
+
+    font-size: 10px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.fg-header a:hover {
+    color: var(--brown);
+    opacity: 0.85;
+}
+
+
+/* ---------------------------------------------------------
+   SLIDER
+   --------------------------------------------------------- */
+
+.fg-slider {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+}
+
+
+/* ---------------------------------------------------------
+   BOTÕES
+   --------------------------------------------------------- */
+
+.fg-prev,
+.fg-next {
+    flex: 0 0 27px;
+
+    width: 27px;
+    height: 27px;
+
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--border);
+    border-radius: 50%;
+
+    background: var(--cream);
+    color: var(--brown);
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.fg-prev i,
+.fg-next i {
+    font-size: 8px;
+}
+
+.fg-prev:hover,
+.fg-next:hover {
+    border-color: var(--gold);
+
+    background: var(--gold);
+    color: #fff;
+
+    transform: scale(1.04);
+}
+
+.fg-prev:focus-visible,
+.fg-next:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+}
+
+
+/* ---------------------------------------------------------
+   ÁREA DA NOTÍCIA
+   --------------------------------------------------------- */
+
+#noticia {
+    flex: 1;
+    min-width: 0;
+
+    min-height: 56px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 6px 9px;
+
+    border-radius: 7px;
+
+    background: rgba(255, 255, 255, 0.45);
+
+    box-sizing: border-box;
+}
+
+
+/* ---------------------------------------------------------
+   IMAGEM DA NOTÍCIA
+   --------------------------------------------------------- */
+
+#noticia img {
+    width: 70px;
+    height: 46px;
+
+    flex: 0 0 70px;
+
+    object-fit: cover;
+
+    border-radius: 6px;
+}
+
+
+/* ---------------------------------------------------------
+   LINKS DA NOTÍCIA
+   --------------------------------------------------------- */
+
+#noticia a {
+    color: inherit;
+
+    text-decoration: none;
+}
+
+
+/* ---------------------------------------------------------
+   LOADING
+   --------------------------------------------------------- */
+
+.fg-loading {
+    width: 100%;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+    line-height: 1.3;
+
     text-align: center;
 }
+
+
+/* ---------------------------------------------------------
+   PONTOS DE NAVEGAÇÃO
+   --------------------------------------------------------- */
 
 .fg-pontos {
     display: flex;
     justify-content: center;
+    align-items: center;
 
-    gap: 6px;
+    gap: 4px;
 
-    margin-top: 12px;
+    margin-top: 6px;
 }
+
+.fg-pontos button,
+.fg-pontos span {
+    width: 5px;
+    height: 5px;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: var(--border);
+
+    cursor: pointer;
+
+    transition:
+        width 0.2s ease,
+        background 0.2s ease;
+}
+
+.fg-pontos .active {
+    width: 13px;
+
+    border-radius: 5px;
+
+    background: var(--gold);
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+    .fg-news {
+        width: calc(100% - 20px);
+
+        margin-top: 16px;
+        padding: 10px 11px;
+
+        border-radius: 9px;
+    }
+
+    .fg-header {
+        margin-bottom: 6px;
+    }
+
+    .fg-header strong {
+        font-size: 11px;
+    }
+
+    .fg-header a {
+        font-size: 9px;
+    }
+
+    .fg-slider {
+        gap: 5px;
+    }
+
+    .fg-prev,
+    .fg-next {
+        flex-basis: 24px;
+
+        width: 24px;
+        height: 24px;
+    }
+
+    .fg-prev i,
+    .fg-next i {
+        font-size: 7px;
+    }
+
+    #noticia {
+        min-height: 50px;
+
+        padding: 5px 7px;
+    }
+
+    #noticia img {
+        width: 62px;
+        height: 40px;
+
+        flex-basis: 62px;
+    }
+
+    .fg-pontos {
+        margin-top: 5px;
+    }
+}
+
 
 
 /* =========================================================
