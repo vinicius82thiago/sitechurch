@@ -2416,9 +2416,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ========================================================
-       FG NEWS
-       ======================================================== */
+    /* Notícias*/
 
     const noticiaContainer =
         $("#noticia");
@@ -2698,282 +2696,113 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    
-    const mostrarNoticia = (
-        index = noticiaAtual
-    ) => {
+    const mostrarNoticia = (index = noticiaAtual) => {
+    if (!noticiaContainer || !noticias.length) return;
 
-        if (
-            !noticiaContainer ||
-            !noticias.length
-        ) {
-            return;
-        }
+    noticiaAtual = (index + noticias.length) % noticias.length;
+    const noticia = noticias[noticiaAtual];
 
-        noticiaAtual =
-            (
-                index +
-                noticias.length
-            ) %
-            noticias.length;
+    const article = document.createElement("article");
+    article.className = "fg-card";
 
-        const noticia =
-            noticias[
-                noticiaAtual
-            ];
+    const imageBox = criarImagemSegura(noticia);
 
-        const article =
-            document.createElement(
-                "article"
-            );
+    const content = document.createElement("div");
+    content.className = "fg-conteudo";
 
-        article.className =
-            "fg-card";
+    const category = document.createElement("span");
+    category.className = "fg-categoria";
+    category.textContent = safeText(noticia.categoria) || "FG News";
 
-        const imageBox =
-            criarImagemSegura(
-                noticia
-            );
+    const title = document.createElement("h2");
+    title.textContent = safeText(noticia.titulo) || "Notícia";
 
-        const content =
-            document.createElement(
-                "div"
-            );
+    const description = document.createElement("p");
+    description.textContent = safeText(noticia.descricao) || "Confira esta notícia.";
 
-        content.className =
-            "fg-conteudo";
+    const date = document.createElement("span");
+    date.className = "fg-data";
+    date.textContent = safeText(noticia.data) || "Folha Gospel";
 
-        const category =
-            document.createElement(
-                "span"
-            );
+    const link = document.createElement("a");
+    link.className = "fg-ler";
+    link.href = safeText(noticia.link) || "https://folhagospel.com/";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "Ler notícia";
 
-        category.className =
-            "fg-categoria";
+    content.append(category, title, description, date, link);
+    article.append(imageBox, content);
 
-        category.textContent =
-            safeText(
-                noticia.categoria
-            ) ||
-            "FG News";
+    noticiaContainer.replaceChildren(article);
+    atualizarPontos();
+};
 
-        const title =
-            document.createElement(
-                "h2"
-            );
+const proximaNoticia = () => {
+    if (!noticias.length) return;
+    mostrarNoticia(noticiaAtual + 1);
+};
 
-        title.textContent =
-            safeText(
-                noticia.titulo
-            ) ||
-            "Notícia";
+const noticiaAnterior = () => {
+    if (!noticias.length) return;
+    mostrarNoticia(noticiaAtual - 1);
+};
 
-        const description =
-            document.createElement(
-                "p"
-            );
+fgNext?.addEventListener("click", () => {
+    proximaNoticia();
+    iniciarNoticias();
+});
 
-        description.textContent =
-            safeText(
-                noticia.descricao
-            ) ||
-            "Confira esta notícia.";
+fgPrev?.addEventListener("click", () => {
+    noticiaAnterior();
+    iniciarNoticias();
+});
 
-        const date =
-            document.createElement(
-                "span"
-            );
+fgNews?.addEventListener("mouseenter", pararNoticias);
+fgNews?.addEventListener("mouseleave", iniciarNoticias);
+fgNews?.addEventListener("focusin", pararNoticias);
 
-        date.className =
-            "fg-data";
+fgNews?.addEventListener("focusout", (event) => {
+    if (!fgNews.contains(event.relatedTarget)) {
+        iniciarNoticias();
+    }
+});
 
-        date.textContent =
-            safeText(
-                noticia.data
-            ) ||
-            "Folha Gospel";
+const extrairTexto = (html) => {
+    const temp = document.createElement("div");
+    temp.innerHTML = html || "";
 
-        const link =
-            document.createElement(
-                "a"
-            );
+    return safeText(temp.textContent).replace(/\s+/g, " ");
+};
 
-        link.className =
-            "fg-ler";
+const obterDataPublicacao = (value) => {
+    if (!value) return "Folha Gospel";
 
-        link.href =
-            safeText(
-                noticia.link
-            ) ||
-            "https://folhagospel.com/";
+    const date = new Date(value);
 
-        link.target =
-            "_blank";
+    if (Number.isNaN(date.getTime())) {
+        return "Folha Gospel";
+    }
 
-        link.rel =
-            "noopener noreferrer";
+    return date.toLocaleDateString("pt-BR");
+};
 
-        link.textContent =
-            "Ler notícia";
+const carregarNoticias = async () => {
+    /*
+     * Cancela carregamento anterior.
+     */
+    if (newsRequestController) {
+        newsRequestController.abort();
+    }
 
-        content.append(
-            category,
-            title,
-            description,
-            date,
-            link
-        );
+    newsRequestController = new AbortController();
 
-        article.append(
-            imageBox,
-            content
-        );
+    noticias = [...noticiasPadrao];
+    noticiaAtual = 0;
 
-        noticiaContainer.replaceChildren(
-            article
-        );
+    criarPontos();
+    mostrarNoticia();
 
-        atualizarPontos();
-    };
-
-    const proximaNoticia = () => {
-
-        if (!noticias.length) {
-            return;
-        }
-
-        mostrarNoticia(
-            noticiaAtual + 1
-        );
-    };
-
-    const noticiaAnterior = () => {
-
-        if (!noticias.length) {
-            return;
-        }
-
-        mostrarNoticia(
-            noticiaAtual - 1
-        );
-    };
-
-    fgNext?.addEventListener(
-        "click",
-        () => {
-
-            proximaNoticia();
-
-            iniciarNoticias();
-        }
-    );
-
-    fgPrev?.addEventListener(
-        "click",
-        () => {
-
-            noticiaAnterior();
-
-            iniciarNoticias();
-        }
-    );
-
-    fgNews?.addEventListener(
-        "mouseenter",
-        pararNoticias
-    );
-
-    fgNews?.addEventListener(
-        "mouseleave",
-        iniciarNoticias
-    );
-
-    fgNews?.addEventListener(
-        "focusin",
-        pararNoticias
-    );
-
-    fgNews?.addEventListener(
-        "focusout",
-        (event) => {
-
-            if (
-                !fgNews.contains(
-                    event.relatedTarget
-                )
-            ) {
-                iniciarNoticias();
-            }
-        }
-    );
-
-    const extrairTexto = (
-        html
-    ) => {
-
-        const temp =
-            document.createElement(
-                "div"
-            );
-
-        temp.innerHTML =
-            html || "";
-
-        return safeText(
-            temp.textContent
-        ).replace(
-            /\s+/g,
-            " "
-        );
-    };
-
-    const obterDataPublicacao = (
-        value
-    ) => {
-
-        if (!value) {
-            return "Folha Gospel";
-        }
-
-        const date =
-            new Date(value);
-
-        if (
-            Number.isNaN(
-                date.getTime()
-            )
-        ) {
-            return "Folha Gospel";
-        }
-
-        return date.toLocaleDateString(
-            "pt-BR"
-        );
-    };
-
-    const carregarNoticias = async () => {
-
-        /*
-         * Cancela carregamento anterior.
-         */
-        if (newsRequestController) {
-
-            newsRequestController.abort();
-        }
-
-        newsRequestController =
-            new AbortController();
-
-        /*
-         * Sempre existe um fallback visual.
-         */
-        noticias =
-            [...noticiasPadrao];
-
-        noticiaAtual = 0;
-
-        criarPontos();
-        mostrarNoticia();
 
         const timeoutId =
             window.setTimeout(
@@ -3148,10 +2977,10 @@ document.addEventListener("DOMContentLoaded", () => {
             );
     }
 
+/* Final Das Noticias */
 
-    /* ========================================================
-       YOUTUBE
-       ======================================================== */
+
+/* Youtube */
 
     $$(
         "iframe[src*='youtube.com'], iframe[src*='youtu.be']"

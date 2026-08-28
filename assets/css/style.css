@@ -1,11 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 /* =========================================================
-   1. VARIÁVEIS
+   VARIÁVEIS
    ========================================================= */
 
 :root {
-    /* Cores */
     --brown-dark: #2b1b10;
     --brown: #75451f;
     --brown-light: #9a6332;
@@ -22,32 +21,30 @@
 
     --dark-section: #171513;
 
-    --white: #ffffff;
-    --black: #000000;
+    --white: #fff;
+    --black: #000;
 
-    /* Bordas */
-    --border: rgba(168, 124, 59, 0.45);
-    --border-light: rgba(182, 139, 76, 0.2);
+    --border: rgba(168, 124, 59, .45);
+    --border-light: rgba(182, 139, 76, .2);
 
-    /* Sombras */
-    --shadow: 0 18px 45px rgba(65, 42, 20, 0.12);
-    --shadow-hover: 0 24px 55px rgba(65, 42, 20, 0.18);
+    --shadow: 0 18px 45px rgba(65, 42, 20, .12);
+    --shadow-hover: 0 24px 55px rgba(65, 42, 20, .18);
 
-    /* Layout */
     --container: 1180px;
     --container-padding: 40px;
+
     --radius: 18px;
     --radius-small: 8px;
-    --transition: 0.3s ease;
 
-    /* Tipografia */
+    --transition: .3s ease;
+
     --font-body: 'Poppins', sans-serif;
     --font-display: 'Cormorant Garamond', serif;
 }
 
 
 /* =========================================================
-   2. RESET / BASE
+   RESET
    ========================================================= */
 
 *,
@@ -64,12 +61,9 @@ html {
 
 body {
     min-width: 320px;
-
     overflow-x: hidden;
-
     background: #f8f5ef;
     color: var(--text);
-
     font-family: var(--font-body);
     line-height: 1.7;
 }
@@ -90,6 +84,7 @@ input,
 select,
 textarea {
     font: inherit;
+    -webkit-tap-highlight-color: transparent;
 }
 
 button {
@@ -110,33 +105,23 @@ section {
     scroll-margin-top: 90px;
 }
 
-button,
-a,
-input,
-select,
-textarea {
-    -webkit-tap-highlight-color: transparent;
+:focus-visible {
+    outline: 3px solid rgba(182, 139, 76, .55);
+    outline-offset: 3px;
 }
 
-
-/* =========================================================
-   3. CONTAINER
-   ========================================================= */
-
 .container {
-    width: min(var(--container), calc(100% - var(--container-padding)));
+    width: min(
+        var(--container),
+        calc(100% - (var(--container-padding) * 2))
+    );
     margin-inline: auto;
 }
 
 
 /* =========================================================
-   4. ACESSIBILIDADE
+   ACESSIBILIDADE
    ========================================================= */
-
-:focus-visible {
-    outline: 3px solid rgba(182, 139, 76, 0.55);
-    outline-offset: 3px;
-}
 
 @media (prefers-reduced-motion: reduce) {
     html {
@@ -146,22 +131,23 @@ textarea {
     *,
     *::before,
     *::after {
-        animation-duration: 0.01ms !important;
+        animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
         scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
+        transition-duration: .01ms !important;
     }
 }
 
 
 /* =========================================================
-   5. WELCOME BAR
+   WELCOME BAR
    ========================================================= */
 
 .welcome-bar {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1001;
 
     width: 100%;
     padding: 6px 15px;
@@ -175,62 +161,43 @@ textarea {
     font-weight: 600;
     letter-spacing: 2px;
 
-    z-index: 1001;
-
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, .5);
 
     animation: welcomeBarFade 4s ease forwards;
 }
 
 @keyframes welcomeBarFade {
-
-    0% {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    15% {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    70% {
-        opacity: 1;
-        visibility: visible;
-    }
-
+    0%,
     100% {
         opacity: 0;
         visibility: hidden;
     }
+
+    15%,
+    70% {
+        opacity: 1;
+        visibility: visible;
+    }
 }
 
 
-
-
 /* =========================================================
-   6. HEADER / NAVEGAÇÃO — TRANSPARENTE SOBRE O HERO
+   HEADER
    ========================================================= */
 
 .header {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1000;
 
     width: 100%;
 
-    z-index: 1000;
-
     background: transparent;
 
-
-
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-
     transition:
-        background 0.3s ease,
-        backdrop-filter 0.3s ease;
+        background .3s ease,
+        backdrop-filter .3s ease;
 }
 
 .nav-container {
@@ -243,17 +210,28 @@ textarea {
     gap: 30px;
 }
 
+
+/* LOGO */
+
 .logo {
-    width: 110px;
-    height: auto;
+    display: block;
+
+    width: 100px;
+    height: 100px;
+
+    max-width: 100%;
+
+    object-fit: contain;
 
     flex-shrink: 0;
 }
 
+
+/* NAVEGAÇÃO */
+
 .navigation ul {
     display: flex;
     align-items: center;
-
     gap: 24px;
 }
 
@@ -267,7 +245,7 @@ textarea {
     font-size: 13px;
     font-weight: 500;
 
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, .35);
 
     transition: color var(--transition);
 }
@@ -295,6 +273,9 @@ textarea {
     width: 100%;
 }
 
+
+/* MENU MOBILE */
+
 .menu-toggle {
     display: none;
 
@@ -304,28 +285,27 @@ textarea {
     align-items: center;
     justify-content: center;
 
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, .35);
     border-radius: var(--radius-small);
 
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, .15);
     color: var(--white);
 }
 
 
-
 /* =========================================================
-   7. BOTÕES
+   BOTÕES
    ========================================================= */
 
 .button {
+    min-height: 46px;
+    padding: 11px 22px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
     gap: 9px;
-
-    min-height: 46px;
-    padding: 11px 22px;
 
     border: 0;
     border-radius: 7px;
@@ -347,12 +327,12 @@ textarea {
 
     transform: translateY(-2px);
 
-    box-shadow: 0 8px 20px rgba(79, 45, 20, 0.2);
+    box-shadow: 0 8px 20px rgba(79, 45, 20, .2);
 }
 
 
 /* =========================================================
-   8. HERO / SLIDER
+   HERO
    ========================================================= */
 
 .hero {
@@ -384,7 +364,7 @@ textarea {
     opacity: 0;
     visibility: hidden;
 
-    transition: opacity 0.8s ease;
+    transition: opacity .8s ease;
 }
 
 .slide.active {
@@ -399,9 +379,9 @@ textarea {
     background:
         linear-gradient(
             90deg,
-            rgba(22, 13, 7, 0.78),
-            rgba(22, 13, 7, 0.40),
-            rgba(22, 13, 7, 0.12)
+            rgba(22, 13, 7, .78),
+            rgba(22, 13, 7, .40),
+            rgba(22, 13, 7, .12)
         );
 }
 
@@ -410,6 +390,7 @@ textarea {
     z-index: 2;
 
     width: min(720px, calc(100% - 40px));
+
     margin-inline: auto;
 
     color: var(--white);
@@ -422,10 +403,10 @@ textarea {
 
     color: var(--white);
 
-    font-size: 16px;
+    font-size: clamp(13px, 1.4vw, 16px);
     font-weight: 400;
-    letter-spacing: 3px;
 
+    letter-spacing: 3px;
     text-transform: uppercase;
 }
 
@@ -437,8 +418,9 @@ textarea {
     color: var(--white);
 
     font-family: var(--font-display);
-    font-size: clamp(45px, 6vw, 76px);
+    font-size: clamp(40px, 6vw, 76px);
     font-weight: 600;
+
     line-height: 1.05;
 }
 
@@ -449,19 +431,23 @@ textarea {
 
     color: var(--white);
 
-    font-size: 17px;
+    font-size: clamp(14px, 1.5vw, 17px);
 }
 
 
 /* =========================================================
-   HERO COM 3 VÍDEOS EM BACKGROUND
+   HERO VÍDEO
    ========================================================= */
 
 .hero-video {
     position: relative;
+
     width: 100%;
     min-height: 100vh;
+    min-height: 100svh;
+
     height: 100vh;
+    height: 100svh;
 
     overflow: hidden;
 
@@ -472,23 +458,21 @@ textarea {
     isolation: isolate;
 }
 
-/* Área que contém os vídeos */
 .video-background {
     position: absolute;
     inset: 0;
+    z-index: -2;
 
     width: 100%;
     height: 100%;
 
     overflow: hidden;
-
-    z-index: -2;
 }
 
-/* Cada vídeo ocupa absolutamente toda a tela */
 .hero-video-item {
     position: absolute;
     inset: 0;
+    z-index: 0;
 
     width: 100%;
     height: 100%;
@@ -496,95 +480,82 @@ textarea {
     min-width: 100%;
     min-height: 100%;
 
-    object-fit: cover;
-    object-position: center center;
-
     display: block;
+
+    object-fit: cover;
+    object-position: center;
 
     opacity: 0;
 
     transition: opacity 1s ease-in-out;
-
-    z-index: 0;
 }
 
-/* Vídeo atualmente ativo */
 .hero-video-item.active {
     opacity: 1;
 }
 
-/* Escurecimento do vídeo */
 .video-overlay {
     position: absolute;
     inset: 0;
+    z-index: 5;
 
     width: 100%;
     height: 100%;
 
-    z-index: 5;
-
     background:
         linear-gradient(
             90deg,
-            rgba(0, 0, 0, 0.62) 0%,
-            rgba(0, 0, 0, 0.35) 50%,
-            rgba(0, 0, 0, 0.58) 100%
+            rgba(0, 0, 0, .62) 0%,
+            rgba(0, 0, 0, .35) 50%,
+            rgba(0, 0, 0, .58) 100%
         );
 
     pointer-events: none;
 }
 
-/* =========================================================
-   CONTEÚDO CENTRALIZADO
-   ========================================================= */
-
 .hero-video-content {
     position: relative;
-
     z-index: 10;
 
     width: min(1100px, 90%);
 
     margin: 0 auto;
 
-    text-align: center;
-
-    color: #fff;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    color: var(--white);
+
+    text-align: center;
 }
 
 .hero-video-content .hero-label {
-    display: block;
-
     margin-bottom: 18px;
 
-    font-size: 1rem;
+    color: var(--white);
+
+    font-size: clamp(.8rem, 1.5vw, 1rem);
     font-weight: 700;
 
-    letter-spacing: 0.25em;
-
-    color: #fff;
+    letter-spacing: .25em;
 }
 
 .hero-video-content h1 {
-    max-width: 1000px;
+    max-width: 900px;
 
     margin: 0 auto 20px;
 
-    color: #fff;
+    color: var(--white);
 
-    font-size: clamp(2.2rem, 5vw, 4.8rem);
+    font-size: clamp(2rem, 5vw, 2.3rem);
 
     line-height: 1.05;
 
     text-align: center;
 
-    text-shadow:
-        0 3px 15px rgba(0, 0, 0, 0.55);
+    text-shadow: 0 3px 15px rgba(0, 0, 0, .55);
 }
 
 .hero-video-content p {
@@ -592,7 +563,7 @@ textarea {
 
     margin: 0 auto 30px;
 
-    color: #fff;
+    color: var(--white);
 
     font-size: clamp(1rem, 2vw, 1.3rem);
 
@@ -600,35 +571,26 @@ textarea {
 
     text-align: center;
 
-    text-shadow:
-        0 2px 10px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, .7);
 }
-
-/* =========================================================
-   BOTÃO
-   ========================================================= */
 
 .hero-video-content .button {
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
 
     padding: 15px 30px;
 
-    color: #fff;
-
+    color: var(--white);
     background: #8b4d1f;
 
     border-radius: 6px;
 
-    text-decoration: none;
-
     font-weight: 700;
 
     transition:
-        transform 0.3s ease,
-        background 0.3s ease;
+        transform .3s ease,
+        background .3s ease;
 }
 
 .hero-video-content .button:hover {
@@ -637,27 +599,21 @@ textarea {
     transform: translateY(-2px);
 }
 
-/* =========================================================
-   INDICADOR
-   ========================================================= */
-
 .video-indicator {
     position: absolute;
 
     bottom: 25px;
     left: 50%;
-
-    transform: translateX(-50%);
-
-    width: min(300px, 70%);
-
-    height: 3px;
-
-    background: rgba(255, 255, 255, 0.25);
-
     z-index: 20;
 
+    width: min(300px, 70%);
+    height: 3px;
+
     overflow: hidden;
+
+    background: rgba(255, 255, 255, .25);
+
+    transform: translateX(-50%);
 }
 
 .video-progress {
@@ -666,53 +622,12 @@ textarea {
     width: 0;
     height: 100%;
 
-    background: #fff;
+    background: var(--white);
 }
 
 
 /* =========================================================
-   CELULAR
-   ========================================================= */
-
-@media (max-width: 768px) {
-
-    .hero-video {
-        min-height: 100svh;
-        height: 100svh;
-    }
-
-    .hero-video-content {
-        width: 90%;
-    }
-
-    .hero-video-content h1 {
-        font-size: clamp(2rem, 10vw, 3.2rem);
-    }
-
-    .hero-video-content p {
-        font-size: 1rem;
-    }
-
-    .hero-video-item {
-        object-position: center center;
-    }
-}
-
-
-/* =========================================================
-   ACESSIBILIDADE
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .hero-video-item {
-        transition: none;
-    }
-}
-
-
-/* =========================================================
-   10. CONTROLES DO SLIDER
+   SLIDER
    ========================================================= */
 
 .slider-button {
@@ -723,10 +638,10 @@ textarea {
     width: 46px;
     height: 46px;
 
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, .5);
     border-radius: 50%;
 
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, .2);
     color: var(--white);
 
     transform: translateY(-50%);
@@ -748,6 +663,7 @@ textarea {
 
 .slider-dots {
     position: absolute;
+
     bottom: 28px;
     left: 50%;
     z-index: 5;
@@ -761,12 +677,13 @@ textarea {
 .dot {
     width: 9px;
     height: 9px;
+
     padding: 0;
 
     border: 0;
     border-radius: 50%;
 
-    background: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, .45);
 }
 
 .dot.active {
@@ -774,135 +691,200 @@ textarea {
 }
 
 
-//* =========================================================
-   11. NOTÍCIAS
+/* =========================================================
+   NOTÍCIAS
    ========================================================= */
 
+.fg-news {
+    width: 100%;
+
+    margin: 0;
+
+    padding: 8px 0 4px;
+}
+
 .fg-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 0 10px;
-
-    color: #8a5a22;
-}
-
-.fg-header strong {
-    font-size: 18px;
-}
-
-.fg-header a {
-    color: #a87532;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.fg-slider {
     position: relative;
+
+    width: min(75%, 900px);
+    min-height: 28px;
+
+    margin: 0 auto 8px;
+
     display: flex;
     align-items: center;
-    gap: 10px;
-}
-
-#noticia {
-    flex: 1;
-    min-width: 0;
-}
-
-.fg-pontos {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 0 2px;
-}
-
-
-/* ---------------------------------------------------------
-   CABEÇALHO
-   --------------------------------------------------------- */
-
-.fg-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 12px;
-
-    margin-bottom: 7px;
 }
 
 .fg-header strong {
     position: relative;
 
-    padding-left: 8px;
+    display: inline-flex;
+    align-items: center;
+
+    padding-left: 10px;
 
     color: var(--brown);
 
-    font-size: 12px;
+    font-size: clamp(13px, 1.2vw, 15px);
     font-weight: 700;
+
     line-height: 1.2;
 }
 
 .fg-header strong::before {
-    content: "";
+    content: '';
 
     position: absolute;
     left: 0;
-    top: 1px;
+    top: 50%;
 
     width: 3px;
-    height: 12px;
+    height: 13px;
 
     border-radius: 3px;
 
     background: var(--gold);
+
+    transform: translateY(-50%);
 }
 
 .fg-header a {
-    flex-shrink: 0;
+    position: static;
+
+    display: inline-flex;
+    align-items: center;
+
+    margin-left: auto;
 
     color: var(--gold);
 
-    font-size: 10px;
+    font-size: clamp(11px, 1.2vw, 15px);
     font-weight: 600;
-
-    text-decoration: none;
-
-    transition:
-        color 0.2s ease,
-        opacity 0.2s ease;
 }
 
 .fg-header a:hover {
     color: var(--brown);
-    opacity: 0.85;
+    opacity: .85;
 }
-
-
-/* ---------------------------------------------------------
-   SLIDER
-   --------------------------------------------------------- */
 
 .fg-slider {
-    display: flex;
-    align-items: center;
+    position: relative;
 
-    gap: 6px;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+.fg-card {
+    width: min(75%, 900px);
 
-/* ---------------------------------------------------------
-   BOTÕES
-   --------------------------------------------------------- */
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 12px;
+    margin: 0 auto;
+
+    background: var(--white);
+
+    border-radius: 30px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, .04);
+
+    overflow: hidden;
+}
+
+.fg-card img {
+    width: 110px;
+    height: 80px;
+
+    display: block;
+
+    object-fit: cover;
+
+    border-radius: 7px;
+}
+
+.fg-conteudo {
+    min-width: 0;
+
+    justify-content: center;
+}
+
+.fg-categoria {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #a87532;
+
+    font-size: clamp(10px, 1vw, 14px);
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.fg-card h2 {
+    margin: 0 0 4px;
+
+    color: #181818;
+
+    font-size: clamp(17px, 2vw, 25px);
+    font-weight: 700;
+
+    line-height: 1.15;
+    letter-spacing: -.015em;
+}
+
+.fg-card p {
+    margin: 0 0 5px;
+
+    color: #666;
+
+    font-size: clamp(11px, 1.2vw, 15px);
+
+    line-height: 1.35;
+}
+
+.fg-data {
+    margin-right: 7px;
+
+    color: #999;
+
+    font-size: clamp(10px, 1vw, 13px);
+}
+
+.fg-ler {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-right: 50px;
+
+    color: #a87532;
+
+    font-size: clamp(10px, 1vw, 13px);
+    font-weight: 700;
+}
+
+.fg-ler:hover {
+    color: #704517;
+}
 
 .fg-prev,
 .fg-next {
-    flex: 0 0 27px;
+    position: absolute;
+    top: 50%;
+    z-index: 10;
 
-    width: 27px;
-    height: 27px;
+    width: 48px;
+    height: 48px;
 
     padding: 0;
 
@@ -910,19 +892,31 @@ textarea {
     align-items: center;
     justify-content: center;
 
-    border: 1px solid var(--border);
+    border: 1px solid #d8b77f;
     border-radius: 50%;
 
-    background: var(--cream);
-    color: var(--brown);
+    background: var(--white);
+    color: #a87532;
+
+    font-size: 24px;
 
     cursor: pointer;
 
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease;
+    transform: translateY(-50%);
+}
+
+.fg-prev {
+    left: 11%;
+}
+
+.fg-next {
+    right: 11%;
+}
+
+.fg-prev:hover,
+.fg-next:hover {
+    background: #a87532;
+    color: var(--white);
 }
 
 .fg-prev i,
@@ -930,101 +924,27 @@ textarea {
     font-size: 8px;
 }
 
-.fg-prev:hover,
-.fg-next:hover {
-    border-color: var(--gold);
-
-    background: var(--gold);
-    color: #fff;
-
-    transform: scale(1.04);
-}
-
-.fg-prev:focus-visible,
-.fg-next:focus-visible {
-    outline: 2px solid var(--gold);
-    outline-offset: 2px;
-}
-
-
-/* ---------------------------------------------------------
-   ÁREA DA NOTÍCIA
-   --------------------------------------------------------- */
-
-#noticia {
-    flex: 1;
-    min-width: 0;
-
-    min-height: 56px;
-
-    display: flex;
-    align-items: center;
-
-    padding: 6px 9px;
-
-    border-radius: 7px;
-
-    background: rgba(255, 255, 255, 0.45);
-
-    box-sizing: border-box;
-}
-
-
-/* ---------------------------------------------------------
-   IMAGEM DA NOTÍCIA
-   --------------------------------------------------------- */
-
-#noticia img {
-    width: 70px;
-    height: 46px;
-
-    flex: 0 0 70px;
-
-    object-fit: cover;
-
-    border-radius: 6px;
-}
-
-
-/* ---------------------------------------------------------
-   LINKS DA NOTÍCIA
-   --------------------------------------------------------- */
-
-#noticia a {
-    color: inherit;
-
-    text-decoration: none;
-}
-
-
-/* ---------------------------------------------------------
-   LOADING
-   --------------------------------------------------------- */
-
 .fg-loading {
     width: 100%;
 
     color: var(--text-light);
 
-    font-size: 11px;
+    font-size: 20px;
+
     line-height: 1.3;
 
     text-align: center;
 }
 
-
-/* ---------------------------------------------------------
-   PONTOS DE NAVEGAÇÃO
-   --------------------------------------------------------- */
-
 .fg-pontos {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     gap: 4px;
 
-    margin-top: 6px;
+    margin: 4px 0 0;
+    padding: 0;
 }
 
 .fg-pontos button,
@@ -1042,11 +962,12 @@ textarea {
     cursor: pointer;
 
     transition:
-        width 0.2s ease,
-        background 0.2s ease;
+        width .2s ease,
+        background .2s ease;
 }
 
-.fg-pontos .active {
+.fg-pontos .active,
+.fg-pontos .ativo {
     width: 13px;
 
     border-radius: 5px;
@@ -1055,76 +976,12 @@ textarea {
 }
 
 
-/* ---------------------------------------------------------
-   MOBILE
-   --------------------------------------------------------- */
-
-@media (max-width: 600px) {
-
-    .fg-news {
-        width: calc(100% - 20px);
-
-        margin-top: 16px;
-        padding: 10px 11px;
-
-        border-radius: 9px;
-    }
-
-    .fg-header {
-        margin-bottom: 6px;
-    }
-
-    .fg-header strong {
-        font-size: 11px;
-    }
-
-    .fg-header a {
-        font-size: 9px;
-    }
-
-    .fg-slider {
-        gap: 5px;
-    }
-
-    .fg-prev,
-    .fg-next {
-        flex-basis: 24px;
-
-        width: 24px;
-        height: 24px;
-    }
-
-    .fg-prev i,
-    .fg-next i {
-        font-size: 7px;
-    }
-
-    #noticia {
-        min-height: 50px;
-
-        padding: 5px 7px;
-    }
-
-    #noticia img {
-        width: 62px;
-        height: 40px;
-
-        flex-basis: 62px;
-    }
-
-    .fg-pontos {
-        margin-top: 5px;
-    }
-}
-
-
-
 /* =========================================================
-   12. SEÇÕES
+   SEÇÕES
    ========================================================= */
 
 .section {
-    padding: 95px 0;
+    padding: clamp(70px, 8vw, 95px) 0;
 }
 
 .section-label {
@@ -1134,10 +991,10 @@ textarea {
 
     color: var(--black);
 
-    font-size: 16px;
+    font-size: clamp(13px, 1.4vw, 16px);
     font-weight: 400;
-    letter-spacing: 3px;
 
+    letter-spacing: 3px;
     text-transform: uppercase;
 }
 
@@ -1157,21 +1014,19 @@ textarea {
     color: var(--brown-dark);
 
     font-family: var(--font-display);
+
     font-size: clamp(38px, 5vw, 54px);
+
     line-height: 1.1;
 }
 
 .section-heading p {
     margin-top: 12px;
 
-    font-size: 20px;
+    font-size: clamp(15px, 1.5vw, 20px);
+
     line-height: 1.6;
 }
-
-
-/* =========================================================
-   13. SEÇÕES ESCURAS
-   ========================================================= */
 
 .about,
 .ministries,
@@ -1183,7 +1038,8 @@ textarea {
 .about .section-heading h2,
 .ministries .section-heading h2,
 .events .section-heading h2,
-.services .section-heading h2 {
+.services .section-heading h2,
+.services .section-heading .section-label {
     color: var(--white);
 }
 
@@ -1192,11 +1048,6 @@ textarea {
 .services .section-heading p {
     color: var(--white);
 }
-
-
-/* =========================================================
-   14. SEÇÕES CLARAS
-   ========================================================= */
 
 .hospitality,
 .messages,
@@ -1208,28 +1059,19 @@ textarea {
     background:
         radial-gradient(
             circle at top,
-            rgba(213, 178, 119, 0.10),
+            rgba(213, 178, 119, .10),
             transparent 35%
         ),
         #f8f3e8;
-}
-
-.services .section-heading p {
-    color: var(--white);
 }
 
 .messages .section-heading p {
     color: var(--text-light);
 }
 
-.services .section-heading h2,
-.services .section-heading .section-label {
-    color: var(--white);
-}
-
 
 /* =========================================================
-   15. SOBRE
+   SOBRE
    ========================================================= */
 
 .two-columns {
@@ -1239,34 +1081,37 @@ textarea {
 
     align-items: center;
 
-    gap: 70px;
+    gap: clamp(40px, 6vw, 70px);
 }
 
 .about .content h2 {
     color: var(--white);
 
     font-family: var(--font-display);
+
     font-size: clamp(38px, 5vw, 54px);
+
     line-height: 1.1;
 }
 
 .about .content p {
     margin-top: 17px;
 
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, .85);
 
-    font-size: 18px;
+    font-size: clamp(15px, 1.5vw, 18px);
 }
 
 .section-image img {
     width: 100%;
-    height: 560px;
+
+    height: clamp(400px, 45vw, 560px);
 
     object-fit: cover;
 
     border-radius: 12px;
 
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, .25);
 }
 
 .about-features {
@@ -1296,7 +1141,7 @@ textarea {
 
 
 /* =========================================================
-   16. BÍBLIA — ESTRUTURA
+   BÍBLIA
    ========================================================= */
 
 .bible > .container {
@@ -1314,10 +1159,20 @@ textarea {
     display: contents;
 }
 
+.verse-card,
+.reader-card {
+    border: 1px solid var(--border);
 
-/* =========================================================
-   17. BÍBLIA — VERSÍCULO
-   ========================================================= */
+    box-shadow: var(--shadow);
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        border-color var(--transition);
+}
+
+
+/* VERSÍCULO */
 
 .verse-card {
     position: relative;
@@ -1325,6 +1180,7 @@ textarea {
     grid-column: 1;
 
     min-height: 430px;
+
     padding: 38px 42px;
 
     overflow: hidden;
@@ -1334,34 +1190,26 @@ textarea {
     align-items: center;
     justify-content: center;
 
-    border: 1px solid var(--border);
     border-radius: 0 0 28px 28px;
 
     background:
         radial-gradient(
             circle at top center,
-            rgba(213, 178, 119, 0.16),
+            rgba(213, 178, 119, .16),
             transparent 45%
         ),
         var(--cream);
 
-    box-shadow: var(--shadow);
-
     text-align: center;
-
-    transition:
-        transform var(--transition),
-        box-shadow var(--transition),
-        border-color var(--transition);
 }
 
-.verse-card:hover {
+.verse-card:hover,
+.reader-card:hover {
     transform: translateY(-5px);
 
-    border-color: rgba(182, 139, 76, 0.45);
+    border-color: rgba(182, 139, 76, .45);
 
-    box-shadow:
-        0 18px 45px rgba(50, 32, 18, 0.14);
+    box-shadow: 0 18px 45px rgba(50, 32, 18, .14);
 }
 
 .verse-card::before {
@@ -1370,22 +1218,18 @@ textarea {
     position: absolute;
     inset: 10px;
 
-    border: 1px solid rgba(182, 139, 76, 0.35);
+    border: 1px solid rgba(182, 139, 76, .35);
+
     border-radius: 0 0 22px 22px;
 
     pointer-events: none;
-
-    transition: border-color var(--transition);
-}
-
-.verse-card:hover::before {
-    border-color: rgba(182, 139, 76, 0.55);
 }
 
 .verse-card::after {
     content: '';
 
     position: absolute;
+
     top: -120px;
     left: -120px;
 
@@ -1394,26 +1238,22 @@ textarea {
 
     border-radius: 50%;
 
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, .18);
 
     opacity: 0;
 
     pointer-events: none;
 
     transition:
-        opacity 0.4s ease,
-        transform 0.6s ease;
+        opacity .4s ease,
+        transform .6s ease;
 }
 
 .verse-card:hover::after {
     opacity: 1;
+
     transform: translate(45px, 45px);
 }
-
-
-/* =========================================================
-   18. BÍBLIA — ELEMENTOS DO VERSÍCULO
-   ========================================================= */
 
 .verse-icon {
     position: relative;
@@ -1435,14 +1275,7 @@ textarea {
 
     font-size: 15px;
 
-    box-shadow: 0 8px 18px rgba(80, 45, 20, 0.18);
-
-    transition: var(--transition);
-}
-
-.verse-card:hover .verse-icon {
-    transform: translateY(-3px) scale(1.05);
-    background: var(--brown-dark);
+    box-shadow: 0 8px 18px rgba(80, 45, 20, .18);
 }
 
 .verse-label {
@@ -1454,15 +1287,12 @@ textarea {
     color: var(--brown);
 
     font-family: var(--font-display);
+
     font-size: 14px;
     font-weight: 700;
+
     letter-spacing: 3px;
-
     text-transform: uppercase;
-}
-
-.verse-card:hover .verse-label {
-    color: var(--gold);
 }
 
 .verse-card blockquote {
@@ -1476,8 +1306,10 @@ textarea {
     color: #261c14;
 
     font-family: var(--font-display);
-    font-size: clamp(23px, 2.1vw, 30px);
+
+    font-size: clamp(22px, 2.1vw, 30px);
     font-weight: 500;
+
     line-height: 1.45;
 }
 
@@ -1488,14 +1320,11 @@ textarea {
     color: var(--brown-light);
 
     font-family: var(--font-display);
+
     font-size: 16px;
+
     font-style: italic;
 }
-
-
-/* =========================================================
-   19. BÍBLIA — AÇÕES
-   ========================================================= */
 
 .verse-actions {
     position: relative;
@@ -1510,8 +1339,10 @@ textarea {
     margin-top: 25px;
 }
 
-.verse-actions .button {
+.verse-actions .button,
+.verse-refresh {
     min-height: 40px;
+
     padding: 9px 17px;
 
     font-family: var(--font-display);
@@ -1525,17 +1356,13 @@ textarea {
 
     gap: 7px;
 
-    min-height: 40px;
-    padding: 9px 17px;
-
     border: 1px solid var(--border);
     border-radius: 22px;
 
-    background: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, .35);
+
     color: var(--brown);
 
-    font-family: var(--font-display);
-    font-size: 14px;
     font-weight: 600;
 
     transition: var(--transition);
@@ -1546,11 +1373,11 @@ textarea {
 
     background: var(--cream-dark);
 
-    box-shadow: 0 10px 22px rgba(80, 45, 20, 0.12);
+    box-shadow: 0 10px 22px rgba(80, 45, 20, .12);
 }
 
 .verse-refresh i {
-    transition: transform 0.5s ease;
+    transition: transform .5s ease;
 }
 
 .verse-refresh:hover i {
@@ -1558,9 +1385,7 @@ textarea {
 }
 
 
-/* =========================================================
-   20. BÍBLIA — LEITOR
-   ========================================================= */
+/* LEITOR */
 
 .reader-card {
     position: relative;
@@ -1572,26 +1397,9 @@ textarea {
 
     overflow: hidden;
 
-    border: 1px solid var(--border);
     border-radius: 22px;
 
     background: var(--cream);
-
-    box-shadow: var(--shadow);
-
-    transition:
-        transform var(--transition),
-        box-shadow var(--transition),
-        border-color var(--transition);
-}
-
-.reader-card:hover {
-    transform: translateY(-5px);
-
-    border-color: rgba(182, 139, 76, 0.45);
-
-    box-shadow:
-        0 18px 45px rgba(50, 32, 18, 0.14);
 }
 
 .bible-card-image {
@@ -1612,8 +1420,8 @@ textarea {
     background:
         linear-gradient(
             to bottom,
-            rgba(23, 17, 12, 0.05),
-            rgba(23, 17, 12, 0.45)
+            rgba(23, 17, 12, .05),
+            rgba(23, 17, 12, .45)
         );
 }
 
@@ -1624,12 +1432,13 @@ textarea {
     object-fit: cover;
 
     transition:
-        transform 0.6s ease,
-        filter 0.4s ease;
+        transform .6s ease,
+        filter .4s ease;
 }
 
 .reader-card:hover .bible-card-image img {
     transform: scale(1.05);
+
     filter: brightness(1.05);
 }
 
@@ -1642,7 +1451,7 @@ textarea {
 
     padding: 25px 30px;
 
-    border-bottom: 1px solid rgba(182, 139, 76, 0.25);
+    border-bottom: 1px solid rgba(182, 139, 76, .25);
 }
 
 .reader-header .verse-label {
@@ -1653,11 +1462,11 @@ textarea {
     width: 47px;
     height: 47px;
 
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
-
-    flex-shrink: 0;
 
     border-radius: 5px;
 
@@ -1667,17 +1476,12 @@ textarea {
     font-size: 19px;
 }
 
-
-/* =========================================================
-   21. BÍBLIA — CONTROLES
-   ========================================================= */
-
 .reader-controls {
     display: grid;
 
     grid-template-columns:
         minmax(0, 1.5fr)
-        minmax(120px, 0.65fr)
+        minmax(120px, .65fr)
         auto;
 
     align-items: end;
@@ -1699,6 +1503,7 @@ textarea {
     color: var(--brown-dark);
 
     font-family: var(--font-display);
+
     font-size: 15px;
     font-weight: 700;
 }
@@ -1710,10 +1515,11 @@ textarea {
 
     padding: 0 16px;
 
-    border: 1px solid rgba(182, 139, 76, 0.55);
+    border: 1px solid rgba(182, 139, 76, .55);
     border-radius: 6px;
 
-    background: rgba(255, 253, 248, 0.9);
+    background: rgba(255, 253, 248, .9);
+
     color: var(--text);
 
     outline: none;
@@ -1727,24 +1533,23 @@ textarea {
 .reader-field input:focus {
     border-color: var(--brown);
 
-    box-shadow:
-        0 0 0 3px rgba(117, 69, 31, 0.08);
+    box-shadow: 0 0 0 3px rgba(117, 69, 31, .08);
 }
 
 .reader-controls .button {
     height: 55px;
+
     white-space: nowrap;
 }
 
 
-/* =========================================================
-   22. BÍBLIA — LEITOR ABERTO
-   ========================================================= */
+/* LEITOR ABERTO */
 
 .bible-reader {
     grid-column: 1 / -1;
 
     margin-top: 0;
+
     padding: 30px;
 
     border: 1px solid var(--border);
@@ -1777,7 +1582,9 @@ textarea {
     color: var(--brown-dark);
 
     font-family: var(--font-display);
+
     font-size: 32px;
+
     line-height: 1.15;
 }
 
@@ -1791,6 +1598,7 @@ textarea {
     border-radius: 50%;
 
     background: var(--cream);
+
     color: var(--brown);
 }
 
@@ -1822,12 +1630,11 @@ textarea {
 }
 
 
-/* =========================================================
-   23. BÍBLIA — PLANO DE LEITURA
-   ========================================================= */
+/* PLANO DE LEITURA */
 
 .daily-reading-section {
-    grid-column: 1 / -1;
+    grid-column: 1;
+
     width: 100%;
 }
 
@@ -1854,6 +1661,7 @@ textarea {
     padding: 28px 34px;
 
     background: var(--brown);
+
     color: var(--white);
 }
 
@@ -1868,16 +1676,16 @@ textarea {
     width: 48px;
     height: 48px;
 
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
 
-    flex-shrink: 0;
-
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, .3);
     border-radius: 10px;
 
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, .1);
 
     font-size: 20px;
 }
@@ -1888,7 +1696,9 @@ textarea {
     color: var(--white);
 
     font-family: var(--font-display);
+
     font-size: 25px;
+
     line-height: 1.1;
 }
 
@@ -1898,6 +1708,7 @@ textarea {
 
     font-size: 10px;
     font-weight: 700;
+
     letter-spacing: 2px;
 }
 
@@ -1909,13 +1720,16 @@ textarea {
     display: block;
 
     font-family: var(--font-display);
+
     font-size: 42px;
+
     line-height: 1;
 }
 
 .daily-reading-day small {
     font-size: 10px;
-    opacity: 0.8;
+
+    opacity: .8;
 }
 
 .daily-reading-content {
@@ -1941,6 +1755,7 @@ textarea {
 
     font-size: 11px;
     font-weight: 700;
+
     letter-spacing: 2px;
 }
 
@@ -1950,7 +1765,9 @@ textarea {
     color: var(--brown-dark);
 
     font-family: var(--font-display);
-    font-size: 36px;
+
+    font-size: clamp(30px, 3vw, 36px);
+
     line-height: 1.15;
 }
 
@@ -1966,24 +1783,26 @@ textarea {
 
 
 /* =========================================================
-   24. HOSPITALIDADE
+   HOSPITALIDADE
    ========================================================= */
 
 .hospitality-container {
     display: grid;
 
-    grid-template-columns: 1fr 0.75fr;
+    grid-template-columns: 1fr .75fr;
 
     align-items: center;
 
-    gap: 70px;
+    gap: clamp(40px, 6vw, 70px);
 }
 
 .hospitality-text h2 {
     color: var(--black);
 
     font-family: var(--font-display);
+
     font-size: clamp(38px, 5vw, 54px);
+
     line-height: 1.1;
 }
 
@@ -1996,12 +1815,12 @@ textarea {
 }
 
 .hospitality-image {
-    height: 570px;
+    height: clamp(450px, 45vw, 570px);
 }
 
 
 /* =========================================================
-   25. FLIP CARDS
+   FLIP CARDS
    ========================================================= */
 
 .flip-card {
@@ -2016,10 +1835,11 @@ textarea {
 
     transform-style: preserve-3d;
 
-    transition: transform 0.7s ease;
+    transition: transform .7s ease;
 }
 
-.flip-card:hover .flip-inner {
+.flip-card:hover .flip-inner,
+.flip-card.active .flip-inner {
     transform: rotateY(180deg);
 }
 
@@ -2052,6 +1872,7 @@ textarea {
     padding: 35px;
 
     background: var(--brown);
+
     color: var(--white);
 
     text-align: center;
@@ -2071,11 +1892,12 @@ textarea {
     margin-bottom: 10px;
 
     font-family: var(--font-display);
+
     font-size: 32px;
 }
 
 .flip-back p {
-    color: rgba(255, 255, 255, 0.82);
+    color: rgba(255, 255, 255, .82);
 
     font-size: 13px;
 }
@@ -2091,13 +1913,16 @@ textarea {
 
 
 /* =========================================================
-   26. MINISTÉRIOS
+   MINISTÉRIOS
    ========================================================= */
 
 .flip-grid {
     display: grid;
 
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(220px, 1fr)
+    );
 
     gap: 20px;
 }
@@ -2133,7 +1958,9 @@ textarea {
     color: var(--brown-dark);
 
     font-family: var(--font-display);
+
     font-size: 29px;
+
     line-height: 1.15;
 }
 
@@ -2145,7 +1972,7 @@ textarea {
 
 
 /* =========================================================
-   27. AGENDA
+   AGENDA
    ========================================================= */
 
 .church-calendar {
@@ -2173,8 +2000,8 @@ textarea {
     background:
         linear-gradient(
             135deg,
-            rgba(255, 255, 255, 0.7),
-            rgba(255, 250, 238, 0.8)
+            rgba(255, 255, 255, .7),
+            rgba(255, 250, 238, .8)
         );
 }
 
@@ -2187,8 +2014,8 @@ textarea {
 
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 2px;
 
+    letter-spacing: 2px;
     text-transform: uppercase;
 }
 
@@ -2198,7 +2025,9 @@ textarea {
     color: var(--brown-dark);
 
     font-family: var(--font-display);
+
     font-size: 30px;
+
     line-height: 1.1;
 }
 
@@ -2219,6 +2048,7 @@ textarea {
     border-radius: 7px;
 
     background: var(--cream-light);
+
     color: var(--brown);
 
     font-size: 11px;
@@ -2230,24 +2060,22 @@ textarea {
 .calendar-actions button:hover,
 .calendar-footer button:hover {
     background: var(--brown);
+
     border-color: var(--brown);
+
     color: var(--white);
 
     transform: translateY(-2px);
 }
 
-
-/* =========================================================
-   28. AGENDA — SEMANA
-   ========================================================= */
-
 .calendar-week-wrapper {
     overflow-x: auto;
 
     scrollbar-width: thin;
+
     scrollbar-color:
         var(--gold)
-        rgba(182, 139, 76, 0.1);
+        rgba(182, 139, 76, .1);
 }
 
 .calendar-week-wrapper::-webkit-scrollbar {
@@ -2255,13 +2083,13 @@ textarea {
 }
 
 .calendar-week-wrapper::-webkit-scrollbar-track {
-    background: rgba(182, 139, 76, 0.08);
+    background: rgba(182, 139, 76, .08);
 }
 
 .calendar-week-wrapper::-webkit-scrollbar-thumb {
     border-radius: 10px;
 
-    background: rgba(182, 139, 76, 0.55);
+    background: rgba(182, 139, 76, .55);
 }
 
 .calendar-week {
@@ -2277,9 +2105,10 @@ textarea {
     position: relative;
 
     min-height: 180px;
+
     padding: 15px;
 
-    border-right: 1px solid rgba(182, 139, 76, 0.2);
+    border-right: 1px solid rgba(182, 139, 76, .2);
 
     background: transparent;
 
@@ -2294,8 +2123,8 @@ textarea {
     background:
         linear-gradient(
             180deg,
-            rgba(182, 139, 76, 0.08),
-            rgba(255, 255, 255, 0.25)
+            rgba(182, 139, 76, .08),
+            rgba(255, 255, 255, .25)
         );
 
     box-shadow: inset 0 3px 0 var(--gold);
@@ -2320,8 +2149,10 @@ textarea {
     color: var(--brown);
 
     font-family: var(--font-display);
+
     font-size: 28px;
     font-weight: 600;
+
     line-height: 1;
 }
 
@@ -2329,8 +2160,8 @@ textarea {
     background:
         linear-gradient(
             180deg,
-            rgba(182, 139, 76, 0.10),
-            rgba(255, 253, 248, 0.6)
+            rgba(182, 139, 76, .10),
+            rgba(255, 253, 248, .6)
         );
 
     box-shadow: inset 0 3px 0 var(--gold);
@@ -2339,13 +2170,9 @@ textarea {
 .calendar-day.today .day-name,
 .calendar-day.today .day-number {
     color: var(--gold);
+
     font-weight: 700;
 }
-
-
-/* =========================================================
-   29. AGENDA — EVENTOS
-   ========================================================= */
 
 .day-events {
     display: flex;
@@ -2365,11 +2192,12 @@ textarea {
     padding: 9px;
 
     border-left: 3px solid var(--gold);
+
     border-radius: 7px;
 
-    background: rgba(255, 255, 255, 0.78);
+    background: rgba(255, 255, 255, .78);
 
-    box-shadow: 0 2px 8px rgba(70, 45, 20, 0.06);
+    box-shadow: 0 2px 8px rgba(70, 45, 20, .06);
 
     transition: var(--transition);
 }
@@ -2381,7 +2209,7 @@ textarea {
 
     border-left-color: var(--brown);
 
-    box-shadow: 0 7px 18px rgba(70, 45, 20, 0.13);
+    box-shadow: 0 7px 18px rgba(70, 45, 20, .13);
 }
 
 .calendar-event strong {
@@ -2389,6 +2217,7 @@ textarea {
 
     font-size: 11px;
     font-weight: 700;
+
     line-height: 1.35;
 }
 
@@ -2397,6 +2226,7 @@ textarea {
 
     font-size: 10px;
     font-weight: 600;
+
     line-height: 1.3;
 }
 
@@ -2410,7 +2240,7 @@ textarea {
     font-size: 10px;
     font-style: italic;
 
-    opacity: 0.75;
+    opacity: .75;
 }
 
 .calendar-footer {
@@ -2424,7 +2254,7 @@ textarea {
 
     border-top: 1px solid var(--border);
 
-    background: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, .35);
 }
 
 .calendar-footer span {
@@ -2436,13 +2266,14 @@ textarea {
 
 
 /* =========================================================
-   30. MENSAGENS / VÍDEOS
+   MENSAGENS / VÍDEOS
    ========================================================= */
 
 .video-grid {
     display: grid;
 
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+        repeat(auto-fit, minmax(320px, 1fr));
 
     gap: 25px;
 }
@@ -2473,7 +2304,7 @@ textarea {
 
 
 /* =========================================================
-   31. CULTOS / SERVIÇOS
+   CULTOS / SERVIÇOS
    ========================================================= */
 
 .cultos-heading {
@@ -2496,7 +2327,8 @@ textarea {
 .services-grid {
     display: grid;
 
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns:
+        repeat(auto-fit, minmax(240px, 1fr));
 
     gap: 20px;
 }
@@ -2544,7 +2376,9 @@ textarea {
     color: var(--brown-dark);
 
     font-family: var(--font-display);
+
     font-size: 28px;
+
     line-height: 1.15;
 }
 
@@ -2579,24 +2413,26 @@ textarea {
 
 
 /* =========================================================
-   32. CONTATO
+   CONTATO
    ========================================================= */
 
 .contact-container {
     display: grid;
 
-    grid-template-columns: 0.85fr 1fr;
+    grid-template-columns: .85fr 1fr;
 
     align-items: start;
 
-    gap: 70px;
+    gap: clamp(40px, 6vw, 70px);
 }
 
 .contact-info h2 {
     color: var(--brown-dark);
 
     font-family: var(--font-display);
+
     font-size: clamp(38px, 5vw, 54px);
+
     line-height: 1.1;
 }
 
@@ -2642,6 +2478,7 @@ textarea {
 
     font-size: 10px;
     font-weight: 700;
+
     letter-spacing: 1px;
 
     text-transform: uppercase;
@@ -2657,9 +2494,7 @@ textarea {
 }
 
 
-/* =========================================================
-   33. FORMULÁRIO
-   ========================================================= */
+/* FORMULÁRIO */
 
 .contact-form {
     padding: 35px;
@@ -2697,6 +2532,7 @@ textarea {
     border-radius: 6px;
 
     background: var(--cream-light);
+
     color: var(--text);
 
     outline: none;
@@ -2712,8 +2548,7 @@ textarea {
 .form-group textarea:focus {
     border-color: var(--brown);
 
-    box-shadow:
-        0 0 0 3px rgba(117, 69, 31, 0.08);
+    box-shadow: 0 0 0 3px rgba(117, 69, 31, .08);
 }
 
 .form-message {
@@ -2726,12 +2561,13 @@ textarea {
 
 
 /* =========================================================
-   34. FOOTER
+   FOOTER
    ========================================================= */
 
 .footer {
     background: var(--brown-dark);
-    color: rgba(255, 255, 255, 0.8);
+
+    color: rgba(255, 255, 255, .8);
 }
 
 .footer-container {
@@ -2743,12 +2579,6 @@ textarea {
 
     padding-top: 50px;
     padding-bottom: 40px;
-}
-
-.footer-logo {
-    width: 150px;
-
-    margin-bottom: 10px;
 }
 
 .footer p {
@@ -2769,7 +2599,7 @@ textarea {
     align-items: center;
     justify-content: center;
 
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, .2);
     border-radius: 50%;
 
     transition: var(--transition);
@@ -2777,24 +2607,216 @@ textarea {
 
 .footer-social a:hover {
     background: var(--gold);
+
     border-color: var(--gold);
+
     color: var(--white);
 }
 
 .footer-bottom {
     padding: 18px 20px;
 
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, .1);
 
     text-align: center;
 }
 
 
 /* =========================================================
-   35. TABLET
+   LIVE
+   ========================================================= */
+
+.live-highlight {
+    position: absolute;
+
+    top: 50%;
+    right: 6%;
+
+    z-index: 30;
+
+    width: min(390px, 38%);
+
+    padding: 30px;
+
+    border: 1px solid rgba(213, 178, 119, .55);
+    border-radius: 18px;
+
+    background: rgba(23, 21, 19, .82);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    color: var(--white);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, .35),
+        inset 0 1px 0 rgba(255, 255, 255, .08);
+
+    transform: translateY(-50%);
+
+    animation: liveHighlightIn .7s ease both;
+}
+
+.live-highlight::before {
+    content: '';
+
+    position: absolute;
+
+    top: 0;
+    left: 25px;
+    right: 25px;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--gold-light),
+            transparent
+        );
+}
+
+.live-highlight[hidden] {
+    display: none;
+}
+
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 15px;
+
+    padding: 6px 11px;
+
+    border: 1px solid rgba(255, 80, 70, .45);
+    border-radius: 20px;
+
+    background: rgba(180, 30, 20, .18);
+
+    color: #ff8178;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #ff3b30;
+
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, .7);
+
+    animation: livePulse 1.6s infinite;
+}
+
+.live-highlight h2 {
+    margin-bottom: 8px;
+
+    color: var(--white);
+
+    font-family: var(--font-display);
+
+    font-size: clamp(28px, 3vw, 40px);
+
+    line-height: 1.05;
+}
+
+.live-highlight p {
+    margin-bottom: 22px;
+
+    color: rgba(255, 255, 255, .78);
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+.live-button {
+    min-height: 45px;
+
+    padding: 11px 20px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border-radius: 7px;
+
+    background: #c4302b;
+
+    color: var(--white);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    transition:
+        background .3s ease,
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.live-button:hover {
+    background: #e03b35;
+
+    color: var(--white);
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 25px rgba(196, 48, 43, .35);
+}
+
+@keyframes livePulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 59, 48, .7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 7px rgba(255, 59, 48, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+    }
+}
+
+@keyframes liveHighlightIn {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-50%)
+            translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(-50%)
+            translateX(0);
+    }
+}
+
+
+/* =========================================================
+   TABLET — ATÉ 1000PX
    ========================================================= */
 
 @media (max-width: 1000px) {
+
+    :root {
+        --container-padding: 32px;
+    }
 
     .navigation ul {
         gap: 14px;
@@ -2810,45 +2832,50 @@ textarea {
         gap: 40px;
     }
 
-    .flip-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .services-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
     .reader-controls {
         grid-template-columns: 1fr 1fr;
     }
 
     .reader-controls .button {
         grid-column: 1 / -1;
+
         width: 100%;
     }
 
     .verse-card {
         padding: 30px 25px;
     }
+
+    .fg-card {
+        width: min(80%, 900px);
+    }
+
+    .fg-prev {
+        left: 5%;
+    }
+
+    .fg-next {
+        right: 5%;
+    }
+
+    .live-highlight {
+        right: 4%;
+
+        width: min(350px, 42%);
+
+        padding: 25px;
+    }
 }
 
 
 /* =========================================================
-   36. CELULAR
+   MOBILE — ATÉ 760PX
    ========================================================= */
 
 @media (max-width: 760px) {
 
     :root {
         --container-padding: 28px;
-    }
-
-    .container {
-        width: min(100% - 28px, var(--container));
-    }
-
-    .section {
-        padding: 70px 0;
     }
 
 
@@ -2858,8 +2885,19 @@ textarea {
         min-height: 68px;
     }
 
+    /*
+       CORREÇÃO PRINCIPAL DO LOGO.
+       O !important evita que outras regras
+       sobrescrevam o tamanho no celular.
+    */
+
     .logo {
-        width: 120px;
+        width: 65px !important;
+        height: 65px !important;
+
+        max-width: 65px !important;
+
+        object-fit: contain;
     }
 
     .menu-toggle {
@@ -2868,12 +2906,18 @@ textarea {
 
     .navigation {
         position: absolute;
+
         top: 100%;
         left: 0;
         right: 0;
+
         z-index: 1001;
 
         display: none;
+
+        max-height: calc(100svh - 68px);
+
+        overflow-y: auto;
 
         padding: 20px;
 
@@ -2881,7 +2925,7 @@ textarea {
 
         border-bottom: 1px solid var(--border-light);
 
-        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, .18);
     }
 
     .navigation.active {
@@ -2890,13 +2934,14 @@ textarea {
 
     .navigation ul {
         flex-direction: column;
+
         align-items: stretch;
 
         gap: 0;
     }
 
     .navigation li {
-        border-bottom: 1px solid rgba(182, 139, 76, 0.15);
+        border-bottom: 1px solid rgba(182, 139, 76, .15);
     }
 
     .navigation li:last-child {
@@ -2918,15 +2963,16 @@ textarea {
 
     .hero {
         min-height: 580px;
-        height: calc(100vh - 68px);
+
+        height: calc(100svh - 68px);
     }
 
     .hero-content {
-        width: min(100% - 40px, 600px);
+        width: min(600px, calc(100% - 40px));
     }
 
     .hero h1 {
-        font-size: 45px;
+        font-size: clamp(38px, 10vw, 48px);
     }
 
     .hero p {
@@ -2938,15 +2984,83 @@ textarea {
     }
 
 
-    /* NOTÍCIAS */
+    /* HERO VÍDEO */
 
-    .fg-news {
-        width: calc(100% - 28px);
-        padding: 15px;
+    .hero-video-content {
+        width: 90%;
+    }
+
+    .hero-video-content h1 {
+        font-size: clamp(2rem, 10vw, 3.2rem);
+    }
+
+    .hero-video-content p {
+        font-size: 1rem;
     }
 
 
-    /* SOBRE / HOSPITALIDADE / CONTATO */
+    /* NOTÍCIAS */
+
+    .fg-header {
+        width: calc(100% - 50px);
+
+        height: 28px;
+
+        margin: 0 auto 8px;
+    }
+
+    .fg-header a {
+        flex-shrink: 0;
+
+        margin: 0;
+
+        font-size: 11px;
+    }
+
+    .fg-card {
+        width: calc(100% - 60px);
+
+        grid-template-columns: 85px 1fr;
+
+        gap: 10px;
+
+        padding: 9px;
+    }
+
+    .fg-card img {
+        width: 85px;
+        height: 65px;
+    }
+
+    .fg-card h2 {
+        font-size: 16px;
+    }
+
+    .fg-card p {
+        font-size: 10px;
+    }
+
+    .fg-prev,
+    .fg-next {
+        width: 30px;
+        height: 30px;
+    }
+
+    .fg-prev {
+        left: 2%;
+    }
+
+    .fg-next {
+        right: 2%;
+    }
+
+    .fg-prev i,
+    .fg-next i {
+        font-size: 13px;
+    }
+
+
+    /* COLUNAS */
 
     .two-columns,
     .hospitality-container,
@@ -2954,49 +3068,97 @@ textarea {
         grid-template-columns: 1fr;
     }
 
+
+    /* IMAGENS */
+
     .section-image img {
         height: 400px;
     }
 
 
-    /* BÍBLIA */
+    /* =====================================================
+       BÍBLIA MOBILE
+       ===================================================== */
 
     .bible > .container {
         grid-template-columns: 1fr;
+
+        grid-template-rows: auto;
+
         gap: 20px;
     }
 
-    .verse-card,
-    .reader-card {
+    .devotional-block,
+    .reading-block {
+        display: flex;
+
+        flex-direction: column;
+
+        width: 100%;
+
+        min-width: 0;
+    }
+
+    .devotional-block,
+    .reading-block,
+    .daily-reading-section,
+    .bible-reader {
         grid-column: 1;
+
+        grid-row: auto;
     }
 
     .verse-card {
-        min-height: 430px;
-        padding: 35px 22px;
+        width: 100%;
+
+        min-height: 400px;
+
+        padding: 30px 22px;
     }
 
     .reader-card {
+        width: 100%;
+
         min-height: 400px;
+
         height: auto;
+    }
+
+    .daily-reading-card {
+        min-height: 300px;
     }
 
     .reader-controls {
         grid-template-columns: 1fr;
+
         gap: 14px;
+
+        padding: 25px 20px;
     }
 
     .reader-controls .button {
         grid-column: auto;
+
+        width: 100%;
     }
 
-    .daily-reading-section,
+    .reader-header {
+        padding: 20px;
+    }
+
     .bible-reader {
-        grid-column: 1;
+        padding: 25px 20px;
+    }
+
+    .bible-reader-content {
+        max-height: 450px;
+
+        padding: 25px 5px;
     }
 
     .daily-reading-top {
         align-items: flex-start;
+
         padding: 22px;
     }
 
@@ -3004,23 +3166,32 @@ textarea {
         padding: 25px 22px;
     }
 
-    .daily-reading-actions {
+
+    /* AGENDA */
+
+    .calendar-top {
+        align-items: flex-start;
+
         flex-direction: column;
-        align-items: stretch;
 
-        padding: 18px 22px;
+        padding: 18px;
     }
 
-    .daily-complete-button,
-    .daily-next-button {
-        width: 100%;
+    .calendar-top h3 {
+        font-size: 24px;
+    }
+
+    .calendar-footer {
+        flex-wrap: wrap;
+
+        justify-content: center;
     }
 
 
-    /* HOSPITALIDADE */
+    /* CONTATO */
 
-    .hospitality-image {
-        height: 450px;
+    .contact-form {
+        padding: 22px 18px;
     }
 
 
@@ -3030,63 +3201,55 @@ textarea {
         grid-template-columns: 1fr;
     }
 
-
-    /* VÍDEOS */
-
-    .video-grid {
-        grid-template-columns: 1fr;
+    .flip-grid .flip-card {
+        height: 300px;
     }
 
 
-    /* CULTOS */
+    /* LIVE */
 
-    .services-grid {
-        grid-template-columns: 1fr;
+    .live-highlight {
+        top: auto;
+
+        right: 20px;
+        bottom: 70px;
+        left: 20px;
+
+        width: auto;
+
+        padding: 20px;
+
+        transform: none;
+
+        animation: liveHighlightMobile .6s ease both;
     }
 
-
-    /* CONTATO */
-
-    .contact-form {
-        padding: 25px 20px;
+    .live-highlight h2 {
+        font-size: 28px;
     }
 
+    .live-highlight p {
+        margin-bottom: 15px;
 
-    /* FOOTER */
+        font-size: 12px;
+    }
 
-    .footer-container {
-        flex-direction: column;
-        align-items: flex-start;
+    .live-button {
+        width: 100%;
     }
 }
 
 
 /* =========================================================
-   37. CELULARES PEQUENOS
+   CELULARES PEQUENOS — ATÉ 480PX
    ========================================================= */
 
 @media (max-width: 480px) {
 
-    .welcome-bar {
-        font-size: 9px;
-        letter-spacing: 1.5px;
-    }
+    .verse-card {
+        min-height: 400px;
 
-    .logo {
-        width: 105px;
-    }
-
-    .hero h1 {
-        font-size: 38px;
-    }
-
-    .hero-content {
-        width: calc(100% - 30px);
-    }
-
-    .hero-label {
-        font-size: 13px;
-        letter-spacing: 2px;
+        padding: 30px 18px;
     }
 
     .verse-card blockquote {
@@ -3095,12 +3258,18 @@ textarea {
 
     .verse-actions {
         flex-direction: column;
+
         width: 100%;
     }
 
     .verse-actions .button,
     .verse-refresh {
         width: 100%;
+    }
+
+    .reader-header,
+    .reader-controls {
+        padding: 20px;
     }
 
     .daily-reading-top {
@@ -3119,35 +3288,11 @@ textarea {
     .daily-reading-day strong {
         font-size: 30px;
     }
-
-    .daily-reading-passage h2 {
-        font-size: 30px;
-    }
-
-    .calendar-top {
-        align-items: flex-start;
-        flex-direction: column;
-
-        padding: 18px;
-    }
-
-    .calendar-top h3 {
-        font-size: 24px;
-    }
-
-    .calendar-footer {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .contact-form {
-        padding: 22px 18px;
-    }
 }
 
 
 /* =========================================================
-   38. DISPOSITIVOS SEM HOVER
+   DISPOSITIVOS SEM HOVER
    ========================================================= */
 
 @media (hover: none) {
@@ -3163,12 +3308,35 @@ textarea {
         transform: none;
     }
 
-    /*
-       O flip permanece disponível através de JS/classe
-       caso o HTML utilize uma interação por toque.
-    */
-
     .navigation a::after {
         display: none;
+    }
+}
+
+
+
+@keyframes liveHighlightMobile {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hero-video-item,
+    .flip-inner {
+        transition: none;
     }
 }
