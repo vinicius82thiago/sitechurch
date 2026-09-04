@@ -1,0 +1,278 @@
+* {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .config {
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .config-row {
+      display: flex;
+      gap: 12px;
+      align-items: end;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    input {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 11px 17px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-gerar {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-gerar:hover {
+      background: #1d4ed8;
+    }
+
+    .progress {
+      background: white;
+      padding: 18px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .progress-bar {
+      height: 13px;
+      background: #e5e7eb;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #22c55e;
+      transition: width 0.3s;
+    }
+
+    /*
+      Área com scroll para visualizar todo o plano
+    */
+    .plan {
+      max-height: 600px;
+      overflow-y: auto;
+      padding: 5px 8px 20px 5px;
+    }
+
+    .day {
+      background: white;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      padding: 17px;
+      border-left: 7px solid #facc15;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: 0.2s;
+    }
+
+    .day:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    }
+
+    /* Dia pendente */
+    .day.pending {
+      border-left-color: #facc15;
+    }
+
+    /* Dia atrasado */
+    .day.overdue {
+      border-left-color: #ef4444;
+      background: #fff1f1;
+    }
+
+    /* Dia atual */
+    .day.today {
+      border-left-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    /* Dia lido */
+    .day.read {
+      border-left-color: #22c55e;
+      background: #f0fdf4;
+    }
+
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .day-number {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .date {
+      color: #666;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .reading {
+      margin-top: 12px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .status.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status.overdue {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status.today {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .status.read {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .btn-read {
+      background: #22c55e;
+      color: white;
+      white-space: nowrap;
+    }
+
+    .btn-read:hover {
+      background: #16a34a;
+    }
+
+    .btn-unread {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 50px 20px;
+      color: #777;
+      background: white;
+      border-radius: 14px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .legend span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .yellow { background: #facc15; }
+    .red { background: #ef4444; }
+    .blue { background: #3b82f6; }
+    .green { background: #22c55e; }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 10px auto;
+        padding: 12px;
+      }
+
+      .day-header {
+        align-items: flex-start;
+      }
+
+      .btn-read {
+        font-size: 13px;
+        padding: 9px 10px;
+      }
+
+      .plan {
+        max-height: 70vh;
+      }
+    }

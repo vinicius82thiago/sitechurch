@@ -13,18 +13,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
 
-  <div class="welcome-bar" id="welcomeBar">JESUS CRISTO É O SENHOR!</div>
+  <div class="welcome-bar" id="welcomeBar">
+    JESUS CRISTO É O SENHOR!
+  </div>
 
   <header class="header">
     <div class="container nav-container">
+
       <a href="#inicio" class="logo-link" aria-label="Página inicial">
-        <img src="assets/images/logo.png" class="logo" alt="1 I.B.R.G." >
+        <img src="assets/images/logo.png" class="logo" alt="1 I.B.R.G.">
       </a>
 
       <nav class="navigation" id="navigation" aria-label="Navegação principal">
@@ -40,170 +44,336 @@
         </ul>
       </nav>
 
-      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="navigation">
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="navigation"
+      >
         <i class="fa-solid fa-bars" aria-hidden="true"></i>
       </button>
+
     </div>
   </header>
 
   <main>
 
     <!-- HERO / SLIDER -->
-    <section class="hero-video" id="inicio" aria-label="Apresentação da igreja">
+    <section
+      class="hero-video"
+      id="inicio"
+      aria-label="Apresentação da igreja"
+    >
+
       <div class="video-background">
-        <video class="hero-video-item active" id="heroVideo1" muted playsinline preload="auto" autoplay>
+
+        <video
+          class="hero-video-item active"
+          id="heroVideo1"
+          muted
+          playsinline
+          preload="auto"
+          autoplay
+        >
           <source src="assets/videos/2.mp4" type="video/mp4">
         </video>
 
-        <video class="hero-video-item" id="heroVideo2" muted playsinline preload="metadata">
+        <video
+          class="hero-video-item"
+          id="heroVideo2"
+          muted
+          playsinline
+          preload="metadata"
+        >
           <source src="assets/videos/3.mp4" type="video/mp4">
         </video>
 
-        <video class="hero-video-item" id="heroVideo3" muted playsinline preload="metadata">
+        <video
+          class="hero-video-item"
+          id="heroVideo3"
+          muted
+          playsinline
+          preload="metadata"
+        >
           <source src="assets/videos/1.mp4" type="video/mp4">
         </video>
 
         <div class="video-overlay"></div>
+
       </div>
-     
+
       <div class="hero-video-content">
-        <h1>1ª Igreja Batista Renovada de Guarulhos</h1>
-        <p>“Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.” — João 3:16</p>
-        <a href="#sobre" class="button">Saiba mais</a>
+
+        <h1>
+          1ª Igreja Batista Renovada de Guarulhos
+        </h1>
+
+        <p>
+          “Porque Deus amou o mundo de tal maneira que deu o seu Filho
+          unigênito, para que todo aquele que nele crê não pereça, mas tenha
+          a vida eterna.” — João 3:16
+        </p>
+
+        <a href="#sobre" class="button">
+          Saiba mais
+        </a>
+
       </div>
 
       <div class="video-indicator">
         <span class="video-progress"></span>
       </div>
+
     </section>
+
 
     <!-- NOTÍCIAS -->
     <section class="fg-news" aria-label="Notícias">
+
       <div class="fg-header">
-        <a href="https://folhagospel.com/c/fg-news/" target="_blank" rel="noopener noreferrer">Ver todas</a>
+
+        <a
+          href="https://folhagospel.com/c/fg-news/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Ver todas
+        </a>
+
       </div>
 
-    <div class="fg-slider">
-        <button class="fg-prev" id="fgPrev" type="button" aria-label="Notícia anterior">
+      <div class="fg-slider">
+
+        <button
+          class="fg-prev"
+          id="fgPrev"
+          type="button"
+          aria-label="Notícia anterior"
+        >
           <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
         </button>
 
         <div id="noticia" aria-live="polite">
-          <div class="fg-loading">Carregando notícias...</div>
+          <div class="fg-loading">
+            Carregando notícias...
+          </div>
         </div>
 
-        <button class="fg-next" id="fgNext" type="button" aria-label="Próxima notícia">
+        <button
+          class="fg-next"
+          id="fgNext"
+          type="button"
+          aria-label="Próxima notícia"
+        >
           <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
         </button>
+
       </div>
 
-      <div id="pontos" class="fg-pontos" aria-label="Navegação das notícias"></div>
+      <div
+        id="pontos"
+        class="fg-pontos"
+        aria-label="Navegação das notícias"
+      ></div>
+
     </section>
-<!-- SOBRE -->
-<section class="about section" id="sobre">
-    <div class="container two-columns">
+
+
+    <!-- SOBRE -->
+    <section class="about section" id="sobre">
+
+      <div class="container two-columns">
+
         <div class="section-image">
-            <video
-                class="about-video"
-                id="heroVideo3"
-                muted
-                autoplay
-                loop
-                playsinline
-                preload="metadata"
-                width="800"
-                height="600"
-            >
-                <source src="assets/videos/1.mp4" type="video/mp4">
-                Seu navegador não suporta vídeo HTML5.
-            </video>
+
+          <video
+            class="about-video"
+            id="aboutVideo"
+            muted
+            autoplay
+            loop
+            playsinline
+            preload="metadata"
+            width="800"
+            height="600"
+          >
+            <source src="assets/videos/1.mp4" type="video/mp4">
+            Seu navegador não suporta vídeo HTML5.
+          </video>
+
         </div>
 
         <div class="content">
-            <span class="section-label">Quem somos</span>
-            <h2>Sobre nós</h2>
 
-            <p>
-                Somos uma comunidade cristã dedicada a amar a Deus sobre todas
-                as coisas e ao próximo como a nós mesmos.
-            </p>
+          <span class="section-label">
+            Quem somos
+          </span>
 
-            <p>
-                <strong>O Deus verdadeiro:</strong>
-                Cremos que há um, e somente um, Deus vivo e verdadeiro, um
-                Espírito infinito e inteligente, cujo nome é YAHWEH, o Criador
-                e Supremo Governador do céu e da terra, inexprimivelmente
-                glorioso em santidade e digno de toda honra, confiança e amor
-                possíveis.
-            </p>
+          <h2>
+            Sobre nós
+          </h2>
 
-            <p>
-                Cremos que na unidade da divindade há três Pessoas: o Pai,
-                o Filho e o Espírito Santo, iguais em toda perfeição divina,
-                executando distintos e harmoniosos ofícios na grande obra
-                da redenção.
-            </p>
+          <p>
+            Somos uma comunidade cristã dedicada a amar a Deus sobre todas
+            as coisas e ao próximo como a nós mesmos.
+          </p>
 
-            <div class="about-features">
-                <div>
-                    <i class="fa-solid fa-heart" aria-hidden="true"></i>
-                    <span>Pai</span>
-                </div>
-                <div>
-                    <i class="fa-solid fa-people-group" aria-hidden="true"></i>
-                    <span>Filho</span>
-                </div>
-                <div>
-                    <i class="fa-solid fa-hands-holding-child" aria-hidden="true"></i>
-                    <span>Espirito Santo</span>
-                </div>
+          <p>
+            <strong>O Deus verdadeiro:</strong>
+            Cremos que há um, e somente um, Deus vivo e verdadeiro, um
+            Espírito infinito e inteligente, cujo nome é YAHWEH, o Criador
+            e Supremo Governador do céu e da terra, inexprimivelmente
+            glorioso em santidade e digno de toda honra, confiança e amor
+            possíveis.
+          </p>
+
+          <p>
+            Cremos que na unidade da divindade há três Pessoas: o Pai,
+            o Filho e o Espírito Santo, iguais em toda perfeição divina,
+            executando distintos e harmoniosos ofícios na grande obra
+            da redenção.
+          </p>
+
+          <div class="about-features">
+
+            <div>
+              <i class="fa-solid fa-heart" aria-hidden="true"></i>
+              <span>Pai</span>
             </div>
+
+            <div>
+              <i class="fa-solid fa-people-group" aria-hidden="true"></i>
+              <span>Filho</span>
+            </div>
+
+            <div>
+              <i
+                class="fa-solid fa-hands-holding-child"
+                aria-hidden="true"
+              ></i>
+              <span>Espírito Santo</span>
+            </div>
+
+          </div>
+
         </div>
-    </div>
-</section>
+
+      </div>
+
+    </section>
 
 
     <!-- BÍBLIA -->
     <section class="bible section" id="biblia">
+
       <div class="container">
 
         <!-- DEVOCIONAL -->
         <section class="devotional-block" id="devocional">
+
           <article class="verse-card">
-            <div class="verse-icon"><i class="fa-solid fa-quote-left" aria-hidden="true"></i></div>
-            <span class="verse-label">Versículo do dia</span>
-            <blockquote id="dailyVerse">Carregando versículo...</blockquote>
-            <strong id="verseReference">João 3:16</strong>
+
+            <div class="verse-icon">
+              <i class="fa-solid fa-quote-left" aria-hidden="true"></i>
+            </div>
+
+            <span class="verse-label">
+              Versículo do dia
+            </span>
+
+            <blockquote id="dailyVerse">
+              Carregando versículo...
+            </blockquote>
+
+            <strong id="verseReference">
+              João 3:16
+            </strong>
 
             <div class="verse-actions">
-              <a id="verseLink" href="https://www.bible.com/pt/bible" target="_blank" rel="noopener noreferrer" class="button">
-                Ler passagem <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+
+              <a
+                id="verseLink"
+                href="https://www.bible.com/pt/bible"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="button"
+              >
+                Ler passagem
+                <i
+                  class="fa-solid fa-arrow-up-right-from-square"
+                  aria-hidden="true"
+                ></i>
               </a>
 
-              <button class="verse-refresh" id="newVerse" type="button">
-                <i class="fa-solid fa-rotate" aria-hidden="true"></i> Novo versículo
+              <button
+                class="verse-refresh"
+                id="newVerse"
+                type="button"
+              >
+                <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                Novo versículo
               </button>
+
             </div>
+
           </article>
+
         </section>
 
+
         <!-- LEITURA BÍBLICA -->
-        <section class="reading-block" id="leitura-biblica">
+        <section
+          class="reading-block"
+          id="leitura-biblica"
+        >
+
           <article class="reader-card">
+
             <div class="bible-card-image">
-              <img src="assets/images/biblia 2.jpeg" alt="Bíblia Sagrada aberta" loading="lazy">
+
+              <img
+                src="assets/images/biblia 2.jpeg"
+                alt="Bíblia Sagrada aberta"
+                loading="lazy"
+              >
+
             </div>
 
             <div class="reader-header">
-              <div><span class="verse-label">BÍBLIA SAGRADA</span></div>
-              <div class="reader-icon"><i class="fa-solid fa-book-bible" aria-hidden="true"></i></div>
+
+              <div>
+                <span class="verse-label">
+                  BÍBLIA SAGRADA
+                </span>
+              </div>
+
+              <a
+href="../church/assets/paginas/plano_de_leitura/index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+class="bible-open-button"
+
+<i class="fa-solid fa-book-open" aria-hidden="true"></i>
+Plano de Leitura Diária
+</a>
+
             </div>
 
             <div class="reader-controls">
-              <div class="reader-field">
-                <label for="bookSelect">Livro</label>
 
-                <select id="bookSelect" name="book">
+              <div class="reader-field">
+
+                <label for="bookSelect">
+                  Livro
+                </label>
+
+                <select
+                  id="bookSelect"
+                  name="book"
+                >
+
                   <option value="GEN">Gênesis</option>
                   <option value="EXO">Êxodo</option>
                   <option value="LEV">Levítico</option>
@@ -270,456 +440,1076 @@
                   <option value="3JN">3 João</option>
                   <option value="JUD">Judas</option>
                   <option value="REV">Apocalipse</option>
+
                 </select>
+
               </div>
+
 
               <div class="reader-field chapter-field">
-                <label for="chapterInput">Capítulo</label>
-                <input id="chapterInput" name="chapter" type="number" min="1" value="1" inputmode="numeric">
+
+                <label for="chapterInput">
+                  Capítulo
+                </label>
+
+                <input
+                  id="chapterInput"
+                  name="chapter"
+                  type="number"
+                  min="1"
+                  value="1"
+                  inputmode="numeric"
+                >
+
               </div>
 
-              <button id="readChapter" class="button" type="button">
-                <i class="fa-solid fa-book-open" aria-hidden="true"></i> Ler capítulo
+
+              <button
+                id="readChapter"
+                class="button"
+                type="button"
+              >
+                <i
+                  class="fa-solid fa-book-open"
+                  aria-hidden="true"
+                ></i>
+                Ler capítulo
               </button>
+
             </div>
+
           </article>
+
 
           <!-- LEITOR -->
-          <article class="bible-reader" id="bibleReader" hidden>
+          <article
+            class="bible-reader"
+            id="bibleReader"
+            hidden
+          >
+
             <div class="bible-reader-header">
+
               <div>
-                <span class="verse-label">Sua leitura</span>
-                <h3 id="readerTitle">Gênesis 1</h3>
+
+                <span class="verse-label">
+                  Sua leitura
+                </span>
+
+                <h3 id="readerTitle">
+                  Gênesis 1
+                </h3>
+
               </div>
 
-              <button id="closeReader" type="button" aria-label="Fechar leitura">
-                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+              <button
+                id="closeReader"
+                type="button"
+                aria-label="Fechar leitura"
+              >
+                <i
+                  class="fa-solid fa-xmark"
+                  aria-hidden="true"
+                ></i>
               </button>
+
             </div>
 
-            <div class="bible-reader-content" id="readerResult" aria-live="polite">
-              <p>Escolha um livro e um capítulo.</p>
+
+            <div
+              class="bible-reader-content"
+              id="readerResult"
+              aria-live="polite"
+            >
+              <p>
+                Escolha um livro e um capítulo.
+              </p>
             </div>
+
 
             <div class="bible-reader-footer">
-              <a id="externalChapterLink" href="https://www.bible.com/pt/bible" target="_blank" rel="noopener noreferrer" class="external-reading">
-                Abrir no Bible.com <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+
+              <a
+                id="externalChapterLink"
+                href="https://www.bible.com/pt/bible"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="external-reading"
+              >
+                Abrir no Bible.com
+                <i
+                  class="fa-solid fa-arrow-up-right-from-square"
+                  aria-hidden="true"
+                ></i>
               </a>
+
             </div>
+
           </article>
-        </section>
 
-        <!-- PLANO BÍBLICO ANUAL -->
-        <section class="daily-reading-section" id="leitura-anual">
-          <article class="daily-reading-card">
-
-            <div class="daily-reading-top">
-              <div class="daily-reading-brand">
-                <div class="daily-reading-icon"><i class="fa-solid fa-book-open-reader" aria-hidden="true"></i></div>
-
-                <div>
-                  <span>PLANO BÍBLICO</span>
-                  <h3>Minha leitura de hoje</h3>
-                </div>
-              </div>
-
-              <div class="daily-reading-day">
-                <span>DIA</span>
-                <strong id="currentReadingDay">01</strong>
-                <small>de 365</small>
-              </div>
-            </div>
-
-            <div class="daily-reading-content">
-              <div class="daily-reading-date">
-                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-                <span id="dailyReadingDate">Leitura de hoje</span>
-              </div>
-
-              <div class="daily-reading-passage">
-                <span>LEITURA DO DIA</span>
-                <h2 id="dailyReadingTitle">Gênesis 1 — 3</h2>
-                <p id="dailyReadingDescription">Comece sua jornada pela Palavra lendo a criação e os primeiros acontecimentos registrados em Gênesis.</p>
-              </div>
-
-              <div class="daily-progress">
-                <div class="daily-progress-header">
-                  <span>Seu progresso</span>
-                  <strong id="annualProgressText">0 de 365 dias</strong>
-                </div>
-
-                <div class="daily-progress-bar" role="progressbar" aria-label="Progresso da leitura bíblica anual" aria-valuemin="0" aria-valuemax="365" aria-valuenow="0">
-                  <span id="annualProgressBar"></span>
-                </div>
-
-                <div class="daily-progress-footer">
-                  <span>
-                    <i class="fa-solid fa-book-bible" aria-hidden="true"></i>
-                    <span id="annualProgressPercent">0%</span> concluído
-                  </span>
-
-                  <span id="nextReadingDay">Próxima leitura: Dia 1</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="daily-reading-actions">
-              <button id="completeReading" class="daily-complete-button" type="button">
-                <i class="fa-solid fa-circle-check" aria-hidden="true"></i> Marcar como lido
-              </button>
-
-              <button id="nextReading" class="daily-next-button" type="button">
-                Próxima leitura <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-              </button>
-            </div>
-
-            <div class="daily-reading-status" id="dailyReadingStatus" role="status" aria-live="polite"></div>
-          </article>
         </section>
 
       </div>
+
     </section>
 
+
     <!-- NOVOS CRISTÃOS -->
-    <section class="hospitality section" id="hospitalidade">
+    <section
+      class="hospitality section"
+      id="hospitalidade"
+    >
+
       <div class="container hospitality-container">
 
         <div class="hospitality-text">
-          <span class="section-label">Quer conhecer Jesus?</span>
-          <h2>Aceite a Jesus como Único Senhor e Salvador!</h2>
-          <p>Venha conhecer mais sobre a Palavra de Deus, fortalecer sua fé e descobrir os próximos passos dessa nova vida em Cristo.</p>
-          <a href="assets/paginas/novoscristaos/novoscristaos.html" class="button">Clique aqui</a>
+
+          <span class="section-label">
+            Quer conhecer Jesus?
+          </span>
+
+          <h2>
+            Aceite a Jesus como Único Senhor e Salvador!
+          </h2>
+
+          <p>
+            Venha conhecer mais sobre a Palavra de Deus, fortalecer sua fé
+            e descobrir os próximos passos dessa nova vida em Cristo.
+          </p>
+
+          <a
+            href="assets/paginas/novoscristaos/novoscristaos.html"
+            class="button"
+          >
+            Clique aqui
+          </a>
+
         </div>
 
+
         <div class="hospitality-image flip-card">
+
           <div class="flip-inner">
 
             <div class="flip-front">
-              <img src="assets/images/orando.jpg" alt="Equipe de hospitalidade" loading="lazy" width="800" height="1000">
+
+              <img
+                src="assets/images/orando.jpg"
+                alt="Equipe de hospitalidade"
+                loading="lazy"
+                width="800"
+                height="1000"
+              >
+
             </div>
 
+
             <div class="flip-back">
-              <i class="fa-solid fa-handshake" aria-hidden="true"></i>
-              <h3><a href="assets/paginas/novoscristaos/novoscristaos.html" class="button">Eu aceito a Jesus!</a></h3>
-              <p>Jesus te ama e quer cuidar de você!</p>
+
+              <i
+                class="fa-solid fa-handshake"
+                aria-hidden="true"
+              ></i>
+
+              <h3>
+
+                <a
+                  href="assets/paginas/novoscristaos/novoscristaos.html"
+                  class="button"
+                >
+                  Eu aceito a Jesus!
+                </a>
+
+              </h3>
+
+              <p>
+                Jesus te ama e quer cuidar de você!
+              </p>
+
             </div>
 
           </div>
+
         </div>
 
       </div>
+
     </section>
 
+
     <!-- MINISTÉRIOS -->
-    <section class="ministries section" id="ministerios">
+    <section
+      class="ministries section"
+      id="ministerios"
+    >
+
       <div class="container">
 
         <div class="section-heading ministerios-heading">
-          <h2 class="title">Nossos Ministérios</h2>
-          <p>Existem diferentes formas de cre</p>
+
+          <h2 class="title">
+            Nossos Ministérios
+          </h2>
+
+          <p>
+            Existem diferentes formas de crescer na fé e servir.
+          </p>
+
         </div>
+
 
         <div class="flip-grid">
 
           <!-- CRIANÇAS -->
           <article class="flip-card">
+
             <div class="flip-inner">
 
               <div class="flip-front">
-                <i class="fa-solid fa-child" aria-hidden="true"></i>
-                <h3>Crianças</h3>
-                <span>Ministério Kids</span>
+
+                <i
+                  class="fa-solid fa-child"
+                  aria-hidden="true"
+                ></i>
+
+                <h3>
+                  Crianças
+                </h3>
+
+                <span>
+                  Ministério Kids
+                </span>
+
               </div>
 
+
               <div class="flip-back">
-                <i class="fa-solid fa-child" aria-hidden="true"></i>
-                <h3>Kids Ministry</h3>
-                <p>Um ambiente seguro para crianças aprenderem sobre Deus de forma divertida e acolhedora.</p>
-                <a href="assets/images/1.jpeg" target="_blank" rel="noopener noreferrer">Saiba mais</a>
+
+                <i
+                  class="fa-solid fa-child"
+                  aria-hidden="true"
+                ></i>
+
+                <h3>
+                  Kids Ministry
+                </h3>
+
+                <p>
+                  Um ambiente seguro para crianças aprenderem sobre Deus
+                  de forma divertida e acolhedora.
+                </p>
+
+                <a
+                  href="assets/images/1.jpeg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Saiba mais
+                </a>
+
               </div>
 
             </div>
+
           </article>
+
 
           <!-- ADOLESCENTES -->
           <article class="flip-card">
+
             <div class="flip-inner">
 
               <div class="flip-front">
-                <i class="fa-solid fa-users" aria-hidden="true"></i>
-                <h3>Adolescentes</h3>
-                <span>Ministério de Adolescentes</span>
+
+                <i
+                  class="fa-solid fa-users"
+                  aria-hidden="true"
+                ></i>
+
+                <h3>
+                  Adolescentes
+                </h3>
+
+                <span>
+                  Ministério de Adolescentes
+                </span>
+
               </div>
 
+
               <div class="flip-back">
-                <i class="fa-solid fa-users" aria-hidden="true"></i>
-                <h3>Ministério de Adolescentes</h3>
-                <p>Adolescentes crescendo na fé, na comunhão e no conhecimento da Palavra.</p>
-                <a href="assets/images/2.jpeg" target="_blank" rel="noopener noreferrer">Saiba mais</a>
+
+                <i
+                  class="fa-solid fa-users"
+                  aria-hidden="true"
+                ></i>
+
+                <h3>
+                  Ministério de Adolescentes
+                </h3>
+
+                <p>
+                  Adolescentes crescendo na fé, na comunhão e no conhecimento
+                  da Palavra.
+                </p>
+
+                <a
+                  href="assets/images/2.jpeg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Saiba mais
+                </a>
+
               </div>
 
             </div>
+
           </article>
+
 
           <!-- FAMÍLIA -->
           <article class="flip-card">
+
             <div class="flip-inner">
 
               <div class="flip-front">
-                <i class="fa-solid fa-heart" aria-hidden="true"></i>
-                <h3>Família</h3>
-                <span>Casados para Sempre</span>
+
+                <i
+                  class="fa-solid fa-heart"
+                  aria-hidden="true"
+                ></i>
+
+                <h3>
+                  Família
+                </h3>
+
+                <span>
+                  Casados para Sempre
+                </span>
+
               </div>
 
+
               <div class="flip-back">
-                <i class="fa-solid fa-heart" aria-hidden="true"></i>
-                <h3>Ministério da Família</h3>
-                <p>Fortalecendo a vida conjugal e familiar por meio dos princípios de Cristo.</p>
-                <a href="assets/images/3.jpeg" target="_blank" rel="noopener noreferrer">Saiba mais</a>
+
+                <i
+                  class="fa-solid fa-heart"
+                  aria-hidden="true"
+                ></i>
+
+                <h3>
+                  Ministério da Família
+                </h3>
+
+                <p>
+                  Fortalecendo a vida conjugal e familiar por meio dos
+                  princípios de Cristo.
+                </p>
+
+                <a
+                  href="assets/images/3.jpeg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Saiba mais
+                </a>
+
               </div>
 
             </div>
+
           </article>
+
 
           <!-- MULHERES -->
           <article class="flip-card">
+
             <div class="flip-inner">
 
               <div class="flip-front">
-                <i class="fa-solid fa-heart" aria-hidden="true"></i>
-                <h3>Mulheres</h3>
-                <span>Ministério da Mulher</span>
+
+                <i
+                  class="fa-solid fa-heart"
+                  aria-hidden="true"
+                ></i>
+
+                <h3>
+                  Mulheres
+                </h3>
+
+                <span>
+                  Ministério da Mulher
+                </span>
+
               </div>
 
+
               <div class="flip-back">
-                <i class="fa-solid fa-heart" aria-hidden="true"></i>
-                <h3>Ministério da Mulher</h3>
-                <p>Mulheres crescendo juntas em Cristo, comunhão, oração e serviço.</p>
-                <a href="assets/images/3.jpeg" target="_blank" rel="noopener noreferrer">Saiba mais</a>
+
+                <i
+                  class="fa-solid fa-heart"
+                  aria-hidden="true"
+                ></i>
+
+                <h3>
+                  Ministério da Mulher
+                </h3>
+
+                <p>
+                  Mulheres crescendo juntas em Cristo, comunhão, oração
+                  e serviço.
+                </p>
+
+                <a
+                  href="assets/images/3.jpeg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Saiba mais
+                </a>
+
               </div>
 
             </div>
+
           </article>
 
         </div>
+
       </div>
+
     </section>
 
+
     <!-- AGENDA -->
-    <section class="events section" id="eventos">
+    <section
+      class="events section"
+      id="eventos"
+    >
+
       <div class="container">
 
         <div class="section-heading">
-          <h2 class="title">Agenda</h2>
-          <p>Acompanhe nossos cultos, encontros e atividades.</p>
+
+          <h2 class="title">
+            Agenda
+          </h2>
+
+          <p>
+            Acompanhe nossos cultos, encontros e atividades.
+          </p>
+
         </div>
+
 
         <div class="church-calendar">
 
           <div class="calendar-top">
+
             <div>
-              <span class="calendar-label">Agenda semanal</span>
-              <h3 id="calendarMonth">Agosto de 2026</h3>
+
+              <span class="calendar-label">
+                Agenda semanal
+              </span>
+
+              <h3 id="calendarMonth">
+                Agosto de 2026
+              </h3>
+
             </div>
+
 
             <div class="calendar-actions">
-              <button id="prevWeek" type="button" aria-label="Semana anterior"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
-              <button id="todayWeek" type="button">Hoje</button>
-              <button id="nextWeek" type="button" aria-label="Próxima semana"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+
+              <button
+                id="prevWeek"
+                type="button"
+                aria-label="Semana anterior"
+              >
+                <i
+                  class="fa-solid fa-chevron-left"
+                  aria-hidden="true"
+                ></i>
+              </button>
+
+              <button
+                id="todayWeek"
+                type="button"
+              >
+                Hoje
+              </button>
+
+              <button
+                id="nextWeek"
+                type="button"
+                aria-label="Próxima semana"
+              >
+                <i
+                  class="fa-solid fa-chevron-right"
+                  aria-hidden="true"
+                ></i>
+              </button>
+
             </div>
+
           </div>
+
 
           <div class="calendar-week-wrapper">
+
             <div class="calendar-week">
-              <div class="calendar-day"><span class="day-name">Dom</span><strong class="day-number"></strong><div class="day-events"></div></div>
-              <div class="calendar-day"><span class="day-name">Seg</span><strong class="day-number"></strong><div class="day-events"></div></div>
-              <div class="calendar-day"><span class="day-name">Ter</span><strong class="day-number"></strong><div class="day-events"></div></div>
-              <div class="calendar-day"><span class="day-name">Qua</span><strong class="day-number"></strong><div class="day-events"></div></div>
-              <div class="calendar-day"><span class="day-name">Qui</span><strong class="day-number"></strong><div class="day-events"></div></div>
-              <div class="calendar-day"><span class="day-name">Sex</span><strong class="day-number"></strong><div class="day-events"></div></div>
-              <div class="calendar-day"><span class="day-name">Sáb</span><strong class="day-number"></strong><div class="day-events"></div></div>
+
+              <div class="calendar-day">
+                <span class="day-name">Dom</span>
+                <strong class="day-number"></strong>
+                <div class="day-events"></div>
+              </div>
+
+              <div class="calendar-day">
+                <span class="day-name">Seg</span>
+                <strong class="day-number"></strong>
+                <div class="day-events"></div>
+              </div>
+
+              <div class="calendar-day">
+                <span class="day-name">Ter</span>
+                <strong class="day-number"></strong>
+                <div class="day-events"></div>
+              </div>
+
+              <div class="calendar-day">
+                <span class="day-name">Qua</span>
+                <strong class="day-number"></strong>
+                <div class="day-events"></div>
+              </div>
+
+              <div class="calendar-day">
+                <span class="day-name">Qui</span>
+                <strong class="day-number"></strong>
+                <div class="day-events"></div>
+              </div>
+
+              <div class="calendar-day">
+                <span class="day-name">Sex</span>
+                <strong class="day-number"></strong>
+                <div class="day-events"></div>
+              </div>
+
+              <div class="calendar-day">
+                <span class="day-name">Sáb</span>
+                <strong class="day-number"></strong>
+                <div class="day-events"></div>
+              </div>
+
             </div>
+
           </div>
 
+
           <div class="calendar-footer">
-            <button id="prevYear" type="button"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Ano anterior</button>
-            <span id="calendarYear">2026</span>
-            <button id="nextYear" type="button">Próximo ano <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+
+            <button
+              id="prevYear"
+              type="button"
+            >
+              <i
+                class="fa-solid fa-arrow-left"
+                aria-hidden="true"
+              ></i>
+              Ano anterior
+            </button>
+
+            <span id="calendarYear">
+              2026
+            </span>
+
+            <button
+              id="nextYear"
+              type="button"
+            >
+              Próximo ano
+              <i
+                class="fa-solid fa-arrow-right"
+                aria-hidden="true"
+              ></i>
+            </button>
+
           </div>
 
         </div>
+
       </div>
+
     </section>
 
+
     <!-- MENSAGENS -->
-    <section class="messages section" id="mensagens">
+    <section
+      class="messages section"
+      id="mensagens"
+    >
+
       <div class="container">
 
         <div class="section-heading">
-          <span class="section-label">Palavra e fé</span>
-          <h2 class="title">Últimos Cultos</h2>
-          <p>Assista aos nossos cultos e mensagens.</p>
+
+          <span class="section-label">
+            Palavra e fé
+          </span>
+
+          <h2 class="title">
+            Últimos Cultos
+          </h2>
+
+          <p>
+            Assista aos nossos cultos e mensagens.
+          </p>
+
         </div>
 
+
         <div class="video-grid">
-          <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/9Gxo_H6vDcs" title="Culto de louvor e adoração" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
 
           <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/GiiiAd2iKQE" title="Culto de louvor e adoração" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+            <iframe
+              src="https://www.youtube.com/embed/9Gxo_H6vDcs"
+              title="Culto de louvor e adoração"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+
           </div>
+
+
+          <div class="video-wrapper">
+
+            <iframe
+              src="https://www.youtube.com/embed/GiiiAd2iKQE"
+              title="Culto de louvor e adoração"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+
+          </div>
+
         </div>
 
       </div>
+
     </section>
 
+
     <!-- PASTORES -->
-    <section class="services section" id="pastores">
+    <section
+      class="services section"
+      id="pastores"
+    >
+
       <div class="container">
 
         <div class="section-heading cultos-heading">
-          <h2 class="title">Pastores</h2>
-          <p>Conheça nossos pastores</p>
+
+          <h2 class="title">
+            Pastores
+          </h2>
+
+          <p>
+            Conheça nossos pastores
+          </p>
+
         </div>
+
 
         <div class="services-grid">
 
           <article class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-church" aria-hidden="true"></i></div>
-            <h3>Jonas Veiga</h3>
-            <strong>Pastor Presidente</strong>
-            <p>Breve descrição do pastor</p>
-            
+
+            <div class="service-icon">
+              <i
+                class="fa-solid fa-church"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <h3>
+              Jonas Veiga
+            </h3>
+
+            <strong>
+              Pastor Presidente
+            </strong>
+
+            <p>
+              Breve descrição do pastor
+            </p>
+
           </article>
+
 
           <article class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-church" aria-hidden="true"></i></div>
-            <h3>Giu </h3>
-            <p>Breve descrição do pastor</p>
-            
+
+            <div class="service-icon">
+              <i
+                class="fa-solid fa-church"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <h3>
+              Giu
+            </h3>
+
+            <p>
+              Breve descrição do pastor
+            </p>
+
           </article>
+
 
           <article class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-church" aria-hidden="true"></i></div>
-            <h3>Jovelino</h3>
-            <strong>Pastor da Família</strong>
-            <p>Breve descrição do pastor</p>
-          
+
+            <div class="service-icon">
+              <i
+                class="fa-solid fa-church"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <h3>
+              Jovelino
+            </h3>
+
+            <strong>
+              Pastor da Família
+            </strong>
+
+            <p>
+              Breve descrição do pastor
+            </p>
+
           </article>
+
 
           <article class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-church" aria-hidden="true"></i></div>
-            <h3>Fernando</h3>
-            <p>Breve descrição do pastor</p>
-          
+
+            <div class="service-icon">
+              <i
+                class="fa-solid fa-church"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <h3>
+              Fernando
+            </h3>
+
+            <p>
+              Breve descrição do pastor
+            </p>
+
           </article>
+
 
           <article class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-church" aria-hidden="true"></i></div>
-            <h3>Felipe</h3>
-            <p>Breve descrição do pastor</p>
-            
+
+            <div class="service-icon">
+              <i
+                class="fa-solid fa-church"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <h3>
+              Felipe
+            </h3>
+
+            <p>
+              Breve descrição do pastor
+            </p>
+
           </article>
+
 
           <article class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-church" aria-hidden="true"></i></div>
-            <h3>Ricardo</h3>
-            <p>Breve descrição do pastor</p>
-            
+
+            <div class="service-icon">
+              <i
+                class="fa-solid fa-church"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <h3>
+              Ricardo
+            </h3>
+
+            <p>
+              Breve descrição do pastor
+            </p>
+
           </article>
+
 
           <article class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
-            <h3>Pastor</h3>
-            <p>Breve descrição do pastor</p>
-            
+
+            <div class="service-icon">
+              <i
+                class="fa-solid fa-users"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <h3>
+              Pastor
+            </h3>
+
+            <p>
+              Breve descrição do pastor
+            </p>
+
           </article>
+
 
           <article class="service-card">
-            <div class="service-icon"><i class="fa-solid fa-church" aria-hidden="true"></i></div>
-            <h3>Pastor</h3>
-            <p>Breve descrição do pastor</p>
-         
-          </article>
 
-     
+            <div class="service-icon">
+              <i
+                class="fa-solid fa-church"
+                aria-hidden="true"
+              ></i>
+            </div>
+
+            <h3>
+              Pastor
+            </h3>
+
+            <p>
+              Breve descrição do pastor
+            </p>
+
+          </article>
 
         </div>
+
       </div>
+
     </section>
 
+
     <!-- CONTATO -->
-    <section class="contact section" id="contato">
+    <section
+      class="contact section"
+      id="contato"
+    >
+
       <div class="container contact-container">
 
         <div class="contact-info">
-          <span class="section-label">Fale conosco</span>
-          <h2>Entre em contato</h2>
-          <p>Queremos conhecer você. Conte-nos seu testemunho ou envie seu pedido de oração.</p>
+
+          <span class="section-label">
+            Fale conosco
+          </span>
+
+          <h2>
+            Entre em contato
+          </h2>
+
+          <p>
+            Queremos conhecer você. Conte-nos seu testemunho ou envie
+            seu pedido de oração.
+          </p>
+
 
           <div class="contact-item">
-            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+
+            <i
+              class="fa-solid fa-envelope"
+              aria-hidden="true"
+            ></i>
 
             <div>
-              <span>E-mail</span>
-              <a href="mailto:contato@ibrg.com.br">contato@ibrg.com.br</a>
+
+              <span>
+                E-mail
+              </span>
+
+              <a href="mailto:contato@ibrg.com.br">
+                contato@ibrg.com.br
+              </a>
+
             </div>
+
           </div>
+
 
           <div class="contact-item">
-            <i class="fa-solid fa-church" aria-hidden="true"></i>
+
+            <i
+              class="fa-solid fa-church"
+              aria-hidden="true"
+            ></i>
 
             <div>
-              <span>Igreja</span>
-              <p>1ª Igreja Batista Renovada de Guarulhos</p>
+
+              <span>
+                Igreja
+              </span>
+
+              <p>
+                1ª Igreja Batista Renovada de Guarulhos
+              </p>
+
             </div>
+
           </div>
+
         </div>
 
-        <form class="contact-form" id="contactForm">
-          <div class="form-group">
-            <label for="name">Nome</label>
-            <input id="name" name="name" type="text" placeholder="Seu nome" autocomplete="name" required>
-          </div>
+
+        <form
+          class="contact-form"
+          id="contactForm"
+        >
 
           <div class="form-group">
-            <label for="email">E-mail</label>
-            <input id="email" name="email" type="email" placeholder="seu@email.com" autocomplete="email" required>
+
+            <label for="name">
+              Nome
+            </label>
+
+            <input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Seu nome"
+              autocomplete="name"
+              required
+            >
+
           </div>
+
 
           <div class="form-group">
-            <label for="message">Mensagem</label>
-            <textarea id="message" name="message" rows="6" placeholder="Escreva sua mensagem..." required></textarea>
+
+            <label for="email">
+              E-mail
+            </label>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="seu@email.com"
+              autocomplete="email"
+              required
+            >
+
           </div>
 
-          <button class="button" type="submit">
-            <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Enviar mensagem
+
+          <div class="form-group">
+
+            <label for="message">
+              Mensagem
+            </label>
+
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              placeholder="Escreva sua mensagem..."
+              required
+            ></textarea>
+
+          </div>
+
+
+          <button
+            class="button"
+            type="submit"
+          >
+
+            <i
+              class="fa-solid fa-paper-plane"
+              aria-hidden="true"
+            ></i>
+
+            Enviar mensagem
+
           </button>
 
-          <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
+
+          <p
+            class="form-message"
+            id="formMessage"
+            role="status"
+            aria-live="polite"
+          ></p>
+
         </form>
 
       </div>
+
     </section>
 
   </main>
 
+
   <!-- FOOTER -->
   <footer class="footer">
+
     <div class="container footer-container">
+
       <div class="footer-social">
-        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
-        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
-        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
+
+        <a href="#" aria-label="Instagram">
+          <i
+            class="fa-brands fa-instagram"
+            aria-hidden="true"
+          ></i>
+        </a>
+
+        <a href="#" aria-label="Facebook">
+          <i
+            class="fa-brands fa-facebook-f"
+            aria-hidden="true"
+          ></i>
+        </a>
+
+        <a href="#" aria-label="YouTube">
+          <i
+            class="fa-brands fa-youtube"
+            aria-hidden="true"
+          ></i>
+        </a>
+
       </div>
+
     </div>
+
 
     <div class="footer-bottom">
-      <p>© <span id="year"></span> 1 I.B.R.G. — Todos os direitos reservados.</p>
+
+      <p>
+        © <span id="year"></span>
+        1 I.B.R.G. — Todos os direitos reservados.
+      </p>
+
     </div>
+
   </footer>
 
-  <script src="assets/js/script.js" defer></script>
+
+  <script
+    src="assets/js/script.js"
+    defer
+  ></script>
+
 </body>
 </html>

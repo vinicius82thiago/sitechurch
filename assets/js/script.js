@@ -1,6 +1,9 @@
-
 document.addEventListener("DOMContentLoaded", () => {
+    "use strict";
 
+    /* ========================================================
+       HELPERS
+    ======================================================== */
 
     const $ = (selector, parent = document) =>
         parent.querySelector(selector);
@@ -11,14 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const safeText = (value) =>
         String(value ?? "").trim();
 
-    const isElement = (element) =>
-        element instanceof Element;
+    const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    );
 
-    const escapeRegExp = (value) =>
-        String(value).replace(
-            /[.*+?^${}()|[\]\\]/g,
-            "\\$&"
-        );
+    const isReducedMotion = () =>
+        prefersReducedMotion.matches;
 
 
     /* ========================================================
@@ -38,23 +39,15 @@ document.addEventListener("DOMContentLoaded", () => {
     ======================================================== */
 
     const welcomeBar = $("#welcomeBar");
-
     let welcomeTimer = null;
 
     if (welcomeBar) {
-
-        document.body.classList.add(
-            "welcome-active"
-        );
+        document.body.classList.add("welcome-active");
 
         welcomeTimer = window.setTimeout(() => {
-
             welcomeBar.classList.add("hide");
-
-            document.body.classList.remove(
-                "welcome-active"
-            );
-
+            document.body.classList.remove("welcome-active");
+            welcomeTimer = null;
         }, 2500);
     }
 
@@ -68,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const header = $(".header");
 
     const fecharMenu = () => {
-
         if (!navigation || !menuToggle) {
             return;
         }
@@ -89,8 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             '<i class="fa-solid fa-bars" aria-hidden="true"></i>';
     };
 
-    const abrirOuFecharMenu = () => {
-
+    const alternarMenu = () => {
         if (!navigation || !menuToggle) {
             return;
         }
@@ -116,12 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     if (menuToggle && navigation) {
-
-        menuToggle.addEventListener(
-            "click",
-            abrirOuFecharMenu
-        );
-
         menuToggle.setAttribute(
             "aria-expanded",
             "false"
@@ -131,10 +116,14 @@ document.addEventListener("DOMContentLoaded", () => {
             "aria-label",
             "Abrir menu"
         );
+
+        menuToggle.addEventListener(
+            "click",
+            alternarMenu
+        );
     }
 
     $$("#navigation a").forEach((link) => {
-
         link.addEventListener(
             "click",
             fecharMenu
@@ -144,12 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener(
         "click",
         (event) => {
-
-            if (
-                !navigation?.classList.contains(
-                    "active"
-                )
-            ) {
+            if (!navigation?.classList.contains("active")) {
                 return;
             }
 
@@ -167,7 +151,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener(
         "keydown",
         (event) => {
-
             if (event.key === "Escape") {
                 fecharMenu();
             }
@@ -180,7 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ======================================================== */
 
     const atualizarHeader = () => {
-
         if (!header) {
             return;
         }
@@ -203,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================================
-       HERO / SLIDER
+       HERO / SLIDER DE IMAGENS
     ======================================================== */
 
     const slides = $$(".slide");
@@ -214,108 +196,73 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentSlide = 0;
     let sliderTimer = null;
-    let touchStartX = 0;
-    let touchStartY = 0;
 
     const mostrarSlide = (index) => {
-
         if (!slides.length) {
             return;
         }
 
         currentSlide =
-            (
-                index + slides.length
-            ) % slides.length;
+            (index + slides.length) % slides.length;
 
-        slides.forEach(
-            (slide, indexAtual) => {
+        slides.forEach((slide, indexAtual) => {
+            const ativo =
+                indexAtual === currentSlide;
 
-                const ativo =
-                    indexAtual === currentSlide;
+            slide.classList.toggle(
+                "active",
+                ativo
+            );
 
-                slide.classList.toggle(
-                    "active",
-                    ativo
-                );
+            slide.setAttribute(
+                "aria-hidden",
+                String(!ativo)
+            );
+        });
 
-                slide.setAttribute(
-                    "aria-hidden",
-                    String(!ativo)
-                );
-            }
-        );
+        dots.forEach((dot, indexAtual) => {
+            const ativo =
+                indexAtual === currentSlide;
 
-        dots.forEach(
-            (dot, indexAtual) => {
+            dot.classList.toggle(
+                "active",
+                ativo
+            );
 
-                const ativo =
-                    indexAtual === currentSlide;
-
-                dot.classList.toggle(
-                    "active",
-                    ativo
-                );
-
-                dot.setAttribute(
-                    "aria-current",
-                    ativo
-                        ? "true"
-                        : "false"
-                );
-            }
-        );
+            dot.setAttribute(
+                "aria-current",
+                ativo ? "true" : "false"
+            );
+        });
     };
 
     const pararSlider = () => {
-
         if (sliderTimer !== null) {
-
-            window.clearInterval(
-                sliderTimer
-            );
-
+            window.clearInterval(sliderTimer);
             sliderTimer = null;
         }
     };
 
     const iniciarSlider = () => {
-
         pararSlider();
 
-        if (slides.length < 2) {
-            return;
-        }
-
         if (
-            window.matchMedia(
-                "(prefers-reduced-motion: reduce)"
-            ).matches
+            slides.length < 2 ||
+            isReducedMotion() ||
+            document.hidden
         ) {
             return;
         }
 
-        sliderTimer =
-            window.setInterval(
-                () => {
-
-                    mostrarSlide(
-                        currentSlide + 1
-                    );
-
-                },
-                6000
-            );
+        sliderTimer = window.setInterval(() => {
+            mostrarSlide(currentSlide + 1);
+        }, 6000);
     };
 
     nextSlide?.addEventListener(
         "click",
         () => {
-
-            mostrarSlide(
-                currentSlide + 1
-            );
-
+            mostrarSlide(currentSlide + 1);
             iniciarSlider();
         }
     );
@@ -323,29 +270,20 @@ document.addEventListener("DOMContentLoaded", () => {
     prevSlide?.addEventListener(
         "click",
         () => {
-
-            mostrarSlide(
-                currentSlide - 1
-            );
-
+            mostrarSlide(currentSlide - 1);
             iniciarSlider();
         }
     );
 
-    dots.forEach(
-        (dot, index) => {
-
-            dot.addEventListener(
-                "click",
-                () => {
-
-                    mostrarSlide(index);
-
-                    iniciarSlider();
-                }
-            );
-        }
-    );
+    dots.forEach((dot, index) => {
+        dot.addEventListener(
+            "click",
+            () => {
+                mostrarSlide(index);
+                iniciarSlider();
+            }
+        );
+    });
 
     hero?.addEventListener(
         "mouseenter",
@@ -357,10 +295,12 @@ document.addEventListener("DOMContentLoaded", () => {
         iniciarSlider
     );
 
+    let touchStartX = 0;
+    let touchStartY = 0;
+
     hero?.addEventListener(
         "touchstart",
         (event) => {
-
             const touch =
                 event.changedTouches?.[0];
 
@@ -368,11 +308,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            touchStartX =
-                touch.clientX;
-
-            touchStartY =
-                touch.clientY;
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
 
             pararSlider();
         },
@@ -384,7 +321,6 @@ document.addEventListener("DOMContentLoaded", () => {
     hero?.addEventListener(
         "touchend",
         (event) => {
-
             const touch =
                 event.changedTouches?.[0];
 
@@ -393,23 +329,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const differenceX =
-                touchStartX -
-                touch.clientX;
+                touchStartX - touch.clientX;
 
             const differenceY =
-                touchStartY -
-                touch.clientY;
+                touchStartY - touch.clientY;
 
-            /*
-             * Só considera swipe quando o movimento
-             * horizontal é maior que o vertical.
-             */
             if (
                 Math.abs(differenceX) >= 50 &&
                 Math.abs(differenceX) >
                 Math.abs(differenceY)
             ) {
-
                 mostrarSlide(
                     differenceX > 0
                         ? currentSlide + 1
@@ -433,11 +362,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ======================================================== */
 
     $$(".flip-card").forEach((card) => {
-
-        /*
-         * Garante que cards interativos sejam acessíveis
-         * também pelo teclado.
-         */
         if (!card.hasAttribute("tabindex")) {
             card.setAttribute(
                 "tabindex",
@@ -459,32 +383,28 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        const alternarCard = () => {
-
-            card.classList.toggle(
-                "active"
+        const possuiControleInterno = (target) =>
+            target.closest(
+                "a, button, input, select, textarea"
             );
+
+        const alternarCard = () => {
+            const ativo =
+                card.classList.toggle("active");
 
             card.setAttribute(
                 "aria-expanded",
-                String(
-                    card.classList.contains(
-                        "active"
-                    )
-                )
+                String(ativo)
             );
         };
 
         card.addEventListener(
             "click",
             (event) => {
-
                 if (
-                    event.target.closest("a") ||
-                    event.target.closest("button") ||
-                    event.target.closest("input") ||
-                    event.target.closest("select") ||
-                    event.target.closest("textarea")
+                    possuiControleInterno(
+                        event.target
+                    )
                 ) {
                     return;
                 }
@@ -496,7 +416,6 @@ document.addEventListener("DOMContentLoaded", () => {
         card.addEventListener(
             "keydown",
             (event) => {
-
                 if (
                     event.key !== "Enter" &&
                     event.key !== " "
@@ -505,11 +424,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 if (
-                    event.target.closest("a") ||
-                    event.target.closest("button") ||
-                    event.target.closest("input") ||
-                    event.target.closest("select") ||
-                    event.target.closest("textarea")
+                    possuiControleInterno(
+                        event.target
+                    )
                 ) {
                     return;
                 }
@@ -533,7 +450,6 @@ document.addEventListener("DOMContentLoaded", () => {
         message,
         color = "#16803c"
     ) => {
-
         if (!formMessage) {
             return;
         }
@@ -556,7 +472,6 @@ document.addEventListener("DOMContentLoaded", () => {
     contactForm?.addEventListener(
         "submit",
         (event) => {
-
             event.preventDefault();
 
             if (
@@ -564,33 +479,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 "function" &&
                 !contactForm.checkValidity()
             ) {
-
                 contactForm.reportValidity();
-
                 return;
             }
 
             const name =
-                safeText(
-                    $("#name")?.value
-                );
+                safeText($("#name")?.value);
 
             const email =
-                safeText(
-                    $("#email")?.value
-                );
+                safeText($("#email")?.value);
 
             const message =
-                safeText(
-                    $("#message")?.value
-                );
+                safeText($("#message")?.value);
 
-            if (
-                !name ||
-                !email ||
-                !message
-            ) {
-
+            if (!name || !email || !message) {
                 mostrarMensagemFormulario(
                     "Preencha todos os campos obrigatórios.",
                     "#b42318"
@@ -599,14 +501,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            /*
-             * Validação adicional simples.
-             */
             const emailPattern =
                 /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
             if (!emailPattern.test(email)) {
-
                 mostrarMensagemFormulario(
                     "Digite um endereço de e-mail válido.",
                     "#b42318"
@@ -635,12 +533,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Abrindo seu aplicativo de e-mail..."
             );
 
-            /*
-             * IMPORTANTE:
-             *
-             * mailto apenas abre o aplicativo de e-mail.
-             * Não realiza envio automático pelo servidor.
-             */
             window.location.href =
                 `mailto:contato@ibrg.com.br` +
                 `?subject=${assunto}` +
@@ -651,7 +543,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ========================================================
        VERSÍCULO DO DIA
-       ======================================================== */
+    ======================================================== */
 
     const dailyVerse = $("#dailyVerse");
     const verseReference = $("#verseReference");
@@ -659,7 +551,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const newVerse = $("#newVerse");
 
     const verses = [
-
         {
             text:
                 "Porque Deus tanto amou o mundo que deu o seu Filho Unigênito, para que todo o que nele crer não pereça, mas tenha a vida eterna.",
@@ -731,11 +622,9 @@ document.addEventListener("DOMContentLoaded", () => {
             url:
                 "https://www.bible.com/pt/bible/129/DEU.31.6.NVI"
         }
-
     ];
 
     const mostrarVersiculo = (index) => {
-
         if (
             !dailyVerse ||
             !verseReference ||
@@ -754,7 +643,6 @@ document.addEventListener("DOMContentLoaded", () => {
             verse.reference;
 
         if (verseLink) {
-
             verseLink.href =
                 verse.url;
 
@@ -766,8 +654,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    const obterDiaDoAno = (date = new Date()) => {
-
+    const obterDiaDoAno = (
+        date = new Date()
+    ) => {
         const inicio =
             new Date(
                 date.getFullYear(),
@@ -784,36 +673,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
         return Math.floor(
             (
-                inicioDia -
-                inicio
+                inicioDia - inicio
             ) / 86400000
         );
     };
 
     if (verses.length) {
-
-        const dayOfYear =
-            obterDiaDoAno();
-
-        const index =
-            dayOfYear % verses.length;
-
-        mostrarVersiculo(index);
+        mostrarVersiculo(
+            obterDiaDoAno() % verses.length
+        );
     }
 
     newVerse?.addEventListener(
         "click",
         () => {
-
-            if (verses.length < 2) {
+            if (
+                verses.length < 2 ||
+                !dailyVerse
+            ) {
                 return;
             }
 
             const atual =
                 safeText(
-                    dailyVerse?.textContent
-                )
-                    .replace(/^“|”$/g, "");
+                    dailyVerse.textContent
+                ).replace(
+                    /^“|”$/g,
+                    ""
+                );
 
             const disponiveis =
                 verses.filter(
@@ -834,9 +721,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ];
 
             mostrarVersiculo(
-                verses.indexOf(
-                    escolhido
-                )
+                verses.indexOf(escolhido)
             );
         }
     );
@@ -844,10 +729,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ========================================================
        BÍBLIA
-       ======================================================== */
+    ======================================================== */
 
     const bookNames = {
-
         GEN: "Gênesis",
         EXO: "Êxodo",
         LEV: "Levítico",
@@ -917,77 +801,6 @@ document.addEventListener("DOMContentLoaded", () => {
         REV: "Apocalipse"
     };
 
-    const chapterCounts = {
-
-        "Gênesis": 50,
-        "Êxodo": 40,
-        "Levítico": 27,
-        "Números": 36,
-        "Deuteronômio": 34,
-        "Josué": 24,
-        "Juízes": 21,
-        "Rute": 4,
-        "1 Samuel": 31,
-        "2 Samuel": 24,
-        "1 Reis": 22,
-        "2 Reis": 25,
-        "1 Crônicas": 29,
-        "2 Crônicas": 36,
-        "Esdras": 10,
-        "Neemias": 13,
-        "Ester": 10,
-        "Jó": 42,
-        "Salmos": 150,
-        "Provérbios": 31,
-        "Eclesiastes": 12,
-        "Cânticos": 8,
-        "Isaías": 66,
-        "Jeremias": 52,
-        "Lamentações": 5,
-        "Ezequiel": 48,
-        "Daniel": 12,
-        "Oseias": 14,
-        "Joel": 3,
-        "Amós": 9,
-        "Obadias": 1,
-        "Jonas": 4,
-        "Miqueias": 7,
-        "Naum": 3,
-        "Habacuque": 3,
-        "Sofonias": 3,
-        "Ageu": 2,
-        "Zacarias": 14,
-        "Malaquias": 4,
-
-        "Mateus": 28,
-        "Marcos": 16,
-        "Lucas": 24,
-        "João": 21,
-        "Atos": 28,
-        "Romanos": 16,
-        "1 Coríntios": 16,
-        "2 Coríntios": 13,
-        "Gálatas": 6,
-        "Efésios": 6,
-        "Filipenses": 4,
-        "Colossenses": 4,
-        "1 Tessalonicenses": 5,
-        "2 Tessalonicenses": 3,
-        "1 Timóteo": 6,
-        "2 Timóteo": 4,
-        "Tito": 3,
-        "Filemom": 1,
-        "Hebreus": 13,
-        "Tiago": 5,
-        "1 Pedro": 5,
-        "2 Pedro": 3,
-        "1 João": 5,
-        "2 João": 1,
-        "3 João": 1,
-        "Judas": 1,
-        "Apocalipse": 22
-    };
-
     const bookSelect = $("#bookSelect");
     const chapterInput = $("#chapterInput");
     const readChapter = $("#readChapter");
@@ -1000,6 +813,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $("#externalChapterLink");
 
     let bibleRequestController = null;
+    let bibleRequestId = 0;
 
     const getBibleURL = (
         code,
@@ -1008,7 +822,6 @@ document.addEventListener("DOMContentLoaded", () => {
         `https://www.bible.com/pt/bible/129/${code}.${chapter}.NVI`;
 
     const mostrarErroBiblia = (message) => {
-
         if (!readerResult) {
             return;
         }
@@ -1043,64 +856,16 @@ document.addEventListener("DOMContentLoaded", () => {
             text
         );
 
-        readerResult.appendChild(
-            box
-        );
-    };
-
-    const atualizarLimiteCapitulo = () => {
-
-        if (
-            !bookSelect ||
-            !chapterInput
-        ) {
-            return;
-        }
-
-        const code =
-            bookSelect.value;
-
-        const book =
-            bookNames[code];
-
-        const max =
-            chapterCounts[book];
-
-        if (!max) {
-            return;
-        }
-
-        chapterInput.min = "1";
-        chapterInput.max =
-            String(max);
-
-        const value =
-            Number(
-                chapterInput.value
-            );
-
-        if (
-            !Number.isInteger(value) ||
-            value < 1 ||
-            value > max
-        ) {
-            chapterInput.value = "1";
-        }
+        readerResult.appendChild(box);
     };
 
     const abrirLeitor = () => {
-
         if (!bibleReader) {
             return;
         }
 
-        bibleReader.removeAttribute(
-            "hidden"
-        );
-
-        bibleReader.classList.add(
-            "active"
-        );
+        bibleReader.removeAttribute("hidden");
+        bibleReader.classList.add("active");
 
         document.body.classList.add(
             "reader-open"
@@ -1108,22 +873,18 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const fecharLeitor = () => {
-
         if (!bibleReader) {
             return;
         }
 
+        bibleRequestId++;
+
         if (bibleRequestController) {
-
             bibleRequestController.abort();
-
             bibleRequestController = null;
         }
 
-        bibleReader.classList.remove(
-            "active"
-        );
-
+        bibleReader.classList.remove("active");
         bibleReader.setAttribute(
             "hidden",
             ""
@@ -1135,22 +896,46 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const mostrarLoadingBiblia = () => {
-
         if (!readerResult) {
             return;
         }
 
-        readerResult.innerHTML = `
-            <div class="reader-loading">
-                <i class="fa-solid fa-spinner fa-spin"
-                   aria-hidden="true"></i>
-                <p>Carregando a leitura...</p>
-            </div>
-        `;
+        readerResult.replaceChildren();
+
+        const loading =
+            document.createElement("div");
+
+        loading.className =
+            "reader-loading";
+
+        const icon =
+            document.createElement("i");
+
+        icon.className =
+            "fa-solid fa-spinner fa-spin";
+
+        icon.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        const text =
+            document.createElement("p");
+
+        text.textContent =
+            "Carregando a leitura...";
+
+        loading.append(
+            icon,
+            text
+        );
+
+        readerResult.appendChild(
+            loading
+        );
     };
 
     const carregarCapitulo = async () => {
-
         if (
             !bookSelect ||
             !chapterInput ||
@@ -1160,23 +945,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const code =
-            safeText(
-                bookSelect.value
-            );
+            safeText(bookSelect.value);
 
         const book =
             bookNames[code];
 
         const chapter =
-            Number(
-                chapterInput.value
-            );
+            Number(chapterInput.value);
 
-        const max =
-            chapterCounts[book];
-
-        if (!book || !max) {
-
+        if (!book) {
             mostrarErroBiblia(
                 "Selecione um livro bíblico válido."
             );
@@ -1186,24 +963,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (
             !Number.isInteger(chapter) ||
-            chapter < 1 ||
-            chapter > max
+            chapter < 1
         ) {
-
             mostrarErroBiblia(
-                `${book} possui ${max} capítulo${max > 1 ? "s" : ""}.`
+                "Digite um número de capítulo válido."
             );
 
             return;
         }
 
-        /*
-         * Cancela uma requisição anterior.
-         */
         if (bibleRequestController) {
-
             bibleRequestController.abort();
         }
+
+        const requestId =
+            ++bibleRequestId;
 
         bibleRequestController =
             new AbortController();
@@ -1211,7 +985,6 @@ document.addEventListener("DOMContentLoaded", () => {
         abrirLeitor();
 
         if (readerTitle) {
-
             readerTitle.textContent =
                 `${book} ${chapter}`;
         }
@@ -1223,7 +996,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
         if (externalChapterLink) {
-
             externalChapterLink.href =
                 bibleURL;
 
@@ -1236,25 +1008,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         mostrarLoadingBiblia();
 
-        /*
-         * Timeout de segurança.
-         */
+        const controller =
+            bibleRequestController;
+
         const timeoutId =
             window.setTimeout(
                 () => {
-
-                    bibleRequestController?.abort();
-
+                    controller.abort();
                 },
                 15000
             );
 
         try {
-
             const apiBook =
-                encodeURIComponent(
-                    book
-                );
+                encodeURIComponent(book);
 
             const url =
                 `https://bible-api.com/` +
@@ -1271,12 +1038,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                 "application/json"
                         },
                         signal:
-                            bibleRequestController.signal
+                            controller.signal
                     }
                 );
 
             if (!response.ok) {
-
                 throw new Error(
                     `HTTP ${response.status}`
                 );
@@ -1285,13 +1051,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const data =
                 await response.json();
 
+            if (requestId !== bibleRequestId) {
+                return;
+            }
+
             if (
-                !Array.isArray(
-                    data?.verses
-                ) ||
+                !Array.isArray(data?.verses) ||
                 !data.verses.length
             ) {
-
                 throw new Error(
                     "Nenhum versículo encontrado."
                 );
@@ -1300,52 +1067,43 @@ document.addEventListener("DOMContentLoaded", () => {
             const fragment =
                 document.createDocumentFragment();
 
-            data.verses.forEach(
-                (verse) => {
+            data.verses.forEach((verse) => {
+                const paragraph =
+                    document.createElement("p");
 
-                    const paragraph =
-                        document.createElement(
-                            "p"
-                        );
+                paragraph.className =
+                    "bible-verse";
 
-                    paragraph.className =
-                        "bible-verse";
+                const number =
+                    document.createElement("strong");
 
-                    const number =
-                        document.createElement(
-                            "strong"
-                        );
+                number.textContent =
+                    `${safeText(verse.verse)} `;
 
-                    number.textContent =
-                        `${safeText(
-                            verse.verse
-                        )} `;
+                paragraph.append(
+                    number,
+                    document.createTextNode(
+                        safeText(verse.text)
+                    )
+                );
 
-                    paragraph.append(
-                        number,
-                        document.createTextNode(
-                            safeText(
-                                verse.text
-                            )
-                        )
-                    );
-
-                    fragment.appendChild(
-                        paragraph
-                    );
-                }
-            );
+                fragment.appendChild(
+                    paragraph
+                );
+            });
 
             readerResult.replaceChildren(
                 fragment
             );
 
         } catch (error) {
-
             if (
-                error?.name ===
-                "AbortError"
+                error?.name === "AbortError"
             ) {
+                return;
+            }
+
+            if (requestId !== bibleRequestId) {
                 return;
             }
 
@@ -1359,41 +1117,33 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
         } finally {
-
             window.clearTimeout(
                 timeoutId
             );
 
-            bibleRequestController =
-                null;
+            if (
+                requestId === bibleRequestId
+            ) {
+                bibleRequestController =
+                    null;
+            }
         }
     };
 
     bookSelect?.addEventListener(
         "change",
         () => {
-
             if (chapterInput) {
                 chapterInput.value = "1";
             }
-
-            atualizarLimiteCapitulo();
         }
-    );
-
-    chapterInput?.addEventListener(
-        "input",
-        atualizarLimiteCapitulo
     );
 
     chapterInput?.addEventListener(
         "keydown",
         (event) => {
-
             if (event.key === "Enter") {
-
                 event.preventDefault();
-
                 carregarCapitulo();
             }
         }
@@ -1409,633 +1159,21 @@ document.addEventListener("DOMContentLoaded", () => {
         fecharLeitor
     );
 
-    document.addEventListener(
-        "keydown",
+    bibleReader?.addEventListener(
+        "click",
         (event) => {
-
             if (
-                event.key === "Escape" &&
-                bibleReader?.classList.contains(
-                    "active"
-                )
+                event.target === bibleReader
             ) {
-
                 fecharLeitor();
             }
         }
     );
 
-    atualizarLimiteCapitulo();
-
 
     /* ========================================================
-       PLANO ANUAL DE LEITURA
-       ======================================================== */
-
-    const bibleBooks = Object.entries(
-        chapterCounts
-    );
-
-    const TOTAL_DIAS_PLANO = 365;
-
-    const criarPlanoAnual = () => {
-
-        const totalCapitulos =
-            bibleBooks.reduce(
-                (
-                    total,
-                    [, chapters]
-                ) =>
-                    total + chapters,
-                0
-            );
-
-        /*
-         * Distribuição equilibrada dos capítulos:
-         *
-         * total / 365
-         *
-         * Os dias iniciais recebem os capítulos extras.
-         */
-        const base =
-            Math.floor(
-                totalCapitulos /
-                TOTAL_DIAS_PLANO
-            );
-
-        const extras =
-            totalCapitulos %
-            TOTAL_DIAS_PLANO;
-
-        const plan = [];
-
-        let bookIndex = 0;
-        let chapter = 1;
-
-        for (
-            let day = 1;
-            day <= TOTAL_DIAS_PLANO;
-            day++
-        ) {
-
-            let remaining =
-                base +
-                (
-                    day <= extras
-                        ? 1
-                        : 0
-                );
-
-            const ranges = [];
-
-            while (
-                remaining > 0 &&
-                bookIndex <
-                bibleBooks.length
-            ) {
-
-                const [
-                    book,
-                    totalChapters
-                ] =
-                    bibleBooks[bookIndex];
-
-                const available =
-                    totalChapters -
-                    chapter +
-                    1;
-
-                const amount =
-                    Math.min(
-                        remaining,
-                        available
-                    );
-
-                ranges.push({
-                    book,
-                    start: chapter,
-                    end:
-                        chapter +
-                        amount -
-                        1
-                });
-
-                remaining -= amount;
-
-                if (
-                    chapter +
-                    amount -
-                    1 >=
-                    totalChapters
-                ) {
-
-                    bookIndex++;
-                    chapter = 1;
-
-                } else {
-
-                    chapter += amount;
-                }
-            }
-
-            plan.push({
-                day,
-                ranges
-            });
-        }
-
-        return plan;
-    };
-
-    const annualPlan =
-        criarPlanoAnual();
-
-
-    /* ========================================================
-       STORAGE SEGURO
-       ======================================================== */
-
-    const storageGet = (
-        key,
-        fallback
-    ) => {
-
-        try {
-
-            const value =
-                localStorage.getItem(
-                    key
-                );
-
-            if (
-                value === null ||
-                value === ""
-            ) {
-                return fallback;
-            }
-
-            const number =
-                Number(value);
-
-            return Number.isFinite(
-                number
-            )
-                ? number
-                : fallback;
-
-        } catch {
-
-            return fallback;
-        }
-    };
-
-    const storageSet = (
-        key,
-        value
-    ) => {
-
-        try {
-
-            localStorage.setItem(
-                key,
-                String(value)
-            );
-
-        } catch {
-            /*
-             * localStorage pode estar
-             * bloqueado pelo navegador.
-             */
-        }
-    };
-
-
-    /* ========================================================
-       ESTADO DO PLANO
-       ======================================================== */
-
-    const currentYear =
-        new Date().getFullYear();
-
-    const storedYear =
-        storageGet(
-            "annualPlanYear",
-            currentYear
-        );
-
-    let savedYear =
-        Math.floor(
-            storedYear
-        );
-
-    let completedDays =
-        Math.floor(
-            storageGet(
-                "annualCompletedDays",
-                0
-            )
-        );
-
-    /*
-     * Compatibilidade com versões anteriores
-     * que utilizavam annualCurrentDay.
-     */
-    let currentDay =
-        Math.floor(
-            storageGet(
-                "annualCurrentDay",
-                completedDays + 1
-            )
-        );
-
-    if (
-        savedYear !== currentYear
-    ) {
-
-        savedYear =
-            currentYear;
-
-        completedDays = 0;
-
-        currentDay = 1;
-
-        storageSet(
-            "annualPlanYear",
-            currentYear
-        );
-
-        storageSet(
-            "annualCompletedDays",
-            0
-        );
-
-        storageSet(
-            "annualCurrentDay",
-            1
-        );
-    }
-
-    completedDays =
-        Math.max(
-            0,
-            Math.min(
-                TOTAL_DIAS_PLANO,
-                completedDays
-            )
-        );
-
-    /*
-     * O dia atual sempre representa
-     * o próximo dia a ser lido.
-     */
-    currentDay =
-        completedDays >=
-        TOTAL_DIAS_PLANO
-            ? TOTAL_DIAS_PLANO
-            : completedDays + 1;
-
-
-    /* ========================================================
-       CARD DE LEITURA DIÁRIA
-       ======================================================== */
-
-    const dailyReadingCard =
-        $(".daily-reading-card");
-
-    const currentReadingDay =
-        $("#currentReadingDay");
-
-    const dailyReadingDate =
-        $("#dailyReadingDate");
-
-    const dailyReadingTitle =
-        $("#dailyReadingTitle");
-
-    const dailyReadingDescription =
-        $("#dailyReadingDescription");
-
-    const annualProgressText =
-        $("#annualProgressText");
-
-    const annualProgressBar =
-        $("#annualProgressBar");
-
-    const annualProgressPercent =
-        $("#annualProgressPercent");
-
-    const nextReadingDay =
-        $("#nextReadingDay");
-
-    const completeReading =
-        $("#completeReading");
-
-    const nextReading =
-        $("#nextReading");
-
-    const dailyReadingStatus =
-        $("#dailyReadingStatus");
-
-    const salvarPlano = () => {
-
-        storageSet(
-            "annualPlanYear",
-            currentYear
-        );
-
-        storageSet(
-            "annualCurrentDay",
-            currentDay
-        );
-
-        storageSet(
-            "annualCompletedDays",
-            completedDays
-        );
-    };
-
-    const formatarLeitura = (
-        range
-    ) => {
-
-        if (
-            range.start ===
-            range.end
-        ) {
-            return `${range.book} ${range.start}`;
-        }
-
-        return (
-            `${range.book} ` +
-            `${range.start}–${range.end}`
-        );
-    };
-
-    const obterLeitura = (
-        day
-    ) =>
-        annualPlan.find(
-            item =>
-                item.day === day
-        );
-
-    const formatarDataPlano = (
-        day
-    ) => {
-
-        /*
-         * Usa UTC para evitar problemas
-         * de fuso horário perto da meia-noite.
-         */
-        const date =
-            new Date(
-                Date.UTC(
-                    currentYear,
-                    0,
-                    day
-                )
-            );
-
-        return date.toLocaleDateString(
-            "pt-BR",
-            {
-                day: "2-digit",
-                month: "2-digit",
-                timeZone: "UTC"
-            }
-        );
-    };
-
-    const mostrarStatusLeitura = (
-        message
-    ) => {
-
-        if (!dailyReadingStatus) {
-            return;
-        }
-
-        dailyReadingStatus.textContent =
-            message;
-
-        if (
-            dailyReadingStatus._timer
-        ) {
-
-            window.clearTimeout(
-                dailyReadingStatus._timer
-            );
-        }
-
-        dailyReadingStatus._timer =
-            window.setTimeout(
-                () => {
-
-                    dailyReadingStatus.textContent =
-                        "";
-
-                },
-                3500
-            );
-    };
-
-    const atualizarPlano = () => {
-
-        if (!dailyReadingCard) {
-            return;
-        }
-
-        const concluido =
-            completedDays >=
-            TOTAL_DIAS_PLANO;
-
-        const day =
-            concluido
-                ? TOTAL_DIAS_PLANO
-                : currentDay;
-
-        const reading =
-            obterLeitura(day);
-
-        const percent =
-            Math.round(
-                (
-                    completedDays /
-                    TOTAL_DIAS_PLANO
-                ) * 100
-            );
-
-        if (currentReadingDay) {
-
-            currentReadingDay.textContent =
-                String(day).padStart(
-                    2,
-                    "0"
-                );
-        }
-
-        if (dailyReadingDate) {
-
-            dailyReadingDate.textContent =
-                concluido
-                    ? "Plano concluído"
-                    : formatarDataPlano(day);
-        }
-
-        if (
-            dailyReadingTitle &&
-            reading
-        ) {
-
-            dailyReadingTitle.textContent =
-                reading.ranges
-                    .map(
-                        formatarLeitura
-                    )
-                    .join(" • ");
-        }
-
-        if (dailyReadingDescription) {
-
-            dailyReadingDescription.textContent =
-                concluido
-                    ? "Você concluiu todo o plano de leitura anual. Que a Palavra continue guiando seus dias!"
-                    : `Leitura correspondente ao Dia ${day} do plano anual.`;
-        }
-
-        if (annualProgressText) {
-
-            annualProgressText.textContent =
-                `${completedDays} de ${TOTAL_DIAS_PLANO} dias`;
-        }
-
-        if (annualProgressBar) {
-
-            annualProgressBar.style.width =
-                `${percent}%`;
-
-            annualProgressBar.setAttribute(
-                "aria-valuenow",
-                String(percent)
-            );
-
-            annualProgressBar.setAttribute(
-                "aria-valuemin",
-                "0"
-            );
-
-            annualProgressBar.setAttribute(
-                "aria-valuemax",
-                "100"
-            );
-        }
-
-        if (annualProgressPercent) {
-
-            annualProgressPercent.textContent =
-                `${percent}%`;
-        }
-
-        if (nextReadingDay) {
-
-            nextReadingDay.textContent =
-                concluido
-                    ? "Plano concluído"
-                    : `Próxima leitura: Dia ${Math.min(
-                        day + 1,
-                        TOTAL_DIAS_PLANO
-                    )}`;
-        }
-
-        dailyReadingCard.classList.toggle(
-            "completed",
-            concluido
-        );
-
-        if (completeReading) {
-
-            completeReading.disabled =
-                concluido;
-
-            completeReading.innerHTML =
-                concluido
-                    ? '<i class="fa-solid fa-circle-check" aria-hidden="true"></i> Plano concluído'
-                    : '<i class="fa-solid fa-circle-check" aria-hidden="true"></i> Marcar como lido';
-        }
-    };
-
-    completeReading?.addEventListener(
-        "click",
-        () => {
-
-            if (
-                completedDays >=
-                TOTAL_DIAS_PLANO
-            ) {
-                return;
-            }
-
-            /*
-             * Só avança um dia por clique.
-             * Isso evita pular leituras.
-             */
-            completedDays =
-                Math.min(
-                    TOTAL_DIAS_PLANO,
-                    completedDays + 1
-                );
-
-            currentDay =
-                completedDays >=
-                TOTAL_DIAS_PLANO
-                    ? TOTAL_DIAS_PLANO
-                    : completedDays + 1;
-
-            salvarPlano();
-            atualizarPlano();
-
-            mostrarStatusLeitura(
-                completedDays >=
-                TOTAL_DIAS_PLANO
-                    ? "Parabéns! Você concluiu o plano anual."
-                    : "Leitura marcada como concluída!"
-            );
-        }
-    );
-
-    nextReading?.addEventListener(
-        "click",
-        () => {
-
-            if (
-                completedDays >=
-                TOTAL_DIAS_PLANO
-            ) {
-
-                mostrarStatusLeitura(
-                    "Você já concluiu todo o plano."
-                );
-
-                return;
-            }
-
-            dailyReadingCard?.scrollIntoView({
-                behavior:
-                    window.matchMedia(
-                        "(prefers-reduced-motion: reduce)"
-                    ).matches
-                        ? "auto"
-                        : "smooth",
-                block:
-                    "center"
-            });
-        }
-    );
-
-    atualizarPlano();
-
-
-    /* ========================================================
-       CALENDÁRIO
-       ======================================================== */
+       CALENDÁRIO SEMANAL
+    ======================================================== */
 
     const calendarMonth =
         $("#calendarMonth");
@@ -2065,89 +1203,60 @@ document.addEventListener("DOMContentLoaded", () => {
         calendarDays.length &&
         calendarMonth
     ) {
-
-        /*
-         * dia:
-         *
-         * 0 = domingo
-         * 1 = segunda
-         * ...
-         * 6 = sábado
-         */
         const eventos = [
-
             {
                 dia: 0,
-                titulo:
-                    "Consagração",
-                horario:
-                    "08h30"
+                titulo: "Consagração",
+                horario: "08h30"
             },
 
             {
                 dia: 0,
-                titulo:
-                    "Escola Dominical",
-                horario:
-                    "09h30 – 11h00"
+                titulo: "Escola Dominical",
+                horario: "09h30 – 11h00"
             },
 
             {
                 dia: 0,
-                titulo:
-                    "Culto de Ação de Graças",
-                horario:
-                    "18h00 – 19h00"
+                titulo: "Culto de Ação de Graças",
+                horario: "18h00 – 19h00"
             },
 
             {
                 dia: 2,
-                titulo:
-                    "Culto de Conquistas",
-                horario:
-                    "20h00 – 21h00"
+                titulo: "Culto de Conquistas",
+                horario: "20h00 – 21h00"
             },
 
             {
                 dia: 3,
-                titulo:
-                    "Tarde de Bênção",
-                horario:
-                    "15h00 – 16h30"
+                titulo: "Tarde de Bênção",
+                horario: "15h00 – 16h30"
             },
 
             {
                 dia: 3,
-                titulo:
-                    "Intercessão",
-                horario:
-                    "20h00 – 21h00"
+                titulo: "Intercessão",
+                horario: "20h00 – 21h00"
             },
 
             {
                 dia: 5,
-                titulo:
-                    "Culto ao Espírito Santo",
-                horario:
-                    "20h00 – 21h00"
+                titulo: "Culto ao Espírito Santo",
+                horario: "20h00 – 21h00"
             },
 
             {
                 dia: 6,
-                titulo:
-                    "Culto dos Jovens",
-                horario:
-                    "19h00 – 20h00"
+                titulo: "Culto dos Jovens",
+                horario: "19h00 – 20h00"
             }
         ];
 
         let calendarDate =
             new Date();
 
-        const inicioSemana = (
-            date
-        ) => {
-
+        const inicioSemana = (date) => {
             const result =
                 new Date(date);
 
@@ -2177,18 +1286,13 @@ document.addEventListener("DOMContentLoaded", () => {
             a.getDate() ===
                 b.getDate();
 
-        const formatarMes = (
-            date
-        ) => {
-
+        const formatarMes = (date) => {
             const value =
                 date.toLocaleDateString(
                     "pt-BR",
                     {
-                        month:
-                            "long",
-                        year:
-                            "numeric"
+                        month: "long",
+                        year: "numeric"
                     }
                 );
 
@@ -2199,22 +1303,16 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const renderizarCalendario = () => {
-
             const inicio =
-                inicioSemana(
-                    calendarDate
-                );
+                inicioSemana(calendarDate);
 
             const hoje =
                 new Date();
 
             calendarMonth.textContent =
-                formatarMes(
-                    inicio
-                );
+                formatarMes(inicio);
 
             if (calendarYear) {
-
                 calendarYear.textContent =
                     String(
                         inicio.getFullYear()
@@ -2222,15 +1320,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             calendarDays.forEach(
-                (
-                    card,
-                    index
-                ) => {
-
+                (card, index) => {
                     const date =
-                        new Date(
-                            inicio
-                        );
+                        new Date(inicio);
 
                     date.setDate(
                         inicio.getDate() +
@@ -2238,19 +1330,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
                     const number =
-                        $(
-                            ".day-number",
-                            card
-                        );
+                        $(".day-number", card);
 
                     const container =
-                        $(
-                            ".day-events",
-                            card
-                        );
+                        $(".day-events", card);
 
                     if (number) {
-
                         number.textContent =
                             String(
                                 date.getDate()
@@ -2265,13 +1350,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         )
                     );
 
-                    /*
-                     * Guarda a data no elemento,
-                     * caso o CSS/HTML precise dela.
-                     */
                     card.dataset.date =
-                        date.toISOString()
-                            .split("T")[0];
+                        [
+                            date.getFullYear(),
+                            String(
+                                date.getMonth() + 1
+                            ).padStart(2, "0"),
+                            String(
+                                date.getDate()
+                            ).padStart(2, "0")
+                        ].join("-");
 
                     if (!container) {
                         return;
@@ -2281,15 +1369,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     const eventosDoDia =
                         eventos.filter(
-                            evento =>
+                            (evento) =>
                                 evento.dia ===
                                 date.getDay()
                         );
 
-                    if (
-                        !eventosDoDia.length
-                    ) {
-
+                    if (!eventosDoDia.length) {
                         const empty =
                             document.createElement(
                                 "span"
@@ -2310,7 +1395,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     eventosDoDia.forEach(
                         (evento) => {
-
                             const item =
                                 document.createElement(
                                     "div"
@@ -2352,10 +1436,8 @@ document.addEventListener("DOMContentLoaded", () => {
         prevWeek?.addEventListener(
             "click",
             () => {
-
                 calendarDate.setDate(
-                    calendarDate.getDate() -
-                    7
+                    calendarDate.getDate() - 7
                 );
 
                 renderizarCalendario();
@@ -2365,10 +1447,8 @@ document.addEventListener("DOMContentLoaded", () => {
         nextWeek?.addEventListener(
             "click",
             () => {
-
                 calendarDate.setDate(
-                    calendarDate.getDate() +
-                    7
+                    calendarDate.getDate() + 7
                 );
 
                 renderizarCalendario();
@@ -2378,10 +1458,7 @@ document.addEventListener("DOMContentLoaded", () => {
         todayWeek?.addEventListener(
             "click",
             () => {
-
-                calendarDate =
-                    new Date();
-
+                calendarDate = new Date();
                 renderizarCalendario();
             }
         );
@@ -2389,10 +1466,8 @@ document.addEventListener("DOMContentLoaded", () => {
         prevYear?.addEventListener(
             "click",
             () => {
-
                 calendarDate.setFullYear(
-                    calendarDate.getFullYear() -
-                    1
+                    calendarDate.getFullYear() - 1
                 );
 
                 renderizarCalendario();
@@ -2402,10 +1477,8 @@ document.addEventListener("DOMContentLoaded", () => {
         nextYear?.addEventListener(
             "click",
             () => {
-
                 calendarDate.setFullYear(
-                    calendarDate.getFullYear() +
-                    1
+                    calendarDate.getFullYear() + 1
                 );
 
                 renderizarCalendario();
@@ -2416,7 +1489,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* Notícias*/
+    /* ========================================================
+       NOTÍCIAS — FOLHA GOSPEL
+    ======================================================== */
 
     const noticiaContainer =
         $("#noticia");
@@ -2437,9 +1512,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let noticiaAtual = 0;
     let newsTimer = null;
     let newsRequestController = null;
+    let newsRequestId = 0;
+    let newsRefreshTimer = null;
 
     const noticiasPadrao = [
-
         {
             titulo:
                 "Notícias do mundo cristão",
@@ -2502,9 +1578,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     const pararNoticias = () => {
-
         if (newsTimer !== null) {
-
             window.clearInterval(
                 newsTimer
             );
@@ -2514,17 +1588,12 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const iniciarNoticias = () => {
-
         pararNoticias();
 
-        if (noticias.length <= 1) {
-            return;
-        }
-
         if (
-            window.matchMedia(
-                "(prefers-reduced-motion: reduce)"
-            ).matches
+            noticias.length <= 1 ||
+            isReducedMotion() ||
+            document.hidden
         ) {
             return;
         }
@@ -2532,32 +1601,24 @@ document.addEventListener("DOMContentLoaded", () => {
         newsTimer =
             window.setInterval(
                 () => {
-
                     mostrarNoticia(
                         noticiaAtual + 1
                     );
-
                 },
                 7000
             );
     };
 
     const atualizarPontos = () => {
-
         if (!pontosContainer) {
             return;
         }
 
         $$(".fg-ponto", pontosContainer)
             .forEach(
-                (
-                    point,
-                    index
-                ) => {
-
+                (point, index) => {
                     const active =
-                        index ===
-                        noticiaAtual;
+                        index === noticiaAtual;
 
                     point.classList.toggle(
                         "ativo",
@@ -2575,7 +1636,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const criarPontos = () => {
-
         if (!pontosContainer) {
             return;
         }
@@ -2583,11 +1643,7 @@ document.addEventListener("DOMContentLoaded", () => {
         pontosContainer.replaceChildren();
 
         noticias.forEach(
-            (
-                _,
-                index
-            ) => {
-
+            (_, index) => {
                 const button =
                     document.createElement(
                         "button"
@@ -2607,11 +1663,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 button.addEventListener(
                     "click",
                     () => {
-
-                        mostrarNoticia(
-                            index
-                        );
-
+                        mostrarNoticia(index);
                         iniciarNoticias();
                     }
                 );
@@ -2625,10 +1677,7 @@ document.addEventListener("DOMContentLoaded", () => {
         atualizarPontos();
     };
 
-    const criarImagemSegura = (
-        noticia
-    ) => {
-
+    const criarImagemSegura = (noticia) => {
         const imageBox =
             document.createElement(
                 "div"
@@ -2638,12 +1687,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "fg-imagem";
 
         const imageURL =
-            safeText(
-                noticia.imagem
-            );
+            safeText(noticia.imagem);
 
         if (!imageURL) {
-
             imageBox.classList.add(
                 "sem-imagem"
             );
@@ -2660,9 +1706,7 @@ document.addEventListener("DOMContentLoaded", () => {
             imageURL;
 
         img.alt =
-            safeText(
-                noticia.titulo
-            );
+            safeText(noticia.titulo);
 
         img.loading =
             "lazy";
@@ -2673,7 +1717,6 @@ document.addEventListener("DOMContentLoaded", () => {
         img.addEventListener(
             "error",
             () => {
-
                 imageBox.classList.add(
                     "sem-imagem"
                 );
@@ -2685,137 +1728,269 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
 
-        imageBox.appendChild(
-            img
-        );
+        imageBox.appendChild(img);
 
         return imageBox;
     };
 
+    const mostrarNoticia = (
+        index = noticiaAtual
+    ) => {
+        if (
+            !noticiaContainer ||
+            !noticias.length
+        ) {
+            return;
+        }
 
+        noticiaAtual =
+            (index + noticias.length) %
+            noticias.length;
 
+        const noticia =
+            noticias[noticiaAtual];
 
+        const article =
+            document.createElement(
+                "article"
+            );
 
-    const mostrarNoticia = (index = noticiaAtual) => {
-    if (!noticiaContainer || !noticias.length) return;
+        article.className =
+            "fg-card";
 
-    noticiaAtual = (index + noticias.length) % noticias.length;
-    const noticia = noticias[noticiaAtual];
+        const imageBox =
+            criarImagemSegura(noticia);
 
-    const article = document.createElement("article");
-    article.className = "fg-card";
+        const content =
+            document.createElement(
+                "div"
+            );
 
-    const imageBox = criarImagemSegura(noticia);
+        content.className =
+            "fg-conteudo";
 
-    const content = document.createElement("div");
-    content.className = "fg-conteudo";
+        const category =
+            document.createElement(
+                "span"
+            );
 
-    const category = document.createElement("span");
-    category.className = "fg-categoria";
-    category.textContent = safeText(noticia.categoria) || "FG News";
+        category.className =
+            "fg-categoria";
 
-    const title = document.createElement("h2");
-    title.textContent = safeText(noticia.titulo) || "Notícia";
+        category.textContent =
+            safeText(
+                noticia.categoria
+            ) || "FG News";
 
-    const description = document.createElement("p");
-    description.textContent = safeText(noticia.descricao) || "Confira esta notícia.";
+        const title =
+            document.createElement(
+                "h2"
+            );
 
-    const date = document.createElement("span");
-    date.className = "fg-data";
-    date.textContent = safeText(noticia.data) || "Folha Gospel";
+        title.textContent =
+            safeText(
+                noticia.titulo
+            ) || "Notícia";
 
-    const link = document.createElement("a");
-    link.className = "fg-ler";
-    link.href = safeText(noticia.link) || "https://folhagospel.com/";
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.textContent = "Ler notícia";
+        const description =
+            document.createElement(
+                "p"
+            );
 
-    content.append(category, title, description, date, link);
-    article.append(imageBox, content);
+        description.textContent =
+            safeText(
+                noticia.descricao
+            ) || "Confira esta notícia.";
 
-    noticiaContainer.replaceChildren(article);
-    atualizarPontos();
-};
+        const date =
+            document.createElement(
+                "span"
+            );
 
-const proximaNoticia = () => {
-    if (!noticias.length) return;
-    mostrarNoticia(noticiaAtual + 1);
-};
+        date.className =
+            "fg-data";
 
-const noticiaAnterior = () => {
-    if (!noticias.length) return;
-    mostrarNoticia(noticiaAtual - 1);
-};
+        date.textContent =
+            safeText(
+                noticia.data
+            ) || "Folha Gospel";
 
-fgNext?.addEventListener("click", () => {
-    proximaNoticia();
-    iniciarNoticias();
-});
+        const link =
+            document.createElement(
+                "a"
+            );
 
-fgPrev?.addEventListener("click", () => {
-    noticiaAnterior();
-    iniciarNoticias();
-});
+        link.className =
+            "fg-ler";
 
-fgNews?.addEventListener("mouseenter", pararNoticias);
-fgNews?.addEventListener("mouseleave", iniciarNoticias);
-fgNews?.addEventListener("focusin", pararNoticias);
+        link.href =
+            safeText(noticia.link) ||
+            "https://folhagospel.com/";
 
-fgNews?.addEventListener("focusout", (event) => {
-    if (!fgNews.contains(event.relatedTarget)) {
-        iniciarNoticias();
-    }
-});
+        link.target =
+            "_blank";
 
-const extrairTexto = (html) => {
-    const temp = document.createElement("div");
-    temp.innerHTML = html || "";
+        link.rel =
+            "noopener noreferrer";
 
-    return safeText(temp.textContent).replace(/\s+/g, " ");
-};
+        link.textContent =
+            "Ler notícia";
 
-const obterDataPublicacao = (value) => {
-    if (!value) return "Folha Gospel";
+        content.append(
+            category,
+            title,
+            description,
+            date,
+            link
+        );
 
-    const date = new Date(value);
+        article.append(
+            imageBox,
+            content
+        );
 
-    if (Number.isNaN(date.getTime())) {
-        return "Folha Gospel";
-    }
+        noticiaContainer.replaceChildren(
+            article
+        );
 
-    return date.toLocaleDateString("pt-BR");
-};
+        atualizarPontos();
+    };
 
-const carregarNoticias = async () => {
-    /*
-     * Cancela carregamento anterior.
-     */
-    if (newsRequestController) {
-        newsRequestController.abort();
-    }
+    const proximaNoticia = () => {
+        if (!noticias.length) {
+            return;
+        }
 
-    newsRequestController = new AbortController();
+        mostrarNoticia(
+            noticiaAtual + 1
+        );
+    };
 
-    noticias = [...noticiasPadrao];
-    noticiaAtual = 0;
+    const noticiaAnterior = () => {
+        if (!noticias.length) {
+            return;
+        }
 
-    criarPontos();
-    mostrarNoticia();
+        mostrarNoticia(
+            noticiaAtual - 1
+        );
+    };
 
+    fgNext?.addEventListener(
+        "click",
+        () => {
+            proximaNoticia();
+            iniciarNoticias();
+        }
+    );
+
+    fgPrev?.addEventListener(
+        "click",
+        () => {
+            noticiaAnterior();
+            iniciarNoticias();
+        }
+    );
+
+    fgNews?.addEventListener(
+        "mouseenter",
+        pararNoticias
+    );
+
+    fgNews?.addEventListener(
+        "mouseleave",
+        iniciarNoticias
+    );
+
+    fgNews?.addEventListener(
+        "focusin",
+        pararNoticias
+    );
+
+    fgNews?.addEventListener(
+        "focusout",
+        (event) => {
+            if (
+                !fgNews.contains(
+                    event.relatedTarget
+                )
+            ) {
+                iniciarNoticias();
+            }
+        }
+    );
+
+    const extrairTexto = (html) => {
+        const temp =
+            document.createElement(
+                "div"
+            );
+
+        temp.innerHTML =
+            html || "";
+
+        return safeText(
+            temp.textContent
+        ).replace(
+            /\s+/g,
+            " "
+        );
+    };
+
+    const obterDataPublicacao = (
+        value
+    ) => {
+        if (!value) {
+            return "Folha Gospel";
+        }
+
+        const date =
+            new Date(value);
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+            return "Folha Gospel";
+        }
+
+        return date.toLocaleDateString(
+            "pt-BR"
+        );
+    };
+
+    const carregarNoticias = async () => {
+        if (newsRequestController) {
+            newsRequestController.abort();
+        }
+
+        const requestId =
+            ++newsRequestId;
+
+        const controller =
+            new AbortController();
+
+        newsRequestController =
+            controller;
+
+        noticias =
+            [...noticiasPadrao];
+
+        noticiaAtual = 0;
+
+        criarPontos();
+        mostrarNoticia();
 
         const timeoutId =
             window.setTimeout(
                 () => {
-
-                    newsRequestController?.abort();
-
+                    controller.abort();
                 },
                 15000
             );
 
         try {
-
             const feed =
                 encodeURIComponent(
                     "https://folhagospel.com/feed/"
@@ -2830,24 +2005,18 @@ const carregarNoticias = async () => {
                 await fetch(
                     url,
                     {
-                        method:
-                            "GET",
-
-                        cache:
-                            "no-store",
-
+                        method: "GET",
+                        cache: "no-store",
                         headers: {
                             Accept:
                                 "application/json"
                         },
-
                         signal:
-                            newsRequestController.signal
+                            controller.signal
                     }
                 );
 
             if (!response.ok) {
-
                 throw new Error(
                     `HTTP ${response.status}`
                 );
@@ -2856,13 +2025,14 @@ const carregarNoticias = async () => {
             const data =
                 await response.json();
 
+            if (requestId !== newsRequestId) {
+                return;
+            }
+
             if (
-                !Array.isArray(
-                    data?.items
-                ) ||
+                !Array.isArray(data?.items) ||
                 !data.items.length
             ) {
-
                 throw new Error(
                     "Feed vazio."
                 );
@@ -2870,53 +2040,49 @@ const carregarNoticias = async () => {
 
             const novas =
                 data.items
-                    .map(
-                        (item) => {
+                    .map((item) => {
+                        const descricao =
+                            extrairTexto(
+                                item.description
+                            );
 
-                            const descricao =
-                                extrairTexto(
-                                    item.description
-                                );
+                        return {
+                            titulo:
+                                safeText(
+                                    item.title
+                                ) ||
+                                "Notícia",
 
-                            return {
+                            descricao:
+                                descricao.slice(
+                                    0,
+                                    180
+                                ),
 
-                                titulo:
-                                    safeText(
-                                        item.title
-                                    ) ||
-                                    "Notícia",
+                            categoria:
+                                "Notícias Gospel",
 
-                                descricao:
-                                    descricao.slice(
-                                        0,
-                                        180
-                                    ),
+                            data:
+                                obterDataPublicacao(
+                                    item.pubDate
+                                ),
 
-                                categoria:
-                                    "Notícias Gospel",
+                            imagem:
+                                safeText(
+                                    item.thumbnail
+                                ) ||
+                                safeText(
+                                    item.enclosure?.link
+                                ) ||
+                                "",
 
-                                data:
-                                    obterDataPublicacao(
-                                        item.pubDate
-                                    ),
-
-                                imagem:
-                                    safeText(
-                                        item.thumbnail
-                                    ) ||
-                                    safeText(
-                                        item.enclosure?.link
-                                    ) ||
-                                    "",
-
-                                link:
-                                    safeText(
-                                        item.link
-                                    ) ||
-                                    "https://folhagospel.com/"
-                            };
-                        }
-                    )
+                            link:
+                                safeText(
+                                    item.link
+                                ) ||
+                                "https://folhagospel.com/"
+                        };
+                    })
                     .filter(
                         (item) =>
                             item.titulo &&
@@ -2924,7 +2090,6 @@ const carregarNoticias = async () => {
                     );
 
             if (novas.length) {
-
                 noticias =
                     novas;
 
@@ -2935,12 +2100,10 @@ const carregarNoticias = async () => {
             }
 
         } catch (error) {
-
             if (
                 error?.name !==
                 "AbortError"
             ) {
-
                 console.warn(
                     "Não foi possível carregar o feed de notícias:",
                     error
@@ -2948,28 +2111,24 @@ const carregarNoticias = async () => {
             }
 
         } finally {
-
             window.clearTimeout(
                 timeoutId
             );
 
-            newsRequestController =
-                null;
+            if (
+                requestId === newsRequestId
+            ) {
+                newsRequestController =
+                    null;
+            }
 
             iniciarNoticias();
         }
     };
 
-    let newsRefreshTimer =
-        null;
-
     if (noticiaContainer) {
-
         carregarNoticias();
 
-        /*
-         * Atualização a cada 30 minutos.
-         */
         newsRefreshTimer =
             window.setInterval(
                 carregarNoticias,
@@ -2977,79 +2136,58 @@ const carregarNoticias = async () => {
             );
     }
 
-/* Final Das Noticias */
 
-
-/* Youtube */
+    /* ========================================================
+       YOUTUBE
+    ======================================================== */
 
     $$(
         "iframe[src*='youtube.com'], iframe[src*='youtu.be']"
-    ).forEach(
-        (iframe) => {
+    ).forEach((iframe) => {
+        iframe.setAttribute(
+            "loading",
+            "lazy"
+        );
 
-            iframe.setAttribute(
-                "loading",
-                "lazy"
-            );
+        iframe.setAttribute(
+            "title",
+            iframe.getAttribute("title") ||
+            "Vídeo da Igreja"
+        );
 
-            iframe.setAttribute(
-                "title",
-                iframe.getAttribute(
-                    "title"
-                ) ||
-                "Vídeo da Igreja"
-            );
+        iframe.setAttribute(
+            "allow",
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        );
 
-            iframe.setAttribute(
-                "allow",
-                "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            );
-
-            iframe.setAttribute(
-                "allowfullscreen",
-                ""
-            );
-        }
-    );
+        iframe.setAttribute(
+            "allowfullscreen",
+            ""
+        );
+    });
 
 
     /* ========================================================
        LINKS EXTERNOS
-       ======================================================== */
+    ======================================================== */
 
-    $$(
-        "a[target='_blank']"
-    ).forEach(
+    $$("a[target='_blank']").forEach(
         (link) => {
-
             const rel =
-                link.getAttribute(
-                    "rel"
-                ) || "";
+                link.getAttribute("rel") ||
+                "";
 
             const tokens =
                 rel
                     .split(/\s+/)
                     .filter(Boolean);
 
-            if (
-                !tokens.includes(
-                    "noopener"
-                )
-            ) {
-                tokens.push(
-                    "noopener"
-                );
+            if (!tokens.includes("noopener")) {
+                tokens.push("noopener");
             }
 
-            if (
-                !tokens.includes(
-                    "noreferrer"
-                )
-            ) {
-                tokens.push(
-                    "noreferrer"
-                );
+            if (!tokens.includes("noreferrer")) {
+                tokens.push("noreferrer");
             }
 
             link.setAttribute(
@@ -3060,321 +2198,442 @@ const carregarNoticias = async () => {
     );
 
 
-        /* ========================================================
-   HERO — 3 VÍDEOS EM LOOP INFINITO
-   ======================================================== */
+    /* ========================================================
+       HERO — VÍDEOS EM LOOP
+    ======================================================== */
 
-const heroVideos = $$(".hero-video-item");
-const heroVideoSection = $(".hero-video");
-const videoProgress = $(".video-progress");
+    const heroVideos =
+        $$(".hero-video-item");
 
-let videoAtual = 0;
-let videoTrocaTimer = null;
-let videoProgressAnimation = null;
+    const heroVideoSection =
+        $(".hero-video");
 
+    const videoProgress =
+        $(".video-progress");
 
-/*
- * Mostra somente o vídeo atual.
- */
-const mostrarVideo = (index) => {
+    let videoAtual = 0;
+    let videoProgressAnimation = null;
+    let videoFallbackTimer = null;
+    let videoInteractionHandler = null;
 
-    if (!heroVideos.length) {
-        return;
-    }
-
-    videoAtual =
-        (index + heroVideos.length) %
-        heroVideos.length;
-
-    heroVideos.forEach(
-        (video, indexAtual) => {
-
-            const ativo =
-                indexAtual === videoAtual;
-
-            video.classList.toggle(
-                "active",
-                ativo
+    const cancelarProgressoVideo = () => {
+        if (videoProgressAnimation !== null) {
+            cancelAnimationFrame(
+                videoProgressAnimation
             );
 
-            video.setAttribute(
-                "aria-hidden",
-                String(!ativo)
-            );
+            videoProgressAnimation = null;
         }
-    );
-};
+    };
 
+    const limparFallbackVideo = () => {
+        if (videoFallbackTimer !== null) {
+            window.clearTimeout(
+                videoFallbackTimer
+            );
 
-/*
- * Reinicia a barra de progresso.
- */
-const iniciarProgressoVideo = (video) => {
+            videoFallbackTimer = null;
+        }
+    };
 
-    if (!videoProgress) {
-        return;
-    }
-
-    if (videoProgressAnimation) {
-
-        cancelAnimationFrame(
-            videoProgressAnimation
-        );
-
-        videoProgressAnimation = null;
-    }
-
-    videoProgress.style.width = "0%";
-
-    const atualizar = () => {
-
-        if (
-            !video ||
-            !video.duration ||
-            !Number.isFinite(
-                video.duration
-            )
-        ) {
+    const mostrarVideo = (index) => {
+        if (!heroVideos.length) {
             return;
         }
 
-        const porcentagem =
-            Math.min(
-                100,
-                (
-                    video.currentTime /
-                    video.duration
-                ) * 100
-            );
+        videoAtual =
+            (index + heroVideos.length) %
+            heroVideos.length;
+
+        heroVideos.forEach(
+            (video, indexAtual) => {
+                const ativo =
+                    indexAtual === videoAtual;
+
+                video.classList.toggle(
+                    "active",
+                    ativo
+                );
+
+                video.setAttribute(
+                    "aria-hidden",
+                    String(!ativo)
+                );
+            }
+        );
+    };
+
+    const iniciarProgressoVideo = (
+        video
+    ) => {
+        if (!videoProgress) {
+            return;
+        }
+
+        cancelarProgressoVideo();
 
         videoProgress.style.width =
-            `${porcentagem}%`;
+            "0%";
 
+        const atualizar = () => {
+            if (
+                !video ||
+                !Number.isFinite(
+                    video.duration
+                ) ||
+                video.duration <= 0
+            ) {
+                videoProgressAnimation = null;
+                return;
+            }
+
+            const porcentagem =
+                Math.min(
+                    100,
+                    Math.max(
+                        0,
+                        (
+                            video.currentTime /
+                            video.duration
+                        ) * 100
+                    )
+                );
+
+            videoProgress.style.width =
+                `${porcentagem}%`;
+
+            if (
+                !video.paused &&
+                !video.ended
+            ) {
+                videoProgressAnimation =
+                    requestAnimationFrame(
+                        atualizar
+                    );
+            } else {
+                videoProgressAnimation =
+                    null;
+            }
+        };
+
+        atualizar();
+    };
+
+    const pausarTodosVideos = () => {
+        heroVideos.forEach(
+            (video) => {
+                video.pause();
+            }
+        );
+    };
+
+    const reproduzirVideo = async (
+        video
+    ) => {
+        if (!video) {
+            return false;
+        }
+
+        limparFallbackVideo();
+
+        video.muted = true;
+        video.playsInline = true;
+
+        try {
+            await video.play();
+
+            iniciarProgressoVideo(
+                video
+            );
+
+            return true;
+
+        } catch (error) {
+            console.warn(
+                "Autoplay do vídeo bloqueado:",
+                error
+            );
+
+            return false;
+        }
+    };
+
+    const proximoVideo = async () => {
+        if (!heroVideos.length) {
+            return;
+        }
+
+        limparFallbackVideo();
+        cancelarProgressoVideo();
+
+        const atual =
+            heroVideos[videoAtual];
+
+        if (atual) {
+            atual.pause();
+
+            try {
+                atual.currentTime = 0;
+            } catch {
+                // O navegador pode impedir a alteração neste momento.
+            }
+        }
+
+        const proximoIndex =
+            (
+                videoAtual + 1
+            ) % heroVideos.length;
+
+        mostrarVideo(
+            proximoIndex
+        );
+
+        const proximo =
+            heroVideos[proximoIndex];
+
+        if (!proximo) {
+            return;
+        }
+
+        proximo.muted = true;
+        proximo.playsInline = true;
+
+        try {
+            proximo.currentTime = 0;
+        } catch {
+            // Ignora.
+        }
+
+        const reproduziu =
+            await reproduzirVideo(
+                proximo
+            );
+
+        /*
+         * Se o vídeo não conseguir iniciar,
+         * tenta avançar automaticamente.
+         */
+        if (!reproduziu) {
+            videoFallbackTimer =
+                window.setTimeout(
+                    () => {
+                        proximoVideo();
+                    },
+                    1000
+                );
+            return;
+        }
+
+        /*
+         * Fallback de segurança:
+         * caso o evento "ended" não seja disparado,
+         * usa a duração do vídeo.
+         */
         if (
-            !video.paused &&
-            !video.ended
+            Number.isFinite(
+                proximo.duration
+            ) &&
+            proximo.duration > 0
         ) {
-
-            videoProgressAnimation =
-                requestAnimationFrame(
-                    atualizar
+            videoFallbackTimer =
+                window.setTimeout(
+                    () => {
+                        if (
+                            proximo ===
+                            heroVideos[videoAtual]
+                        ) {
+                            proximoVideo();
+                        }
+                    },
+                    (
+                        proximo.duration * 1000
+                    ) + 500
                 );
         }
     };
 
-    atualizar();
-};
+    heroVideos.forEach(
+        (video, index) => {
+            video.muted = true;
+            video.playsInline = true;
 
+            video.setAttribute(
+                "preload",
+                index === 0
+                    ? "auto"
+                    : "metadata"
+            );
 
-/*
- * Vai para o próximo vídeo.
- */
-const proximoVideo = async () => {
+            video.addEventListener(
+                "ended",
+                () => {
+                    proximoVideo();
+                }
+            );
 
-    if (!heroVideos.length) {
-        return;
-    }
+            video.addEventListener(
+                "play",
+                () => {
+                    iniciarProgressoVideo(
+                        video
+                    );
+                }
+            );
 
-    const videoAtualElement =
-        heroVideos[videoAtual];
+            video.addEventListener(
+                "pause",
+                () => {
+                    cancelarProgressoVideo();
+                }
+            );
 
-    if (videoAtualElement) {
-
-        videoAtualElement.pause();
-
-        videoAtualElement.currentTime = 0;
-    }
-
-    const proximoIndex =
-        (
-            videoAtual + 1
-        ) %
-        heroVideos.length;
-
-    mostrarVideo(
-        proximoIndex
+            video.addEventListener(
+                "error",
+                () => {
+                    if (
+                        index ===
+                        videoAtual
+                    ) {
+                        proximoVideo();
+                    }
+                }
+            );
+        }
     );
 
-    const proximo =
-        heroVideos[proximoIndex];
+    const iniciarVideosHero = async () => {
+        if (!heroVideos.length) {
+            return;
+        }
 
-    if (!proximo) {
-        return;
-    }
+        mostrarVideo(0);
 
-    try {
+        const primeiro =
+            heroVideos[0];
 
-        proximo.currentTime = 0;
+        pausarTodosVideos();
 
-    } catch {
-        // Ignora caso o navegador ainda não permita alterar o tempo.
-    }
+        primeiro.muted = true;
+        primeiro.playsInline = true;
 
-    try {
+        try {
+            primeiro.currentTime = 0;
+        } catch {
+            // Ignora.
+        }
 
-        await proximo.play();
+        const reproduziu =
+            await reproduzirVideo(
+                primeiro
+            );
 
-        iniciarProgressoVideo(
-            proximo
-        );
-
-    } catch (error) {
-
-        console.warn(
-            "Não foi possível reproduzir o vídeo:",
-            error
-        );
-    }
-};
-
-
-/*
- * Quando um vídeo termina,
- * automaticamente chama o próximo.
- */
-heroVideos.forEach(
-    (video) => {
-
-        video.addEventListener(
-            "ended",
-            () => {
-
-                proximoVideo();
-
-            }
-        );
-
-        video.addEventListener(
-            "play",
-            () => {
-
-                iniciarProgressoVideo(
-                    video
+        if (!reproduziu) {
+            /*
+             * Remove listeners antigos antes
+             * de registrar a tentativa de interação.
+             */
+            if (videoInteractionHandler) {
+                document.removeEventListener(
+                    "click",
+                    videoInteractionHandler
                 );
 
+                document.removeEventListener(
+                    "touchstart",
+                    videoInteractionHandler
+                );
             }
-        );
-    }
-);
 
+            videoInteractionHandler =
+                async () => {
+                    const sucesso =
+                        await reproduzirVideo(
+                            primeiro
+                        );
 
-/*
- * Inicia o primeiro vídeo.
- */
-const iniciarVideosHero = async () => {
+                    if (sucesso) {
+                        document.removeEventListener(
+                            "click",
+                            videoInteractionHandler
+                        );
 
-    if (!heroVideos.length) {
-        return;
-    }
+                        document.removeEventListener(
+                            "touchstart",
+                            videoInteractionHandler
+                        );
 
-    mostrarVideo(0);
+                        videoInteractionHandler =
+                            null;
+                    }
+                };
 
-    const primeiro =
-        heroVideos[0];
+            document.addEventListener(
+                "click",
+                videoInteractionHandler,
+                {
+                    passive: true
+                }
+            );
 
-    primeiro.muted = true;
-    primeiro.playsInline = true;
-
-    try {
-
-        primeiro.currentTime = 0;
-
-    } catch {
-        // Ignora.
-    }
-
-    try {
-
-        await primeiro.play();
-
-        iniciarProgressoVideo(
-            primeiro
-        );
-
-    } catch (error) {
-
-        console.warn(
-            "Autoplay do vídeo bloqueado:",
-            error
-        );
+            document.addEventListener(
+                "touchstart",
+                videoInteractionHandler,
+                {
+                    passive: true
+                }
+            );
+        }
 
         /*
-         * Tenta novamente quando o usuário
-         * interagir com a página.
+         * Fallback caso o "ended" não aconteça.
          */
-        const iniciarComInteracao = () => {
+        if (
+            Number.isFinite(
+                primeiro.duration
+            ) &&
+            primeiro.duration > 0
+        ) {
+            limparFallbackVideo();
 
-            primeiro.play()
-                .then(() => {
+            videoFallbackTimer =
+                window.setTimeout(
+                    () => {
+                        if (
+                            primeiro ===
+                            heroVideos[videoAtual]
+                        ) {
+                            proximoVideo();
+                        }
+                    },
+                    (
+                        primeiro.duration * 1000
+                    ) + 500
+                );
+        }
+    };
 
-                    iniciarProgressoVideo(
-                        primeiro
-                    );
-
-                })
-                .catch(() => {
-                    // Navegador continua bloqueando autoplay.
-                });
-
-            document.removeEventListener(
-                "click",
-                iniciarComInteracao
-            );
-
-            document.removeEventListener(
-                "touchstart",
-                iniciarComInteracao
-            );
-        };
-
-        document.addEventListener(
-            "click",
-            iniciarComInteracao,
-            {
-                once: true
-            }
-        );
-
-        document.addEventListener(
-            "touchstart",
-            iniciarComInteracao,
-            {
-                once: true,
-                passive: true
-            }
-        );
+    if (heroVideoSection && heroVideos.length) {
+        iniciarVideosHero();
     }
-};
-
-
-/*
- * Inicia o sistema.
- */
-iniciarVideosHero();
 
 
     /* ========================================================
        IMAGENS
-       ======================================================== */
+    ======================================================== */
 
     $$("img").forEach(
         (image, index) => {
+            if (!image.decoding) {
+                image.decoding =
+                    "async";
+            }
 
-            image.decoding =
-                image.decoding ||
-                "async";
-
-            /*
-             * Não força lazy na primeira imagem.
-             * Isso preserva o carregamento inicial do hero.
-             */
             if (
                 index > 0 &&
                 !image.hasAttribute(
                     "loading"
                 )
             ) {
-
                 image.loading =
                     "lazy";
             }
@@ -3384,17 +2643,13 @@ iniciarVideosHero();
 
     /* ========================================================
        SMOOTH SCROLL
-       ======================================================== */
+    ======================================================== */
 
-    $$(
-        "a[href^='#']"
-    ).forEach(
+    $$("a[href^='#']").forEach(
         (link) => {
-
             link.addEventListener(
                 "click",
                 (event) => {
-
                     const href =
                         link.getAttribute(
                             "href"
@@ -3407,20 +2662,13 @@ iniciarVideosHero();
                         return;
                     }
 
-                    /*
-                     * Evita quebrar o script
-                     * caso o href contenha caracteres
-                     * inválidos para querySelector.
-                     */
                     let target = null;
 
                     try {
-
                         target =
                             document.querySelector(
                                 href
                             );
-
                     } catch {
                         return;
                     }
@@ -3431,32 +2679,21 @@ iniciarVideosHero();
 
                     event.preventDefault();
 
-                    const reduceMotion =
-                        window.matchMedia(
-                            "(prefers-reduced-motion: reduce)"
-                        ).matches;
-
                     target.scrollIntoView({
                         behavior:
-                            reduceMotion
+                            isReducedMotion()
                                 ? "auto"
                                 : "smooth",
                         block:
                             "start"
                     });
 
-                    /*
-                     * Atualiza a URL sem recarregar
-                     * a página.
-                     */
                     try {
-
                         history.pushState(
                             null,
                             "",
                             href
                         );
-
                     } catch {
                         // Ignora navegadores restritivos.
                     }
@@ -3468,53 +2705,51 @@ iniciarVideosHero();
 
     /* ========================================================
        ACESSIBILIDADE — REDUÇÃO DE MOVIMENTO
-       ======================================================== */
-
-    const prefersReducedMotion =
-        window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        );
+    ======================================================== */
 
     const atualizarMovimento = (
         reduced
     ) => {
-
         if (reduced) {
-
             pararSlider();
             pararNoticias();
-
+            cancelarProgressoVideo();
         } else {
-
             iniciarSlider();
             iniciarNoticias();
+
+            const video =
+                heroVideos[videoAtual];
+
+            if (
+                video &&
+                !video.paused
+            ) {
+                iniciarProgressoVideo(
+                    video
+                );
+            }
         }
     };
 
     if (
-        prefersReducedMotion.addEventListener
+        typeof prefersReducedMotion.addEventListener ===
+        "function"
     ) {
-
         prefersReducedMotion.addEventListener(
             "change",
             (event) => {
-
                 atualizarMovimento(
                     event.matches
                 );
             }
         );
-
     } else if (
-        prefersReducedMotion.addListener
+        typeof prefersReducedMotion.addListener ===
+        "function"
     ) {
-
-        /*
-         * Compatibilidade com navegadores antigos.
-         */
         prefersReducedMotion.addListener(
             (event) => {
-
                 atualizarMovimento(
                     event.matches
                 );
@@ -3525,27 +2760,35 @@ iniciarVideosHero();
 
     /* ========================================================
        VISIBILIDADE DA PÁGINA
-       ======================================================== */
+    ======================================================== */
 
-    /*
-     * Evita deixar sliders e notícias rodando
-     * enquanto a aba estiver em segundo plano.
-     */
     document.addEventListener(
         "visibilitychange",
         () => {
-
-            if (
-                document.hidden
-            ) {
-
+            if (document.hidden) {
                 pararSlider();
                 pararNoticias();
+                cancelarProgressoVideo();
+                limparFallbackVideo();
+
+                heroVideos.forEach(
+                    (video) => {
+                        video.pause();
+                    }
+                );
 
             } else {
-
                 iniciarSlider();
                 iniciarNoticias();
+
+                const video =
+                    heroVideos[videoAtual];
+
+                if (video) {
+                    reproduzirVideo(
+                        video
+                    );
+                }
             }
         }
     );
@@ -3553,19 +2796,20 @@ iniciarVideosHero();
 
     /* ========================================================
        LIMPEZA AO SAIR DA PÁGINA
-       ======================================================== */
+    ======================================================== */
 
     window.addEventListener(
         "pagehide",
         () => {
-
             pararSlider();
             pararNoticias();
+
+            cancelarProgressoVideo();
+            limparFallbackVideo();
 
             if (
                 newsRefreshTimer !== null
             ) {
-
                 window.clearInterval(
                     newsRefreshTimer
                 );
@@ -3573,30 +2817,25 @@ iniciarVideosHero();
                 newsRefreshTimer = null;
             }
 
-            if (
-                newsRequestController
-            ) {
-
+            if (newsRequestController) {
                 newsRequestController.abort();
-
-                newsRequestController =
-                    null;
+                newsRequestController = null;
             }
 
-            if (
-                bibleRequestController
-            ) {
-
+            if (bibleRequestController) {
                 bibleRequestController.abort();
-
-                bibleRequestController =
-                    null;
+                bibleRequestController = null;
             }
+
+            heroVideos.forEach(
+                (video) => {
+                    video.pause();
+                }
+            );
 
             if (
                 welcomeTimer !== null
             ) {
-
                 window.clearTimeout(
                     welcomeTimer
                 );
@@ -3605,6 +2844,4 @@ iniciarVideosHero();
             }
         }
     );
-
-
 });

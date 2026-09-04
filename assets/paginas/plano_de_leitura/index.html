@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plano de Leitura Diário</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>📖 Plano de Leitura</h1>
+  <div class="subtitle">
+    Escolha quando começar e acompanhe sua leitura diária.
+  </div>
+
+  <div class="config">
+
+    <div class="config-row">
+
+      <div class="field">
+        <label for="startDate">Data de início</label>
+        <input type="date" id="startDate">
+      </div>
+
+      <div class="field">
+        <label for="totalDays">Quantidade de dias</label>
+        <input
+          type="number"
+          id="totalDays"
+          min="1"
+          max="365"
+          value="30"
+        >
+      </div>
+
+      <button class="btn-gerar" onclick="generatePlan()">
+        Gerar plano
+      </button>
+
+    </div>
+
+    <div class="legend">
+      <span><i class="dot yellow"></i> Pendente</span>
+      <span><i class="dot red"></i> Atrasado</span>
+      <span><i class="dot blue"></i> Hoje</span>
+      <span><i class="dot green"></i> Lido</span>
+    </div>
+
+  </div>
+
+
+  <div class="progress">
+
+    <div class="progress-top">
+      <span>Progresso</span>
+      <span id="progressText">0%</span>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div id="progressDetails"
+         style="margin-top:8px;color:#666;font-size:14px;">
+      0 de 0 dias concluídos
+    </div>
+
+  </div>
+
+
+  <div id="plan" class="plan">
+
+    <div class="empty">
+      Escolha uma data de início para criar seu plano.
+    </div>
+
+  </div>
+
+</div>
+
+
+ <script src="assets/script.js" defer></script>
+</body>
+</html>
