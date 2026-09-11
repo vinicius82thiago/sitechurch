@@ -1,87 +1,425 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plano de Leitura Diário</title>
+
+  <title>Plano de Leitura</title>
+
   <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
 
-<div class="container">
+  <!-- =========================
+       HEADER
+  ========================= -->
 
-  <h1>📖 Plano de Leitura</h1>
-  <div class="subtitle">
-    Escolha quando começar e acompanhe sua leitura diária.
-  </div>
+  <header class="header">
 
-  <div class="config">
+    <div class="header-container">
 
-    <div class="config-row">
+      <a href="#" class="logo">
 
-      <div class="field">
-        <label for="startDate">Data de início</label>
-        <input type="date" id="startDate">
+        <div class="logo-icon">
+          📖
+        </div>
+
+        <div>
+          <strong>PLANO DE LEITURA</strong>
+          <small>Uma leitura por dia</small>
+        </div>
+
+      </a>
+
+      <nav class="nav">
+        <a href="#configuracao">Configuração</a>
+        <a href="#progresso">Progresso</a>
+        <a href="#plano">Plano</a>
+      </nav>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       HERO
+  ========================= -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <span class="eyebrow">
+        LEITURA DIÁRIA
+      </span>
+
+      <h1>
+        Sua jornada de leitura
+        <span>começa hoje.</span>
+      </h1>
+
+      <p>
+        Escolha uma data para começar, defina a quantidade de dias
+        e acompanhe seu progresso diariamente.
+      </p>
+
+      <a href="#configuracao" class="hero-button">
+        Criar meu plano
+        <span>→</span>
+      </a>
+
+    </div>
+
+
+    <div class="hero-bible">
+
+      <div class="bible-card">
+
+        <div class="bible-cross">
+          ✝
+        </div>
+
+        <div class="bible-text">
+
+          <span>
+            PLANO DE LEITURA
+          </span>
+
+          <strong>
+            "A tua palavra é lâmpada<br>
+            para os meus pés."
+          </strong>
+
+          <small>
+            Salmos 119:105
+          </small>
+
+        </div>
+
       </div>
 
-      <div class="field">
-        <label for="totalDays">Quantidade de dias</label>
-        <input
-          type="number"
-          id="totalDays"
-          min="1"
-          max="365"
-          value="30"
-        >
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       MAIN
+  ========================= -->
+
+  <main class="main">
+
+
+    <!-- =========================
+         CONFIGURAÇÃO
+    ========================= -->
+
+    <section class="section" id="configuracao">
+
+      <div class="section-heading">
+
+        <span class="section-label">
+          COMEÇAR
+        </span>
+
+        <h2>
+          Configure sua leitura
+        </h2>
+
+        <p>
+          Escolha quando deseja começar e por quantos dias deseja
+          acompanhar seu plano.
+        </p>
+
       </div>
 
-      <button class="btn-gerar" onclick="generatePlan()">
-        Gerar plano
-      </button>
+
+      <div class="config-card">
+
+        <div class="config-grid">
+
+          <div class="field">
+
+            <label for="startDate">
+              Data de início
+            </label>
+
+            <input
+              type="date"
+              id="startDate"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="totalDays">
+              Quantidade de dias
+            </label>
+
+            <input
+              type="number"
+              id="totalDays"
+              min="1"
+              max="365"
+              value="30"
+            >
+
+          </div>
+
+
+          <button
+            class="btn-primary"
+            type="button"
+            onclick="generatePlan()"
+          >
+            Gerar plano
+            <span>→</span>
+          </button>
+
+        </div>
+
+
+        <div class="legend">
+
+          <span>
+            <i class="dot yellow"></i>
+            Pendente
+          </span>
+
+          <span>
+            <i class="dot red"></i>
+            Atrasado
+          </span>
+
+          <span>
+            <i class="dot blue"></i>
+            Hoje
+          </span>
+
+          <span>
+            <i class="dot green"></i>
+            Lido
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PROGRESSO
+    ========================= -->
+
+    <section class="section" id="progresso">
+
+      <div class="section-heading compact">
+
+        <span class="section-label">
+          ACOMPANHAMENTO
+        </span>
+
+        <h2>
+          Seu progresso
+        </h2>
+
+        <p>
+          Acompanhe quantos dias da sua jornada já foram concluídos.
+        </p>
+
+      </div>
+
+
+      <div class="progress-card">
+
+        <div class="progress-info">
+
+          <div>
+
+            <span class="progress-label">
+              PROGRESSO DA LEITURA
+            </span>
+
+            <strong id="progressText">
+              0%
+            </strong>
+
+          </div>
+
+
+          <span
+            class="progress-count"
+            id="progressDetails"
+          >
+            0 de 0 dias concluídos
+          </span>
+
+        </div>
+
+
+        <div class="progress-bar">
+
+          <div
+            class="progress-fill"
+            id="progressFill"
+          ></div>
+
+        </div>
+
+
+        <div class="progress-message">
+
+          <span>
+            📖
+          </span>
+
+          <p>
+            Comece sua jornada e acompanhe seu progresso
+            a cada dia.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PLANO
+    ========================= -->
+
+    <section class="section" id="plano">
+
+      <div class="section-heading">
+
+        <span class="section-label">
+          SUA JORNADA
+        </span>
+
+        <h2>
+          Plano de leitura
+        </h2>
+
+        <p>
+          Seus dias de leitura aparecerão aqui depois que você
+          gerar o plano.
+        </p>
+
+      </div>
+
+
+      <div id="plan" class="plan">
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            📖
+          </div>
+
+          <h3>
+            Seu plano está esperando por você
+          </h3>
+
+          <p>
+            Escolha uma data de início e a quantidade de dias
+            para criar sua jornada de leitura.
+          </p>
+
+          <a href="#configuracao">
+            Configurar meu plano →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       CTA
+  ========================= -->
+
+  <section class="cta">
+
+    <div>
+
+      <span>
+        UM DIA DE CADA VEZ
+      </span>
+
+      <h2>
+        Transforme leitura em hábito.
+      </h2>
+
+      <p>
+        Dedique alguns minutos todos os dias e construa uma
+        jornada constante de aprendizado e reflexão.
+      </p>
 
     </div>
 
-    <div class="legend">
-      <span><i class="dot yellow"></i> Pendente</span>
-      <span><i class="dot red"></i> Atrasado</span>
-      <span><i class="dot blue"></i> Hoje</span>
-      <span><i class="dot green"></i> Lido</span>
+
+    <div class="cta-cross">
+      ✝
     </div>
 
-  </div>
+  </section>
 
 
-  <div class="progress">
+  <!-- =========================
+       FOOTER
+  ========================= -->
 
-    <div class="progress-top">
-      <span>Progresso</span>
-      <span id="progressText">0%</span>
+  <footer class="footer">
+
+    <div class="footer-content">
+
+      <div class="footer-brand">
+
+        <div class="footer-logo">
+          📖
+        </div>
+
+        <div>
+
+          <strong>
+            PLANO DE LEITURA
+          </strong>
+
+          <p>
+            Uma leitura por dia.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-copy">
+        © 2026 Plano de Leitura
+      </div>
+
     </div>
 
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-
-    <div id="progressDetails"
-         style="margin-top:8px;color:#666;font-size:14px;">
-      0 de 0 dias concluídos
-    </div>
-
-  </div>
+  </footer>
 
 
-  <div id="plan" class="plan">
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
 
-    <div class="empty">
-      Escolha uma data de início para criar seu plano.
-    </div>
+  <script src="assets/script.js" defer></script>
 
-  </div>
-
-</div>
-
-
- <script src="assets/script.js" defer></script>
 </body>
+
 </html>
